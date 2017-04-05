@@ -9,7 +9,7 @@ import xlwings as xw
 
 class Material:
 
-#TODO put this on git and save as version 0.
+#TODO put this on git and save as version 0
 #TODO try and collate when there are multiple 3 quantities of 2.5m bits, e.g if we have a lot left over see if we can use another with a lot left over#
 #TODO 292 it has 3m and 4m piece but code below only required either so it decides if its 6m aswell
            
