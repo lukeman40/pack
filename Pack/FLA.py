@@ -68,13 +68,13 @@ Stock_ = {}
 wb = xw.Book('TWF 076 - ML production pack - Issue 16.xlsm')
 
 shtDoNotEdit = wb.sheets['DO NOT EDIT']
-shtStructureCutting = wb.sheets['Structure Cutting']
+shtPressingforPaint = wb.sheets['Pressings for Paint']
 shtWorksOrder = wb.sheets['Works Order']
 
 Stock = shtDoNotEdit.range("S74:AA85").value
 
 # sets a array with all the data we require
-Structure_List = shtStructureCutting.range("C10:I60").value
+Pressings_List = shtPressingsforPaint.range("C10:L45").value
 
 stocklengths = []
 
