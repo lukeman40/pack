@@ -115,7 +115,7 @@ Quantity = 0
 Dims = 0
 
 
-# Gets data from Structure Cutting Sheet
+# Gets data from Structure Cutting Sheett
 for i in range (0, 45):
     
     # Checks if we're onto a new material
