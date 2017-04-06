@@ -10,7 +10,7 @@ import xlwings as xw
 class Material:
 
 #TODO try and collate when there are multiple 3 quantities of 2.5m bits, e.g if we have a lot left over see if we can use another with a lot left over#
-#TODO 292 it has 3m and 4m piece but code below only required either so it decides if its 6m aswell
+#TODO 292 it has 3m and 4m piece but code below only required either so it decides if its 6m aswell.
            
     def __init__(self, material, stockcode, lengths_available):
         self.material = material
@@ -105,7 +105,7 @@ for i in range (0, NumberOfItems):
     stocklengths = []
     
 # Define all the variables
-ThreeMeter = 1 
+ThreeMeter = 1
 FourMeter = 0
 SixMeter = 0
 SevenMeter = 0
@@ -242,6 +242,13 @@ for i in range (0, 45):
         elif  Structure_List[i][0] != None and   Structure_List[i][0] not in StockList:
             shtStructureCutting.cells(i + 10, 7).value = "Item not in Stock List"
 
+#Blanks Works Order
+for i in range (13, 30):
+
+    shtWorksOrder.cells(i, 2).value = None
+    shtWorksOrder.cells(i, 6).value = None
+    shtWorksOrder.cells(i, 11).value = None
+    shtWorksOrder.cells(i, 20).value = None
 
 for i in range (0, NumberOfItems):
 
