@@ -9,8 +9,7 @@ import xlwings as xw
 
 class Material:
 
-#TODO try and collate when there are multiple 3 quantities of 2.5m bits, e.g if we have a lot left over see if we can use another with a lot left over#
-#TODO 292 it has 3m and 4m piece but code below only required either so it decides if its 6m aswell
+#TODO blank all values in works order when run
            
     def __init__(self, material, stockcode, lengths_available):
         self.material = material
@@ -49,15 +48,6 @@ class Material:
             # T.insert(END, "\nStock Code for " + Item + " is "  + str(Stock[i][j+4]))                        
         # T.insert(END, "\nStockcodes for " + self.material + "Are:" + str(Stock[i][5]))
 
-def LengthsToUse(Dims):
-    
-    if float(Dims) > 4050:
-        return True
-    if float(Dims) > 3025 and float(Dims) < 4050:
-        return False
-    else:
-        return True
-    
 # Below is for Ui      
 # root = Tk()
 # T = Text(root, height=500, width=150)
@@ -71,10 +61,10 @@ shtDoNotEdit = wb.sheets['DO NOT EDIT']
 shtPressingforPaint = wb.sheets['Pressings for Paint']
 shtWorksOrder = wb.sheets['Works Order']
 
-Stock = shtDoNotEdit.range("S74:AA85").value
+Stock = shtDoNotEdit.range("AJ73:AM80").value
 
 # sets a array with all the data we require
-Pressings_List = shtPressingsforPaint.range("C10:L45").value
+Pressings_List = shtPressingforPaint.range("C10:P45").value
 
 stocklengths = []
 
@@ -97,18 +87,17 @@ for i in range (0, NumberOfItems):
 
 for i in range (0, NumberOfItems):
     
-    for j in range (1, 8):
-        if Stock[i + 1][j] != "n/a":
+    for j in range (1, 4):
+        if Stock[i + 1][j] != None:
             stocklengths.append(Stock[0][j])
 
     Stock_[i] = Material(str(Stock[i + 1][0]), Stock[i + 1], stocklengths)
     stocklengths = []
     
 # Define all the variables
-ThreeMeter = 1 
+TwoFive = 1
+ThreeMeter = 0
 FourMeter = 0
-SixMeter = 0
-SevenMeter = 0
 Offcuts = 0
 WorksOrderRow = 16
 Quantity = 0
@@ -116,11 +105,11 @@ Dims = 0
 
 
 # Gets data from Structure Cutting Sheet
-for i in range (0, 45):
+for i in range (0, 10):
     
     # Checks if we're onto a new material
-    if Structure_List[i][0] != Structure_List[i - 1][0] and i > 0:
-        if Structure_List[i + 1][0] == None:
+    if Pressings_List[i][0] != Pressings_List[i - 1][0] and i > 0:
+        if Pressings_List[i + 1][0] == None:
             
             # if we are onto a new material, set all the variables back to 0               
             Dims = 0
@@ -132,120 +121,46 @@ for i in range (0, 45):
 # below is the algorithim to check what material we should use
 
 # Doesnt check the empty cells
-    if Structure_List[i][3] != None:
+    if Pressings_List[i][0] != None:
         
-        Quantity = Structure_List[i][6]
+        Quantity = Pressings_List[i][9]
 
-
-        # if less than 2 m but we can get them out of a 6m piece
-        if Structure_List[i][3] < 2000 and Structure_List[i][3] > 1525:
-            if Quantity > 1:
-                Dims = 2 * int(Structure_List[i][3])
-                Quantity = Quantity / 2
-    
-    # creates a Dims of the lenghts which we will use
-        else:
-            Dims = int(Structure_List[i][3])
-            
-            #if there are any small pieces, see if there is a big quantity of them and multiply them
-            if Quantity > 1 and Dims < 1500:
-                Dims = Quantity * Dims
-                Quantity = Quantity/2
-                
+        Dims = int(Pressings_List[i][8])
      
-     
-# we only use the following for equation for lengths between 4 & 6m       
+#Works what lengths to use
     for n in range (0, NumberOfItems):
 
-        if Structure_List[i][0] == Stock_[n].material:
-            if 4050 in Stock_[n].LengthsAvailable() or 6050 in Stock_[n].LengthsAvailable():        
-        # returns false if we can use a 4m piece
-                if LengthsToUse(str(Dims)) == False:
-                    
-                    FourMeter = FourMeter + (1 * float(Quantity))
-                    # we plus the 10 because its the tenth row
-                    shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 4m"
-                    
-                    for m in range (0, NumberOfItems):                           
-                        if Stock_[m].material == str(Structure_List[i][0]):
-                            Stock_[m].AddAmount(float(Quantity), 4, Dims)
-                    
-                    Dims = 0 
-                    
-                    # return true if we can use a 6m piiece
-                elif LengthsToUse(Dims) == True:
-                        
-                        # checks if we can use offcuts or not because it checks for stuff less than 3m as well as greater than 4m
-                    if (Dims < 6050 and Dims > 4050): 
-            
-                        for m in range (0, NumberOfItems):                           
-                            if Stock_[m].material == str(Structure_List[i][0]):
-                                Stock_[m].AddAmount(float(Quantity), 6, Dims)
-                
-                        SixMeter = SixMeter + (1 * float(Quantity))
-                        shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 6m"
-                        
-                        Dims = 0
-                    
-                    # #try to minimize the use of offcuts, if sum of quantity x length is bettween if statement, use 4m
-                    elif (Dims * float(Quantity)) < 4050 and (Dims * float(Quantity)) > 3000:
-                        
-                        Quantity = round(Quantity / 2) 
-            
-                        FourMeter = FourMeter + (1 * float(Quantity))
-                        shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 4m"
-                        
-                        for m in range (0, NumberOfItems):                           
-                            if Stock_[m].material == str(Structure_List[i][0]):
-                                Stock_[m].AddAmount(float(Quantity*2), 4, Dims)
-                                
-                        Dims = 0
-                        
-#TODO Merge cells with the one below it if it equals 0.5
-                    #use 6 for case below   
-                    elif (Dims) < 3025 and (Dims) > 2025:
-                        
-                        Quantity = round(Quantity / 2) + 0.5
-                        
-                        if Quantity > 0.99:
-                            Quantity -= 0.5
-            
-                        SixMeter = SixMeter + (1 * float(Quantity))
-                        shtStructureCutting.cells(i + 10, 7).value = str(1 * float(Quantity)) + " x 6m"
-                        
-                        for m in range (0, NumberOfItems):                           
-                            if Stock_[m].material == str(Structure_List[i][0]):
-                                Stock_[m].AddAmount(float(Quantity), 6, Dims)
-                                
-                        Dims = 0
-                        
-                    else:
-                        
-                        Offcuts = Offcuts + Dims
-                        shtStructureCutting.cells(i + 10, 7).value = "Offcut"
-                        
-# everything below here will be for different lengths           
-            else:
-                
-                # Seven Meters
-                
-                for m in range (0, NumberOfItems):                           
-                    if Stock_[m].material == str(Structure_List[i][0]):
-                        
-                        # if we can get 2 out of a 7m piece
-                        if Dims < 3535:
-                            Quantity = round(Quantity / 2)
-                            
-                        Stock_[m].AddAmount(float(Quantity*2), 7, Dims)
-                        shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 7m"
+        if Pressings_List[i][0] == Stock_[n].material:
+            if 3000 in Stock_[n].LengthsAvailable():
 
-        elif  Structure_List[i][0] != None and   Structure_List[i][0] not in StockList:
-            shtStructureCutting.cells(i + 10, 7).value = "Item not in Stock List"
+                    
+                ThreeMeter = ThreeMeter + (1 * float(Quantity))
+                # we plus the 10 because its the tenth row
+                shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
+
+                for m in range (0, NumberOfItems):
+                    if Stock_[m].material == str(Pressings_List[i][0]):
+                        Stock_[m].AddAmount(float(Quantity), 2, Dims)
+
+                Dims = 0
+
+                # return true if we can use a 6m piiece
+
+        elif  Pressings_List[i][0] != None and   Pressings_List[i][0] not in StockList:
+            shtPressingforPaint.cells(i + 10, 7).value = "Item not in Stock List"
+
+#Blanks Works Order
+for i in range (13, 30):
+
+    shtWorksOrder.cells(i, 2).value = None
+    shtWorksOrder.cells(i, 6).value = None
+    shtWorksOrder.cells(i, 11).value = None
+    shtWorksOrder.cells(i, 20).value = None
 
 
 for i in range (0, NumberOfItems):
 
-    for length in range (0, 8):
+    for length in range (0, 5):
         #T.insert(END, "\nStock Code      " + str(Stock_[i].ReturnAmount(length)) + "  " + str(Stock_[i].material))     
         if Stock_[i].ReturnAmount(length) != 0:
 
