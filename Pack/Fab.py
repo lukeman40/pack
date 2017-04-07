@@ -11,7 +11,7 @@ class Material:
 
 #TODO try and collate when there are multiple 3 quantities of 2.5m bits, e.g if we have a lot left over see if we can use another with a lot left over#
 #TODO 292 it has 3m and 4m piece but code below only required either so it decides if its 6m aswell.
-#check what we have left over from pieces and see if we can use them anywhere else
+#TODO what we have left over from pieces and see if we can use them anywhere else
            
     def __init__(self, material, stockcode, lengths_available):
         self.material = material
