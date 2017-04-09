@@ -5,11 +5,14 @@ Created on 22 Mar 2017
 '''
 import xlwings as xw
 
-#from tkinter import *
+from tkinter import *
+
 
 class Material:
 
-#TODO blank all values in works order when run
+#TODO add ESG if required
+#TODO add gutter bits
+#TODO add more types of stock
            
     def __init__(self, material, stockcode, lengths_available):
         self.material = material
@@ -48,10 +51,20 @@ class Material:
             # T.insert(END, "\nStock Code for " + Item + " is "  + str(Stock[i][j+4]))                        
         # T.insert(END, "\nStockcodes for " + self.material + "Are:" + str(Stock[i][5]))
 
-# Below is for Ui      
-# root = Tk()
-# T = Text(root, height=500, width=150)
-# T.pack()
+#Below is for Ui
+root = Tk()
+#T = Text(root, height=200, width=200)
+#T.pack()
+
+def ESGYES():
+    print("Yes!!")
+
+def ESGNO():
+    print ("No")
+    ESGButtonNo.unpack()
+
+
+
 
 Stock_ = {}
 
@@ -104,50 +117,47 @@ Quantity = 0
 Dims = 0
 
 
-# Gets data from Structure Cutting Sheet
 for i in range (0, 10):
     
     # Checks if we're onto a new material
-    if Pressings_List[i][0] != Pressings_List[i - 1][0] and i > 0:
-        if Pressings_List[i + 1][0] == None:
-            
-            # if we are onto a new material, set all the variables back to 0               
-            Dims = 0
-            FourMeter = 0
-            SixMeter = 0
-            Offcuts = 0    
+
+    if Pressings_List[i][0] == None:
+
+        # if we are onto a new material, set all the variables back to 0
+        Dims = 0
+        FourMeter = 0
+        SixMeter = 0
+        Offcuts = 0
 
     # check length and see what lengths are availble to tuse to put in algorithm below
 # below is the algorithim to check what material we should use
 
 # Doesnt check the empty cells
     if Pressings_List[i][0] != None:
+
+        ESGLabel = Label(root, text="Do you want ESG with this with " + Pressings_List[i][0])
+
+        ESGButtonYes = Button(root, text="Yes", command=ESGYES)
+        ESGButtonNo = Button(root, text="No", command=ESGNO)
+
+        ESGLabel.pack()
+        ESGButtonYes.pack()
+        ESGButtonNo.pack()
         
-        Quantity = Pressings_List[i][9]
+        Quantity = int(Pressings_List[i][9])
 
         Dims = int(Pressings_List[i][8])
-     
-#Works what lengths to use
-    for n in range (0, NumberOfItems):
 
-        if Pressings_List[i][0] == Stock_[n].material:
-            if 3000 in Stock_[n].LengthsAvailable():
+        Quantity = round(Quantity /(1250/int(Pressings_List[i][4])))
 
-                    
-                ThreeMeter = ThreeMeter + (1 * float(Quantity))
-                # we plus the 10 because its the tenth row
-                shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
+        ThreeMeter = ThreeMeter + (1 * float(Quantity))
+        # we plus the 10 because its the tenth row
+        shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
 
-                for m in range (0, NumberOfItems):
-                    if Stock_[m].material == str(Pressings_List[i][0]):
-                        Stock_[m].AddAmount(float(Quantity), 2, Dims)
 
-                Dims = 0
+        Stock_[4].AddAmount(float(Quantity), 0, Dims)
 
-                # return true if we can use a 6m piiece
-
-        elif  Pressings_List[i][0] != None and   Pressings_List[i][0] not in StockList:
-            shtPressingforPaint.cells(i + 10, 7).value = "Item not in Stock List"
+        Dims = 0
 
 #Blanks Works Order
 for i in range (13, 30):
@@ -158,22 +168,21 @@ for i in range (13, 30):
     shtWorksOrder.cells(i, 20).value = None
 
 
-for i in range (0, NumberOfItems):
+for i in range(0, NumberOfItems):
 
-    for length in range (0, 5):
-        #T.insert(END, "\nStock Code      " + str(Stock_[i].ReturnAmount(length)) + "  " + str(Stock_[i].material))     
+    for length in range(0, 8):
+        # T.insert(END, "\nStock Code      " + str(Stock_[i].ReturnAmount(length)) + "  " + str(Stock_[i].material))
         if Stock_[i].ReturnAmount(length) != 0:
-
-                                   
             shtWorksOrder.cells(WorksOrderRow, 2).value = str(Stock_[i].FindStockCode(length))
             shtWorksOrder.cells(WorksOrderRow, 6).value = str(length) + "m " + Stock_[i].material
             shtWorksOrder.cells(WorksOrderRow, 11).value = Stock_[i].ReturnAmount(length)
-            shtWorksOrder.cells(WorksOrderRow, 20).value = "Total Length of all parts are: " + str(Stock_[i].totalsum[length])       
-            
-            WorksOrderRow = WorksOrderRow + 1
-            
+            shtWorksOrder.cells(WorksOrderRow, 20).value = "Total Length of all parts are: " + str(Stock_[i].totalsum[length])
 
-#T.insert(END, "Stock Code for 75x75 Aluminium Box is " + str(Stock))
+            WorksOrderRow = WorksOrderRow + 1
+
+
+
+#T.insert(END, "ESG?")
 # # This is for the Ui As it above 
   
-#ainloop()
+mainloop()

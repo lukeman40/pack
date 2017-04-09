@@ -114,6 +114,7 @@ Offcuts = 0
 WorksOrderRow = 16
 Quantity = 0
 Dims = 0
+LeftOver = 0
 
 
 # Gets data from Structure Cutting Sheett
@@ -166,6 +167,8 @@ for i in range (0, 45):
                     FourMeter = FourMeter + (1 * float(Quantity))
                     # we plus the 10 because its the tenth row
                     shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 4m"
+
+                    LeftOver = 4050 - Dims
                     
                     for m in range (0, NumberOfItems):                           
                         if Stock_[m].material == str(Structure_List[i][0]):
