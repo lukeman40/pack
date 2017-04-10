@@ -35,9 +35,12 @@ class Material:
                         
         self.amount[length] = self.amount[length] + (1 * quantity)
         self.totalsum[length] = self.totalsum[length] + (Dims * quantity)
-        
+
+    def RemoveAmount(self, length):
+        self.amount[length] = 0
+
     def ReturnAmount(self, length):
-        
+
         return self.amount[length]
     
     def ReturnSum(self, length):
@@ -51,20 +54,62 @@ class Material:
             # T.insert(END, "\nStock Code for " + Item + " is "  + str(Stock[i][j+4]))                        
         # T.insert(END, "\nStockcodes for " + self.material + "Are:" + str(Stock[i][5]))
 
+def PrintWorksOrder():
+
+    WorksOrderRow = 16
+
+    # Blanks Works Order
+    for i in range(13, 30):
+        shtWorksOrder.cells(i, 2).value = None
+        shtWorksOrder.cells(i, 6).value = None
+        shtWorksOrder.cells(i, 11).value = None
+        shtWorksOrder.cells(i, 20).value = None
+
+    for i in range(0, NumberOfItems):
+
+        for length in range(0, 8):
+            # T.insert(END, "\nStock Code      " + str(Stock_[i].ReturnAmount(length)) + "  " + str(Stock_[i].material))
+            if Stock_[i].ReturnAmount(length) != 0:
+                shtWorksOrder.cells(WorksOrderRow, 2).value = str(Stock_[i].FindStockCode(length))
+                shtWorksOrder.cells(WorksOrderRow, 6).value = Stock_[i].material
+                shtWorksOrder.cells(WorksOrderRow, 11).value = Stock_[i].ReturnAmount(length)
+                shtWorksOrder.cells(WorksOrderRow, 20).value = "Total Length of all parts are: " + str(Stock_[i].totalsum[length])
+
+                WorksOrderRow = WorksOrderRow + 1
+
 #Below is for Ui
 root = Tk()
 #T = Text(root, height=200, width=200)
 #T.pack()
 
-def ESGYES():
+# Define all the variables
+TwoFive = 1
+ThreeMeter = 0
+FourMeter = 0
+Offcuts = 0
+Quantity = 0
+Dims = 0
+ESGButtonYes = {}
+ESGButtonNo = {}
+
+def ESGYES(i, Amount):
     print("Yes!!")
+    shtPressingforPaint.cells(i + 10, 16).value = "Yes - " + Pressings_List[i][0]
+    Stock_[5].AddAmount(float(Amount), 0, 3000)
+    PrintWorksOrder()
 
-def ESGNO():
+    #Hide the button
+    ESGButtonYes[i].pack_forget()
+    ESGButtonNo[i].pack_forget()
+
+def ESGNO(i):
     print ("No")
-    ESGButtonNo.unpack()
+    shtPressingforPaint.cells(i + 10, 16).value = "No - " + Pressings_List[i][0]
+    PrintWorksOrder()
 
-
-
+    #Hides the button
+    ESGButtonYes[i].pack_forget()
+    ESGButtonNo[i].pack_forget()
 
 Stock_ = {}
 
@@ -106,16 +151,6 @@ for i in range (0, NumberOfItems):
 
     Stock_[i] = Material(str(Stock[i + 1][0]), Stock[i + 1], stocklengths)
     stocklengths = []
-    
-# Define all the variables
-TwoFive = 1
-ThreeMeter = 0
-FourMeter = 0
-Offcuts = 0
-WorksOrderRow = 16
-Quantity = 0
-Dims = 0
-
 
 for i in range (0, 10):
     
@@ -134,15 +169,6 @@ for i in range (0, 10):
 
 # Doesnt check the empty cells
     if Pressings_List[i][0] != None:
-
-        ESGLabel = Label(root, text="Do you want ESG with this with " + Pressings_List[i][0])
-
-        ESGButtonYes = Button(root, text="Yes", command=ESGYES)
-        ESGButtonNo = Button(root, text="No", command=ESGNO)
-
-        ESGLabel.pack()
-        ESGButtonYes.pack()
-        ESGButtonNo.pack()
         
         Quantity = int(Pressings_List[i][9])
 
@@ -159,30 +185,27 @@ for i in range (0, 10):
 
         Dims = 0
 
-#Blanks Works Order
-for i in range (13, 30):
+        ESGLabel = Label(root, text="Do you want ESG with this with " + Pressings_List[i][0])
 
-    shtWorksOrder.cells(i, 2).value = None
-    shtWorksOrder.cells(i, 6).value = None
-    shtWorksOrder.cells(i, 11).value = None
-    shtWorksOrder.cells(i, 20).value = None
+        # the i=i lambda is only declared after all the code is ran, therefore 'i' takes the last value of the while statement
+        # therefore we need to declare i after lambda
+        ESGButtonYes[i] = Button(root, text="Yes", command=lambda i=i: ESGYES(i, Quantity))
+        ESGButtonNo[i] = Button(root, text="No", command=lambda i=i: ESGNO(i))
+
+        ESGLabel.pack()
+
+        ESGButtonYes[i].pack()
+        ESGButtonNo[i].pack()
+
+PrintWorksOrder()
 
 
-for i in range(0, NumberOfItems):
 
-    for length in range(0, 8):
-        # T.insert(END, "\nStock Code      " + str(Stock_[i].ReturnAmount(length)) + "  " + str(Stock_[i].material))
-        if Stock_[i].ReturnAmount(length) != 0:
-            shtWorksOrder.cells(WorksOrderRow, 2).value = str(Stock_[i].FindStockCode(length))
-            shtWorksOrder.cells(WorksOrderRow, 6).value = str(length) + "m " + Stock_[i].material
-            shtWorksOrder.cells(WorksOrderRow, 11).value = Stock_[i].ReturnAmount(length)
-            shtWorksOrder.cells(WorksOrderRow, 20).value = "Total Length of all parts are: " + str(Stock_[i].totalsum[length])
-
-            WorksOrderRow = WorksOrderRow + 1
 
 
 
 #T.insert(END, "ESG?")
 # # This is for the Ui As it above 
-  
+
 mainloop()
+
