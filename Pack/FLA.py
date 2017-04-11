@@ -65,9 +65,9 @@ def PrintWorksOrder():
         shtWorksOrder.cells(i, 11).value = None
         shtWorksOrder.cells(i, 20).value = None
 
-    for i in range(0, NumberOfItems):
+    for i in range(0, NumberOfItems+15):
 
-        for length in range(0, 8):
+        for length in range(0, 5):
             # T.insert(END, "\nStock Code      " + str(Stock_[i].ReturnAmount(length)) + "  " + str(Stock_[i].material))
             if Stock_[i].ReturnAmount(length) != 0:
                 shtWorksOrder.cells(WorksOrderRow, 2).value = str(Stock_[i].FindStockCode(length))
@@ -91,6 +91,7 @@ Quantity = 0
 Dims = 0
 ESGButtonYes = {}
 ESGButtonNo = {}
+Thickness = 0
 
 def ESGYES(i, Amount):
     print("Yes!!")
@@ -118,33 +119,23 @@ wb = xw.Book('TWF 076 - ML production pack - Issue 16.xlsm')
 shtDoNotEdit = wb.sheets['DO NOT EDIT']
 shtPressingforPaint = wb.sheets['Pressings for Paint']
 shtWorksOrder = wb.sheets['Works Order']
+shtInfo = wb.sheets['Info']
 
 Stock = shtDoNotEdit.range("AJ73:AM80").value
 
 # sets a array with all the data we require
 Pressings_List = shtPressingforPaint.range("C10:P45").value
+Info = shtInfo.range("C17").value
 
 stocklengths = []
-
-# ## Fucntion below removed all the test in the list. Its fucks getting my stock code up tho
-# for i in range (6,0, -1):
-#     
-#     for j in range (6,0, -1):
-#         if Stock[i][j] == "test":
-#             del Stock[i][j]
 
 # TODO: Check for which stock codes to use and then decide whether or not to use them. Search for them in the table and decide whether true or false, if to use them or not
 # Pre-Requesite, gets all the stockcodes that we requirea
 
 NumberOfItems = len(Stock)-1
 
-StockList = []
-
 for i in range (0, NumberOfItems):
-    StockList.append(Stock[i][0])
 
-for i in range (0, NumberOfItems):
-    
     for j in range (1, 4):
         if Stock[i + 1][j] != None:
             stocklengths.append(Stock[0][j])
@@ -152,11 +143,36 @@ for i in range (0, NumberOfItems):
     Stock_[i] = Material(str(Stock[i + 1][0]), Stock[i + 1], stocklengths)
     stocklengths = []
 
-for i in range (0, 10):
+#Below adds all the information for the extruded gutter into the class
+
+if Info == "extruded aluminium":
+    for i in range (NumberOfItems, NumberOfItems+15):
+
+        if Pressings_List[i+NumberOfItems+4][9] != None:
+
+            if int(Pressings_List[i+NumberOfItems+4][9]) > 0:
+
+                Quantity = int(Pressings_List[i+NumberOfItems+4][9])
+
+                Stock_[i] = Material(str(Pressings_List[i+NumberOfItems+4][0]), "StockCode", 0)
+                Stock_[i].AddAmount(Quantity, 1, 1)
+
+
+#Makes sure something still gets added to the Stock class in icremental order, otherwise the pritnworksroder funcation will not work, as it checks the stock in icremental order
+            else:
+
+                Stock_[i] = Material(str(Pressings_List[i + NumberOfItems + 4][0]), "StockCode", 0)
+                Stock_[i].AddAmount(0, 0, 0)
+        else:
+
+            Stock_[i] = Material(str(Pressings_List[i + NumberOfItems + 4][0]), "StockCode", 0)
+            Stock_[i].AddAmount(0, 0, 0)
+
+for i in range (0, 15):
     
     # Checks if we're onto a new material
 
-    if Pressings_List[i][0] == None:
+    if Pressings_List[i][1] == None:
 
         # if we are onto a new material, set all the variables back to 0
         Dims = 0
@@ -168,8 +184,8 @@ for i in range (0, 10):
 # below is the algorithim to check what material we should use
 
 # Doesnt check the empty cells
-    if Pressings_List[i][0] != None:
-        
+    if Pressings_List[i][1] != None:
+
         Quantity = int(Pressings_List[i][9])
 
         Dims = int(Pressings_List[i][8])
@@ -180,12 +196,17 @@ for i in range (0, 10):
         # we plus the 10 because its the tenth row
         shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
 
+        if Pressings_List[i][0] == "2mm":
+            Stock_[1].AddAmount(float(Quantity), 0, Dims)
 
-        Stock_[4].AddAmount(float(Quantity), 0, Dims)
+        elif Pressings_List[i][0] == "3mm":
+            Stock_[4].AddAmount(float(Quantity), 0, Dims)
+        else:
+            shtPressingforPaint.cells(i + 10, 15).value = "Error - No Thickness Indicated"
 
         Dims = 0
 
-        ESGLabel = Label(root, text="Do you want ESG with this with " + Pressings_List[i][0])
+        ESGLabel = Label(root, text="Do you want ESG with this with " + str(Pressings_List[i][0]) + " " + Pressings_List[i][1])
 
         # the i=i lambda is only declared after all the code is ran, therefore 'i' takes the last value of the while statement
         # therefore we need to declare i after lambda
@@ -197,12 +218,12 @@ for i in range (0, 10):
         ESGButtonYes[i].pack()
         ESGButtonNo[i].pack()
 
+#Aluminium Gutter
+#if Info == "extruded aluminium":
+
+    #Stock_[6].AddAmount(1, 0, 4000)
+
 PrintWorksOrder()
-
-
-
-
-
 
 #T.insert(END, "ESG?")
 # # This is for the Ui As it above 
