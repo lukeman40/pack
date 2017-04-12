@@ -10,9 +10,10 @@ from tkinter import *
 
 class Material:
 
-#TODO add ESG if required
+#TODO add ESG if required - ADD ALERT when window pops up
 #TODO add gutter bits
 #TODO add more types of stock
+
            
     def __init__(self, material, stockcode, lengths_available):
         self.material = material
@@ -185,38 +186,76 @@ for i in range (0, 15):
 
 # Doesnt check the empty cells
     if Pressings_List[i][1] != None:
+        #if to use 4m sheet
+        if Pressings_List[i][8] > 3000:
 
-        Quantity = int(Pressings_List[i][9])
+            Quantity = int(Pressings_List[i][9])
 
-        Dims = int(Pressings_List[i][8])
+            Dims = int(Pressings_List[i][8])
 
-        Quantity = round(Quantity /(1250/int(Pressings_List[i][4])))
+            Quantity = round(Quantity / (1250 / int(Pressings_List[i][4])))
 
-        ThreeMeter = ThreeMeter + (1 * float(Quantity))
-        # we plus the 10 because its the tenth row
-        shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
+            FourMeter = FourMeter + (1 * float(Quantity))
+            # we plus the 10 because its the tenth row
+            shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
 
-        if Pressings_List[i][0] == "2mm":
-            Stock_[1].AddAmount(float(Quantity), 0, Dims)
+            if Pressings_List[i][0] == "2mm":
+                Stock_[1].AddAmount(float(Quantity), 3, Dims)
 
-        elif Pressings_List[i][0] == "3mm":
-            Stock_[4].AddAmount(float(Quantity), 0, Dims)
+            elif Pressings_List[i][0] == "3mm":
+                Stock_[4].AddAmount(float(Quantity), 3, Dims)
+            else:
+                shtPressingforPaint.cells(i + 10, 15).value = "Error - No Thickness Indicated"
+
+            Dims = 0
+
+            ESGLabel = Label(root, text="Do you want ESG with this with " + str(Pressings_List[i][0]) + " " +
+                                        Pressings_List[i][1])
+
+            # the i=i lambda is only declared after all the code is ran, therefore 'i' takes the last value of the while statement
+            # therefore we need to declare i after lambda
+            ESGButtonYes[i] = Button(root, text="Yes", command=lambda i=i: ESGYES(i, Quantity))
+            ESGButtonNo[i] = Button(root, text="No", command=lambda i=i: ESGNO(i))
+
+            ESGLabel.pack()
+
+            ESGButtonYes[i].pack()
+            ESGButtonNo[i].pack()
+
+        #if to use 3m sheet
         else:
-            shtPressingforPaint.cells(i + 10, 15).value = "Error - No Thickness Indicated"
 
-        Dims = 0
+            Quantity = int(Pressings_List[i][9])
 
-        ESGLabel = Label(root, text="Do you want ESG with this with " + str(Pressings_List[i][0]) + " " + Pressings_List[i][1])
+            Dims = int(Pressings_List[i][8])
 
-        # the i=i lambda is only declared after all the code is ran, therefore 'i' takes the last value of the while statement
-        # therefore we need to declare i after lambda
-        ESGButtonYes[i] = Button(root, text="Yes", command=lambda i=i: ESGYES(i, Quantity))
-        ESGButtonNo[i] = Button(root, text="No", command=lambda i=i: ESGNO(i))
+            Quantity = round(Quantity /(1250/int(Pressings_List[i][4])))
 
-        ESGLabel.pack()
+            ThreeMeter = ThreeMeter + (1 * float(Quantity))
+            # we plus the 10 because its the tenth row
+            shtPressingforPaint.cells(i + 10, 15).value = str(1 * int(Quantity)) + " x 3m"
 
-        ESGButtonYes[i].pack()
-        ESGButtonNo[i].pack()
+            if Pressings_List[i][0] == "2mm":
+                Stock_[1].AddAmount(float(Quantity), 2, Dims)
+
+            elif Pressings_List[i][0] == "3mm":
+                Stock_[4].AddAmount(float(Quantity), 2, Dims)
+            else:
+                shtPressingforPaint.cells(i + 10, 15).value = "Error - No Thickness Indicated"
+
+            Dims = 0
+
+            ESGLabel = Label(root, text="Do you want ESG with this with " + str(Pressings_List[i][0]) + " " + Pressings_List[i][1])
+
+            # the i=i lambda is only declared after all the code is ran, therefore 'i' takes the last value of the while statement
+            # therefore we need to declare i after lambda
+            ESGButtonYes[i] = Button(root, text="Yes", command=lambda i=i: ESGYES(i, Quantity))
+            ESGButtonNo[i] = Button(root, text="No", command=lambda i=i: ESGNO(i))
+
+            ESGLabel.pack()
+
+            ESGButtonYes[i].pack()
+            ESGButtonNo[i].pack()
 
 #Aluminium Gutter
 #if Info == "extruded aluminium":
