@@ -11,7 +11,6 @@ class Material:
 
 #TODO try and collate when there are multiple 3 quantities of 2.5m bits, e.g if we have a lot left over see if we can use another with a lot left over#
 #TODO 292 it has 3m and 4m piece but code below only required either so it decides if its 6m aswell.
-#TODO what we have left over from pieces and see if we can use them anywhere else
            
     def __init__(self, material, stockcode, lengths_available):
         self.material = material
@@ -66,7 +65,7 @@ def LengthsToUse(Dims):
 
 Stock_ = {}
 
-wb = xw.Book('TWF 076 - ML production pack - Issue 16.xlsm')
+wb = xw.Book('16594-1a-pack.xlsm')
 
 shtDoNotEdit = wb.sheets['DO NOT EDIT']
 shtStructureCutting = wb.sheets['Structure Cutting']
@@ -114,7 +113,6 @@ Offcuts = 0
 WorksOrderRow = 16
 Quantity = 0
 Dims = 0
-LeftOver = 0
 
 
 # Gets data from Structure Cutting Sheett
@@ -167,8 +165,6 @@ for i in range (0, 45):
                     FourMeter = FourMeter + (1 * float(Quantity))
                     # we plus the 10 because its the tenth row
                     shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 4m"
-
-                    LeftOver = 4050 - Dims
                     
                     for m in range (0, NumberOfItems):                           
                         if Stock_[m].material == str(Structure_List[i][0]):
@@ -238,9 +234,9 @@ for i in range (0, 45):
                         
                         # if we can get 2 out of a 7m piece
                         if Dims < 3535:
-                            Quantity = round(Quantity / 2)
+                            Quantity = Quantity / 2
                             
-                        Stock_[m].AddAmount(float(Quantity*2), 7, Dims)
+                        Stock_[m].AddAmount(float(Quantity), 7, Dims)
                         shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 7m"
 
         elif  Structure_List[i][0] != None and   Structure_List[i][0] not in StockList:
