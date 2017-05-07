@@ -78,6 +78,8 @@ Structure_List = shtStructureCutting.range("C10:I60").value
 
 stocklengths = []
 
+
+
 # ## Fucntion below removed all the test in the list. Its fucks getting my stock code up tho
 # for i in range (6,0, -1):
 #     

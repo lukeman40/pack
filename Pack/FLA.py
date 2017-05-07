@@ -11,7 +11,7 @@ from tkinter import *
 class Material:
 
 #TODO add ESG if required - ADD ALERT when window pops up
-#TODO add gutter bits
+#TODO add stock code for gutter stuff
 #TODO add more types of stock
 
            
