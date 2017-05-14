@@ -1,5 +1,6 @@
 from pyautocad import Autocad, APoint
 import xlwings as xw
+import re
 
 acad = Autocad(create_if_not_exists=True)
 acad.prompt("Hello, Autocad from Python\n")
@@ -26,7 +27,7 @@ for text in acad.iter_objects(['Text','Dimension']):
             if text.TextOverride != "":
                 TextContent.append(text.TextOverride)
             else:
-                TextContent.append(text.Measurement)
+                TextContent.append(str(text.Measurement))
 
 
             TextPosition.append(text.TextPosition)
@@ -52,8 +53,6 @@ for text in acad.iter_objects('Text'):
     #cylcles through the text position, if it is within a range, its gets the dimension length
     for n in range(0,len(TextPosition)):
 
-        if n == len(TextPosition):
-            break
         if text.Layer == "Fab Details":
 
             x = text.InsertionPoint[0]
@@ -65,6 +64,9 @@ for text in acad.iter_objects('Text'):
                     print (TextContent[n])
                     print (text.TextString, " -------- This is new bit \n")
 
+
+
+                    # region Adds box around text were looking at
                     p1 = APoint(x-200,y)
                     p2 = APoint(x+600,y+1000)
 
@@ -87,20 +89,34 @@ for text in acad.iter_objects('Text'):
                     p2 = APoint(x - 200, y)
 
                     acad.model.AddLine(p1, p2)
+                    # endregion
 
 
                     #string manipulation
-                    string = text.TextString
+                    Title = text.TextString
+                    Dimensions = TextContent[n]
 
-                    j = string.find("No.") - 2
-                    l = string.find("No.") + 4
+                    j = Title.index("No.") - 3
+                    l = Title.find("No.") + 4
 
-                    printtext = string[j]
-                    Material = string
+                    printtext = Title[j:j+2]
+                    Material = Title
 
-                    shtStructureCutting.cells(o, 3).value = Material
+                    #Finds Reference
+                    Reference = Title[(Title.find("<") + 1):(Title.find("<") + 3)]
 
-                    shtStructureCutting.cells(o, 6).value = TextContent[n]
+                    # Adds to excel///////////////////////////////////
+
+                    shtStructureCutting.cells(o, 2).value = Reference
+
+                    # If Dimensions contains aluminium, find print out that section
+                    if 'ALUMINIUM' in Dimensions:
+                        shtStructureCutting.cells(o, 3).value = Dimensions[(Dimensions.find("Aluminium") - 29):(Dimensions.find("Aluminium") - 7)].title()
+
+                    # if re.search('150x75', TextContent[n]):
+                    #     shtStructureCutting.cells(o, 3).value = re.search('150x75 Aluminium Box', TextContent[n]).group()
+
+                    shtStructureCutting.cells(o, 6).value = re.search(r'\d+', TextContent[n]).group()
 
                     shtStructureCutting.cells(o, 9).value = printtext
 
