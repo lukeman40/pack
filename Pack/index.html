@@ -1,0 +1,101 @@
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+ 
+HEIGHT: <input id="height">
+HYPOTENUSE Area 1: <input id="hypot1">
+HYPOTENUSE Area 2: <input id="hypot2">
+
+<button id="say">Submit</button>
+
+<div id="pitch"></div>
+
+<hr>
+<div id="result"></div>
+<div id="mitres"></div>
+<div id="mitres2"></div>
+
+<img src="Diagram.png">
+ 
+<script>
+
+function say_hi() {
+    var height = document.getElementById('height').value;
+    var hypot1 = document.getElementById('hypot1').value;
+    var hypot2 = document.getElementById('hypot2').value;
+
+<!--GETS PITCH CANOPY 1 #soh-->
+    var pitch1 = Math.asin(height/hypot1);
+
+<!--GETS LENGTH CANOPY 1 #cah-->
+    var adj1 = Math.cos(pitch1) * hypot1;
+
+<!--GETS PITCH CANOPY 2 #soh -->
+    var pitch2 = Math.asin(height/hypot2);
+
+<!--GETS LENGTH CANOPY 2 #cah-->
+    var adj2 = Math.cos(pitch2) * hypot2;
+
+<!--HIP ANGLE #toa-->
+    var hip_angle = Math.atan(adj1/adj2);
+
+<!--WITH HIP ANGLE & HEIGHT IT CAN GET THE LENGTH OF THE FLAT BIT UNDER HIP #soh-->
+    var hyp_hip = adj1 / Math.sin(hip_angle);
+
+<!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
+    var pitch_hip = Math.atan(height/hyp_hip);
+
+    var html = 'Angle of hip on plan ' + hip_angle * (180 / Math.PI) + ' <br> Pitch of the Hip ' + pitch_hip * (180 / Math.PI) + '<br>Length of Hip ' + Math.sqrt((hyp_hip * hyp_hip) + (height * height)) ;
+
+    document.getElementById('result').innerHTML = html;
+
+ 
+
+
+<!--MITRES1-->
+<!--75 face #cah-->
+    var angle_75_face = Math.cos(pitch1)*75;
+
+<!--#toa-->
+    var cut_angle_75 = Math.atan(75/angle_75_face);
+
+
+<!--150 face #soh-->
+    var angle_150_face = Math.sin(pitch1)*150;
+
+<!--#toa-->
+    var cut_angle_150 = Math.atan(150/angle_150_face);
+
+    var html2 = '<br>Cut Angle for 75 face ' + cut_angle_75 * (180 / Math.PI) + '<br>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
+    document.getElementById('mitres').innerHTML = html2;
+
+
+
+<!--MITRES2-->
+<!--75 face #cah-->
+    var angle_75_face = Math.cos(pitch2)*75;
+
+<!--#toa-->
+    var cut_angle_75 = Math.atan(75/angle_75_face);
+
+
+<!--150 face #soh-->
+    var angle_150_face = Math.sin(pitch2)*150;
+
+<!--#toa-->
+    var cut_angle_150 = Math.atan(150/angle_150_face);
+
+    var html3 = '<br>Cut Angle for 75 face ' + cut_angle_75 * (180 / Math.PI) + '<br>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
+    document.getElementById('mitres2').innerHTML = html3;
+
+
+}
+
+    document.getElementById('say').addEventListener('click', say_hi);
+
+</script>
+ 
+</body>
+</html>

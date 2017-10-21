@@ -65,7 +65,7 @@ def LengthsToUse(Dims):
 
 Stock_ = {}
 
-wb = xw.Book('16594-1a-pack.xlsm')
+wb = xw.Book('TWF 076 - ML production pack - Issue 17.xlsm')
 
 shtDoNotEdit = wb.sheets['DO NOT EDIT']
 shtStructureCutting = wb.sheets['Structure Cutting']
@@ -148,11 +148,19 @@ for i in range (0, 45):
     # creates a Dims of the lenghts which we will use
         else:
             Dims = int(Structure_List[i][3])
-            
+
+            try:
             #if there are any small pieces, see if there is a big quantity of them and multiply them
-            if Quantity > 1 and Dims < 1500:
-                Dims = Quantity * Dims
-                Quantity = Quantity/2
+                if Quantity > 1 and Dims < 1500:
+                    Dims = Quantity * Dims
+                    Quantity = Quantity/2
+
+            except TypeError:
+                print ("error")
+                print (Quantity)
+                print (Dims)
+                Quantity = 0
+
                 
      
      
@@ -242,7 +250,7 @@ for i in range (0, 45):
                         shtStructureCutting.cells(i + 10, 7).value = str(1 * int(Quantity)) + " x 7m"
 
         elif  Structure_List[i][0] != None and   Structure_List[i][0] not in StockList:
-            shtStructureCutting.cells(i + 10, 7).value = "Item not in Stock List"
+            shtStructureCutting.cells(i + 10, 7).value = "Item not in Stock List or Error"
 
 #Blanks Works Order
 for i in range (13, 30):

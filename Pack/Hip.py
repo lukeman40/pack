@@ -20,6 +20,8 @@ hip_angle = int(input("Enter Hip angle on plan"))
 
 hyp_hip = adj1 / sin(radians(hip_angle))  #soh
 
+print(hyp_hip)
+
 pitch_hip = atan(height/hyp_hip)
 
 print ("/n Pitch of Hip is " , degrees(pitch_hip))
