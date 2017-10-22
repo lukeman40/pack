@@ -7,6 +7,7 @@
 HEIGHT: <input id="height">
 HYPOTENUSE Area 1: <input id="hypot1">
 HYPOTENUSE Area 2: <input id="hypot2">
+Angle between canopies on plan: <input id="angle_canopy">
 
 <button id="say">Submit</button>
 
@@ -16,6 +17,10 @@ HYPOTENUSE Area 2: <input id="hypot2">
 <div id="result"></div>
 <div id="mitres"></div>
 <div id="mitres2"></div>
+<div id="sheet_angles"></div>
+<br>
+<canvas id="myCanvas" width="2000" height="350" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
 
 <img src="Diagram.png">
  
@@ -25,6 +30,7 @@ function say_hi() {
     var height = document.getElementById('height').value;
     var hypot1 = document.getElementById('hypot1').value;
     var hypot2 = document.getElementById('hypot2').value;
+    var angle_between_canopy = document.getElementById('angle_canopy').value;
 
 <!--GETS PITCH CANOPY 1 #soh-->
     var pitch1 = Math.asin(height/hypot1);
@@ -38,8 +44,11 @@ function say_hi() {
 <!--GETS LENGTH CANOPY 2 #cah-->
     var adj2 = Math.cos(pitch2) * hypot2;
 
-<!--HIP ANGLE #toa-->
+<!--HIP ANGLE IF NO ANGLE PROVIDED #toa-->
     var hip_angle = Math.atan(adj1/adj2);
+
+<!--HIP ANGLE #toa-->
+    var hip_angle = angle_between_canopy * (Math.PI / 180)/2;
 
 <!--WITH HIP ANGLE & HEIGHT IT CAN GET THE LENGTH OF THE FLAT BIT UNDER HIP #soh-->
     var hyp_hip = adj1 / Math.sin(hip_angle);
@@ -47,7 +56,7 @@ function say_hi() {
 <!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
     var pitch_hip = Math.atan(height/hyp_hip);
 
-    var html = 'Angle of hip on plan ' + hip_angle * (180 / Math.PI) + ' <br> Pitch of the Hip ' + pitch_hip * (180 / Math.PI) + '<br>Length of Hip ' + Math.sqrt((hyp_hip * hyp_hip) + (height * height)) ;
+    var html = 'Pitch of Canopy 1 = ' + pitch1*(180 / Math.PI) + '<br>Pitch of Canopy 2 = ' + pitch2*(180 / Math.PI) + '<br>Angle of hip on plan = ' + hip_angle * (180 / Math.PI) + ' <br> Pitch of the Hip =' + pitch_hip * (180 / Math.PI) + '<br>Length of Hip =' + Math.sqrt((hyp_hip * hyp_hip) + (height * height)) ;
 
     document.getElementById('result').innerHTML = html;
 
@@ -56,40 +65,119 @@ function say_hi() {
 
 <!--MITRES1-->
 <!--75 face #cah-->
-    var angle_75_face = Math.cos(pitch1)*75;
+    var angle_75_face1 = Math.cos(pitch1)*75;
+
+<!--75 face #toa-->
+    var angle_75_face1 = angle_75_face1/Math.tan((angle_between_canopy * (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle_75 = Math.atan(75/angle_75_face);
-
+    var cut_angle1_75 = Math.atan(75/angle_75_face1);
 
 <!--150 face #soh-->
-    var angle_150_face = Math.sin(pitch1)*150;
+    var angle_150_face1 = Math.sin(pitch1)*150;
+
+ <!--150 face #toa-->
+    var angle_150_face1 = angle_150_face1/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle_150 = Math.atan(150/angle_150_face);
+    var cut_angle1_150 = Math.atan(150/angle_150_face1);
 
-    var html2 = '<br>Cut Angle for 75 face ' + cut_angle_75 * (180 / Math.PI) + '<br>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
+    var html2 = '<br>Cut Angle for 75 face ' + (cut_angle1_75 * (180 / Math.PI)) + '<br>Cut Angle for 150 Side ' + cut_angle1_150 * (180 / Math.PI);
     document.getElementById('mitres').innerHTML = html2;
+
+<!--drawing-->
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+
+    ctx.font="20px Georgia";
+    ctx.strokeText("Mitre 1",0,15);
+
+    ctx.font="20px Georgia";
+    ctx.strokeText(Math.round((cut_angle1_75 * (180 / Math.PI))*100)/100,180,85);
+
+<!--Mitre 1 Drawing 75 Face-->
+    ctx.beginPath();
+    ctx.moveTo(0,20);
+    ctx.lineTo(0,95);
+    ctx.lineTo(250,95);
+    ctx.lineTo(250-angle_75_face1,20);
+    ctx.lineTo(0,20);
+    ctx.stroke();
+
+    ctx.font="20px Georgia";
+    ctx.strokeText(Math.round((cut_angle1_150 * (180 / Math.PI))*100)/100,180,240);
+
+<!--Mitre 1 Drawing 150 Face-->
+    ctx.beginPath();
+    ctx.moveTo(0,100);
+    ctx.lineTo(0,250);
+    ctx.lineTo(250,250);
+    ctx.lineTo(250-angle_150_face1,100);
+    ctx.lineTo(0,100);
+    ctx.stroke();
+
 
 
 
 <!--MITRES2-->
 <!--75 face #cah-->
-    var angle_75_face = Math.cos(pitch2)*75;
+    var angle_75_face2 = Math.cos(pitch2)*75;
+
+   <!--75 face #toa-->
+    var angle_75_face2 = angle_75_face2/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle_75 = Math.atan(75/angle_75_face);
+    var cut_angle2_75 = Math.atan(75/angle_75_face2);
 
 
 <!--150 face #soh-->
-    var angle_150_face = Math.sin(pitch2)*150;
+    var angle_150_face2 = Math.sin(pitch2)*150;
+
+ <!--150 face #toa-->
+    var angle_150_face2 = angle_150_face1/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle_150 = Math.atan(150/angle_150_face);
+    var cut_angle2_150 = Math.atan(150/angle_150_face2);
 
-    var html3 = '<br>Cut Angle for 75 face ' + cut_angle_75 * (180 / Math.PI) + '<br>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
+    var html3 = '<br>Cut Angle for 75 face ' + cut_angle2_75 * (180 / Math.PI) + '<br>Cut Angle for 150 Side ' + cut_angle2_150 * (180 / Math.PI);
     document.getElementById('mitres2').innerHTML = html3;
 
+ <!--Mitre 2 Drawing 75 Face-->
+
+    ctx.font="20px Georgia";
+    ctx.strokeText("Mitre 2",500,15);
+
+    ctx.font="20px Georgia";
+    ctx.strokeText(Math.round((cut_angle2_75 * (180 / Math.PI))*100)/100,680,85);
+
+    ctx.beginPath();
+    ctx.moveTo(500,20);
+    ctx.lineTo(500,95);
+    ctx.lineTo(750,95);
+    ctx.lineTo(750-angle_75_face2,20);
+    ctx.lineTo(500,20);
+    ctx.stroke();
+
+<!--Mitre 2 Drawing 150 Face-->
+
+    ctx.font="20px Georgia";
+    ctx.strokeText(Math.round((cut_angle2_150 * (180 / Math.PI))*100)/100,680,240);
+
+    ctx.beginPath();
+    ctx.moveTo(500,100);
+    ctx.lineTo(500,100+150);
+    ctx.lineTo(750,100+150);
+    ctx.lineTo(750-angle_150_face2,100);
+    ctx.lineTo(500,100);
+    ctx.stroke();
+
+   <!--Sheet Sizes-->
+
+    var panel_angle1 = cut_angle1_75;
+    var panel_angle2 = cut_angle2_75;
+
+    var html4 = '<br> Sheet Angle for Canopy 1 - ' + panel_angle1 * (180 / Math.PI) + '<br> Sheet Angle for Canopy 2 - ' +  panel_angle2 * (180 / Math.PI);
+    document.getElementById('sheet_angles').innerHTML = html4;
 
 }
 
