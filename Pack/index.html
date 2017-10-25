@@ -1,15 +1,60 @@
 <html>
 <head>
   <title></title>
+<style type="text/css">
+.style {
+	color: #003;
+	left: 100px;
+	margin-left: 0px;
+	padding-left: 200px;
+}
+#Height1 {
+	color: #003;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+.Main {
+	color: #D6D6D6;
+}
+body {
+	background-color: #CCDEFF;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<body>
- 
-HEIGHT: <input id="height">
-HYPOTENUSE Area 1: <input id="hypot1">
-HYPOTENUSE Area 2: <input id="hypot2">
-Angle between canopies on plan: <input id="angle_canopy">
+<body class="Main">
+ <table width="500" border="0" align="center" bgcolor="#CCDEFF" rules="none">
+  <tr>
+    <td><div id="Height1">Height: </td>
+    <td><input id="height"></div></td>
+  </tr>
+  <tr>
 
-<button id="say">Submit</button>
+    <td><div id="Height1">Rafter Length Area 1:</td>
+    
+        <td> <input id="hypot1"></div></td>
+  </tr>
+  <tr>
+
+    <td><div id="Height1">Rafter Length Area 2:</td>
+        <td> <input id="hypot2"></div></td>
+  </tr>
+  <tr>
+
+    <td><div id="Height1">Angle between canopies on plan: </td>
+        <td><input id="angle_canopy"></div></td>
+  </tr>
+  <tr>
+    <td align="right"><button id="say">Submit</button></td>
+
+  </tr>
+</table>
+
+
+
+
+
+
+
 
 <div id="pitch"></div>
 
@@ -133,7 +178,7 @@ function say_hi() {
     var angle_150_face2 = Math.sin(pitch2)*150;
 
  <!--150 face #toa-->
-    var angle_150_face2 = angle_150_face1/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
+    var angle_150_face2 = angle_150_face2/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
 
 <!--#toa-->
     var cut_angle2_150 = Math.atan(150/angle_150_face2);
