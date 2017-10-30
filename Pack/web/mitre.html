@@ -16,7 +16,7 @@
 	color: #D6D6D6;
 }
 body {
-	background-color: #CCDEFF;
+	background-color: #fffEFF;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -43,7 +43,8 @@ body {
     <td><div id="Height1">Angle between canopies on plan: </td>
         <td><input id="angle_canopy"></div></td>
   </tr>
-  <tr>
+       <tr>
+
     <td align="right"><button id="say">Submit</button></td>
 
   </tr>
@@ -61,6 +62,7 @@ body {
 <hr>
 <div id="result"></div>
 <div id="mitres"></div>
+ <div id="b"></div>
 <div id="mitres2"></div>
 <div id="sheet_angles"></div>
 <br>
@@ -137,19 +139,33 @@ function say_hi() {
     ctx.strokeText("Mitre 1",0,15);
 
     ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle1_75 * (180 / Math.PI))*100)/100,180,85);
+    ctx.strokeText(Math.round((cut_angle1_75 * (180 / Math.PI))*100)/100,165,85);
 
 <!--Mitre 1 Drawing 75 Face-->
     ctx.beginPath();
     ctx.moveTo(0,20);
     ctx.lineTo(0,95);
     ctx.lineTo(250,95);
-    ctx.lineTo(250-angle_75_face1,20);
+    ctx.lineTo(250-angle_75_face1,15);
     ctx.lineTo(0,20);
     ctx.stroke();
 
+
+ <!--Mitre 1 Drawing Arc-->
+
+ <!--Works out the equation of the angle y = mx+b -->
+     var m = (-75)/(-angle_75_face1)
+     var b = 95-(m*250)
+
+ <!--Draws the arc from the above equation -->
+     ctx.beginPath();
+     ctx.moveTo(220,95);
+     ctx.arcTo(210,75,230,m*230+b,20);
+     ctx.lineTo(230,m*230+b);
+     ctx.stroke();
+
     ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle1_150 * (180 / Math.PI))*100)/100,180,240);
+    ctx.strokeText(Math.round((cut_angle1_150 * (180 / Math.PI))*100)/100,165,240);
 
 <!--Mitre 1 Drawing 150 Face-->
     ctx.beginPath();
@@ -160,6 +176,19 @@ function say_hi() {
     ctx.lineTo(0,100);
     ctx.stroke();
 
+
+ <!--Mitre 1 Drawing Arc-->
+
+ <!--Works out the equation of the angle y = mx+b -->
+     m = (-150)/(-angle_150_face1)
+     b = 250-(m*250)
+
+ <!--Draws the arc from the above equation -->
+     ctx.beginPath();
+     ctx.moveTo(200,250);
+     ctx.arcTo(190,220,230,m*230+b,20);
+     ctx.lineTo(230,m*230+b);
+     ctx.stroke();
 
 
 
@@ -192,7 +221,7 @@ function say_hi() {
     ctx.strokeText("Mitre 2",500,15);
 
     ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle2_75 * (180 / Math.PI))*100)/100,680,85);
+    ctx.strokeText(Math.round((cut_angle2_75 * (180 / Math.PI))*100)/100,665,85);
 
     ctx.beginPath();
     ctx.moveTo(500,20);
@@ -202,10 +231,25 @@ function say_hi() {
     ctx.lineTo(500,20);
     ctx.stroke();
 
+
+ <!--Mitre 2 Drawing Arc-->
+
+ <!--Works out the equation of the angle y = mx+b -->
+     m = (-75)/(-angle_75_face2)
+     b = 95-(m*750)
+
+ <!--Draws the arc from the above equation -->
+     ctx.beginPath();
+     ctx.moveTo(710,95);
+     ctx.arcTo(720,75,730,m*730+b,20);
+     ctx.lineTo(730,m*730+b);
+     ctx.stroke();
+
+
 <!--Mitre 2 Drawing 150 Face-->
 
     ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle2_150 * (180 / Math.PI))*100)/100,680,240);
+    ctx.strokeText(Math.round((cut_angle2_150 * (180 / Math.PI))*100)/100,665,240);
 
     ctx.beginPath();
     ctx.moveTo(500,100);
@@ -214,6 +258,20 @@ function say_hi() {
     ctx.lineTo(750-angle_150_face2,100);
     ctx.lineTo(500,100);
     ctx.stroke();
+
+ <!--Mitre 2 Drawing Arc-->
+
+ <!--Works out the equation of the angle y = mx+b -->
+     m = (-150)/(-angle_150_face2)
+     b = 250-(m*750)
+
+ <!--Draws the arc from the above equation -->
+     ctx.beginPath();
+     ctx.moveTo(710,250);
+     ctx.arcTo(720,220,730,m*730+b,20);
+     ctx.lineTo(730,m*730+b);
+     ctx.stroke();
+
 
    <!--Sheet Sizes-->
 
