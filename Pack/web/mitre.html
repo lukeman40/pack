@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title></title>
+<title></title>
 <style type="text/css">
 .style {
 	color: #003;
@@ -13,15 +13,22 @@
 	font-family: Tahoma, Geneva, sans-serif;
 }
 .Main {
-	color: #D6D6D6;
+	color: #000000;
 }
 body {
 	background-color: #fffEFF;
+}
+.table_result {
+	background-color: #D8E2FE;
+	margin: 1px;
+	padding: 1px;
+	width: auto;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body class="Main">
+ <p></p>
  <table width="500" border="0" align="center" bgcolor="#CCDEFF" rules="none">
   <tr>
     <td><div id="Height1">Height: </td>
@@ -53,19 +60,22 @@ body {
 
 
 
+<div class="table_result" id="pitch">test</div>
+<div id="pitch">test</div>
 
-
-
+<div class="table_result">
 
 <div id="pitch"></div>
 
 <hr>
 <div id="result"></div>
-<div id="mitres1"></div>
- <div id="b"></div>
+<div class="table_result" id="mitres1"></div>
 <div id="mitres2"></div>
 <div id="sheet_angles"></div>
 <br>
+</div>
+
+
 <canvas id="myCanvas" width="2000" height="350" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 <img src="Diagram.png">
@@ -102,7 +112,7 @@ function say_hi() {
 <!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
     var pitch_hip = Math.atan(height/hyp_hip);
 
-    var html = 'Pitch of Canopy 1 = ' + pitch1*(180 / Math.PI) + '<br>Pitch of Canopy 2 = ' + pitch2*(180 / Math.PI) + '<br>Angle of hip on plan = ' + hip_angle * (180 / Math.PI) + ' <br> Pitch of the Hip =' + pitch_hip * (180 / Math.PI) + '<br>Length of Hip =' + Math.sqrt((hyp_hip * hyp_hip) + (height * height)) ;
+    var html = 'Pitch of Canopy 1 = ' + Math.round(pitch1*(180 / Math.PI)) + '| Pitch of Canopy 2 = ' + Math.round(pitch2*(180 / Math.PI)) + '| Angle of hip on plan = ' + Math.round(hip_angle * (180 / Math.PI)) + ' | Pitch of the Hip =' + Math.round(pitch_hip * (180 / Math.PI)) + '| Length of Hip =' + Math.round(Math.sqrt((hyp_hip * hyp_hip) + (height * height))) ;
 
     document.getElementById('result').innerHTML = html;
 
@@ -113,24 +123,24 @@ function mitre(pitch,number, camera_x) {
 
 <!--MITRES1-->
 <!--75 face #cah-->
-    var angle_75_face1 = Math.cos(pitch)*75;
+    var angle_75_face = Math.cos(pitch)*75;
 
 <!--75 face #toa-->
-    var angle_75_face1 = angle_75_face1/Math.tan((angle_between_canopy * (Math.PI / 180))/2);
+    var angle_75_face = angle_75_face/Math.tan((angle_between_canopy * (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle1_75 = Math.atan(75/angle_75_face1);
+    var cut_angle_75 = Math.atan(75/angle_75_face);
 
 <!--150 face #soh-->
-    var angle_150_face1 = Math.sin(pitch)*150;
+    var angle_150_face = Math.sin(pitch)*150;
 
  <!--150 face #toa-->
-    var angle_150_face1 = angle_150_face1/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
+    var angle_150_face = angle_150_face/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle1_150 = Math.atan(150/angle_150_face1);
+    var cut_angle_150 = Math.atan(150/angle_150_face);
 
-    var html2 = '<br><u>Mitre ' + number + '</u>Cut Angle for 75 face ' + (cut_angle1_75 * (180 / Math.PI)) + '<br><u>Mitre ' + number + '</u>Cut Angle for 150 Side ' + cut_angle1_150 * (180 / Math.PI);
+    var html2 = '| <u>Mitre ' + number + '</u>Cut Angle for 75 face ' + (cut_angle_75 * (180 / Math.PI)) + ' | <u>Mitre ' + number + '</u>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
     document.getElementById('mitres' + number).innerHTML = html2;
 
 <!--drawing-->
@@ -139,14 +149,14 @@ function mitre(pitch,number, camera_x) {
     ctx.strokeText("Mitre "+ number,0+camera_x,15);
 
     ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle1_75 * (180 / Math.PI))*100)/100,165+camera_x,85);
+    ctx.strokeText(Math.round((cut_angle_75 * (180 / Math.PI))*100)/100,165+camera_x,85);
 
 <!--Mitre 1 Drawing 75 Face-->
     ctx.beginPath();
     ctx.moveTo(0+camera_x,20);
     ctx.lineTo(0+camera_x,95);
     ctx.lineTo(250+camera_x,95);
-    ctx.lineTo(250-angle_75_face1+camera_x,20);
+    ctx.lineTo(250-angle_75_face+camera_x,20);
     ctx.lineTo(0+camera_x,20);
     ctx.stroke();
 
@@ -154,25 +164,25 @@ function mitre(pitch,number, camera_x) {
  <!--Mitre 1 Drawing Arc-->
 
  <!--Works out the equation of the angle y = mx+b -->
-     var m = (-75)/(-angle_75_face1)
-     var b = 95-(m*250)
+     var m = (-75)/(-angle_75_face)
+     var b = (95+camera_x)-(m*250+camera_x)
 
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
      ctx.moveTo(220+camera_x,95);
-     ctx.arcTo(210+camera_x,75,230,m*230+b,20);
+     ctx.arcTo(210+camera_x,75,230+camera_x,m*230+b,20);
      ctx.lineTo(230+camera_x,m*230+b);
      ctx.stroke();
 
     ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle1_150 * (180 / Math.PI))*100)/100,165+camera_x,240);
+    ctx.strokeText(Math.round((cut_angle_150 * (180 / Math.PI))*100)/100,165+camera_x,240);
 
 <!--Mitre 1 Drawing 150 Face-->
     ctx.beginPath();
     ctx.moveTo(0+camera_x,100);
     ctx.lineTo(0+camera_x,250);
     ctx.lineTo(250+camera_x,250);
-    ctx.lineTo(250+camera_x-angle_150_face1,100);
+    ctx.lineTo(250+camera_x-angle_150_face,100);
     ctx.lineTo(0+camera_x,100);
     ctx.stroke();
 
@@ -180,13 +190,13 @@ function mitre(pitch,number, camera_x) {
  <!--Mitre 1 Drawing Arc-->
 
  <!--Works out the equation of the angle y = mx+b -->
-     m = (-150)/(-angle_150_face1)
-     b = 250-(m*250)
+     m = (-150)/(-angle_150_face)
+     b = (250+camera_x)-(m*250+camera_x)
 
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
      ctx.moveTo(200+camera_x,250);
-     ctx.arcTo(190+camera_x,220,230,m*230+b,20);
+     ctx.arcTo(190+camera_x,220,230+camera_x,m*230+b,20);
      ctx.lineTo(230+camera_x,m*230+b);
      ctx.stroke();
 
