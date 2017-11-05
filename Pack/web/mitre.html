@@ -24,6 +24,18 @@ body {
 	padding: 1px;
 	width: auto;
 }
+.pitch {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: 1;
+	border-right-style: 1;
+	border-bottom-style: 1;
+	border-left-style: 1;
+	margin: 1px;
+	padding: 1px;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -63,16 +75,13 @@ body {
 <div class="table_result" id="pitch">test</div>
 <div id="pitch">test</div>
 
-<div class="table_result">
-
-<div id="pitch"></div>
-
 <hr>
-<div id="result"></div>
-<div class="table_result" id="mitres1"></div>
+<div class="table_result">
+<div class=pitch id="pitch1"></div><div id="pitch2"></div><div id="hip_angle"></div><div id="hip_pitch"></div><div id="hip_length"></div>
+<div id="mitres1"></div>
 <div id="mitres2"></div>
 <div id="sheet_angles"></div>
-<br>
+
 </div>
 
 
@@ -112,9 +121,17 @@ function say_hi() {
 <!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
     var pitch_hip = Math.atan(height/hyp_hip);
 
-    var html = 'Pitch of Canopy 1 = ' + Math.round(pitch1*(180 / Math.PI)) + '| Pitch of Canopy 2 = ' + Math.round(pitch2*(180 / Math.PI)) + '| Angle of hip on plan = ' + Math.round(hip_angle * (180 / Math.PI)) + ' | Pitch of the Hip =' + Math.round(pitch_hip * (180 / Math.PI)) + '| Length of Hip =' + Math.round(Math.sqrt((hyp_hip * hyp_hip) + (height * height))) ;
+	var html1 = 'Pitch of Canopy 1 = ' + Math.round(pitch1*(180 / Math.PI));
+	var html2 = '| Pitch of Canopy 2 = ' + Math.round(pitch2*(180 / Math.PI));
+	var html3 = '| Angle of hip on plan = ' + Math.round(hip_angle * (180 / Math.PI));
+	var html4 = '| Pitch of the Hip =' + Math.round(pitch_hip * (180 / Math.PI))
+	var html5 = '| Length of Hip =' + Math.round(Math.sqrt((hyp_hip * hyp_hip) + (height * height)));
 
-    document.getElementById('result').innerHTML = html;
+    document.getElementById('pitch1').innerHTML = html1;
+    document.getElementById('pitch2').innerHTML = html2;
+    document.getElementById('hip_angle').innerHTML = html3;
+    document.getElementById('hip_pitch').innerHTML = html4;
+    document.getElementById('hip_length').innerHTML = html5;	
 
      var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
