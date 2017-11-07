@@ -69,10 +69,6 @@ body {
   </tr>
 </table>
 
-
-
-
-<div class="table_result" id="pitch">test</div>
 <div id="pitch">test</div>
 
 <hr>
@@ -81,6 +77,11 @@ body {
 <div id="mitres1"></div>
 <div id="mitres2"></div>
 <div id="sheet_angles"></div>
+
+<svg height="500" width="500" id="svg1">
+</svg>
+<svg height="500" width="800" id="svg2">
+</svg>
 
 </div>
 
@@ -158,6 +159,7 @@ function mitre(pitch,number, camera_x) {
     var cut_angle_150 = Math.atan(150/angle_150_face);
 
     var html2 = '| <u>Mitre ' + number + '</u>Cut Angle for 75 face ' + (cut_angle_75 * (180 / Math.PI)) + ' | <u>Mitre ' + number + '</u>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
+
     document.getElementById('mitres' + number).innerHTML = html2;
 
 <!--drawing-->
@@ -176,7 +178,10 @@ function mitre(pitch,number, camera_x) {
     ctx.lineTo(250-angle_75_face+camera_x,20);
     ctx.lineTo(0+camera_x,20);
     ctx.stroke();
-
+		
+	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_75_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
+	
+    document.getElementById('svg' + number).innerHTML = svg1;
 
  <!--Mitre 1 Drawing Arc-->
 
@@ -224,8 +229,8 @@ mitre(pitch2, 2, 500);
 
    <!--Sheet Sizes-->
 
-    var panel_angle1 = cut_angle1_75;
-    var panel_angle2 = cut_angle2_75;
+    var panel_angle1 = cut_angle_75;
+    var panel_angle2 = cut_angle_75;
 
     var html4 = '<br> Sheet Angle for Canopy 1 - ' + panel_angle1 * (180 / Math.PI) + '<br> Sheet Angle for Canopy 2 - ' +  panel_angle2 * (180 / Math.PI);
     document.getElementById('sheet_angles').innerHTML = html4;
