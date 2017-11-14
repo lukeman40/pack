@@ -33,30 +33,39 @@ function panel_run(length, panel_type){
 	
 	if (panel_type == "32mm Multi-Link"){
 		centers = 1245;
+		var bar_width = 70;
 	} 
 	else if (panel_type == "25mm Multi-Link"){
-		centers = 1245;	
+		centers = 1245;
+		var bar_width = 70;
 	}
 	else if (panel_type == "16mm Multi-Link"){
-		centers = 990;	
+		centers = 990;
+		var bar_width = 70;
 	}
 	else if (panel_type == "10mm Multi-Link"){
-		centers = 600;	
+		centers = 600;
+		var bar_width = 50;
 	}
 	else if (panel_type == "7.5mm Multi-Link"){
-		centers = 600;	
+		centers = 600;
+		var bar_width = 50;
 	}
 	else if (panel_type == "25mm EasiGlaze"){
-		centers = 1245;	
+		centers = 1245;
+		var bar_width = 70;
 	}
 	else if (panel_type == "16mm EasiGlaze"){
-		centers = 1010;	
+		centers = 1010;
+		var bar_width = 70;
 	}
 	else if (panel_type == "10mm Bar & Sheet"){
-		centers = 600;
+		centers = 600
+		var bar_width = 60;
 	}
 	else if (panel_type == "6mm Bar & Sheet"){
-		centers = 600;	
+		centers = 600;
+		var bar_width = 60;
 	}				
 	else{
 	centers = 0;
@@ -69,7 +78,7 @@ function panel_run(length, panel_type){
   var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number 		  of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers;
   document.getElementById('panels').innerHTML = html2;
 
-  var html3 = "<br>Equally Spaced, The Panel Centres are " + (length-50)/number_of_panels;
+  var html3 = "<br>Equally Spaced, The Panel Centres are " + Math.round((length-bar_width)/number_of_panels);
   document.getElementById('result').innerHTML = html3;
   }
 
