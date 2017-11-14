@@ -25,8 +25,7 @@
 
 </head>
 
- <script type = "text/javascript">
-
+<script type = "text/javascript">
 
 function panel_run(length, panel_type){
 	
@@ -54,7 +53,7 @@ function panel_run(length, panel_type){
 		centers = 1010;	
 	}
 	else if (panel_type == "10mm Bar & Sheet"){
-		centers = 600;	
+		centers = 600;
 	}
 	else if (panel_type == "6mm Bar & Sheet"){
 		centers = 600;	
@@ -70,6 +69,8 @@ function panel_run(length, panel_type){
   var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number 		  of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers;
   document.getElementById('panels').innerHTML = html2;
 
+  var html3 = "<br>Equally Spaced, The Panel Centres are " + (length-50)/number_of_panels;
+  document.getElementById('result').innerHTML = html3;
   }
 
   function changeColor(){
@@ -115,7 +116,9 @@ function panel_run(length, panel_type){
 <div id="panels"></div>
 
 <div id="result"></div>
- 
+
+ <div id="equally_spaced"></div>
+
  <span class="hidden">Notes: </span>
 <ul>
    <span class="hidden"> Add Links</span>
