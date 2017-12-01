@@ -21,30 +21,38 @@ body {
 .table_result {
 	background-color: #D8E2FE;
 	margin: 1px;
-	padding: 1px;
-	width: auto;
+	padding: 0px;
+  	display: inline;
+	width: 800px;
+	float:left;
+	border-radius: 1px;
+	box-shadow: 0px 0px 3px #000;
+
+}
+.table_class {
+	border-radius: 10px;
+	box-shadow: 0px 0px 3px #000;
 }
 .pitch {
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: 1;
-	border-right-style: 1;
-	border-bottom-style: 1;
-	border-left-style: 1;
 	margin: 1px;
 	padding: 1px;
+	border: 1px 1 #000;
+}
+.image {
+	display: inline;
+ 	width: 100px;
+  	height: 100px;
+	float:left
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body class="Main">
  <p></p>
- <table width="500" border="0" align="center" bgcolor="#CCDEFF" rules="none">
+ <table width="422" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class">
   <tr>
-    <td><div id="Height1">Height: </td>
-    <td><input id="height"></div></td>
+    <td width="242" align="left"><div id="Height1">Height: </td>
+    <td width="168"><input id="height"></div></td>
   </tr>
   <tr>
 
@@ -65,18 +73,28 @@ body {
        <tr>
 
     <td align="right"><button id="say">Submit</button></td>
+    <td>
 
   </tr>
 </table>
 
-<div id="pitch">test</div>
+ <br>
 
-<hr>
+
 <div class="table_result">
-<div class=pitch id="pitch1"></div><div id="pitch2"></div><div id="hip_angle"></div><div id="hip_pitch"></div><div id="hip_length"></div>
+<div class=pitch id="pitch1"></div>
+<div id="pitch2"></div>
+<div id="hip_angle"></div>
+<div id="hip_pitch"></div>
+<div id="hip_length"></div>
 <div id="mitres1"></div>
 <div id="mitres2"></div>
 <div id="sheet_angles"></div>
+
+<br>
+
+<canvas id="myCanvas" width="800" height="350">
+Your browser does not support the HTML5 canvas tag.</canvas>
 
 <svg height="500" width="500" id="svg1">
 </svg>
@@ -85,12 +103,14 @@ body {
 
 </div>
 
+<div id="Height1"><img src="Diagram.png" width="750" height="602"></div>
 
-<canvas id="myCanvas" width="2000" height="350" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
-<img src="Diagram.png">
+
  
 <script>
+
+//0 = no dash, 1 = dash
+var dash = 0;
 
 function say_hi() {
     var height = document.getElementById('height').value;
@@ -158,17 +178,11 @@ function mitre(pitch,number, camera_x) {
 <!--#toa-->
     var cut_angle_150 = Math.atan(150/angle_150_face);
 
-    var html2 = '| <u>Mitre ' + number + '</u>Cut Angle for 75 face ' + (cut_angle_75 * (180 / Math.PI)) + ' | <u>Mitre ' + number + '</u>Cut Angle for 150 Side ' + cut_angle_150 * (180 / Math.PI);
+    var html2 = '| <u>Mitre ' + number + '</u> Cut Angle for 75 face ' + +(cut_angle_75 * (180 / Math.PI)).toFixed(2) + ' | <u>Mitre ' + number + '</u> Cut Angle for 150 Side ' + +(cut_angle_150 * (180 / Math.PI)).toFixed(2);
 
     document.getElementById('mitres' + number).innerHTML = html2;
 
 <!--drawing-->
-
-    ctx.font="20px Georgia";
-    ctx.strokeText("Mitre "+ number,0+camera_x,15);
-
-    ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle_75 * (180 / Math.PI))*100)/100,165+camera_x,85);
 
 <!--Mitre 1 Drawing 75 Face-->
     ctx.beginPath();
@@ -178,10 +192,24 @@ function mitre(pitch,number, camera_x) {
     ctx.lineTo(250-angle_75_face+camera_x,20);
     ctx.lineTo(0+camera_x,20);
     ctx.stroke();
+    ctx.fillStyle="white";
+    ctx.fill();
 		
 	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_75_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
 	
     document.getElementById('svg' + number).innerHTML = svg1;
+
+    <!--Sets dashed line->
+
+    ctx.beginPath();
+
+    if (dash > 0){
+    ctx.setLineDash([5, 3]);
+    }
+
+    ctx.moveTo(250-angle_150_face+camera_x,95);
+    ctx.lineTo((250-angle_150_face)+(camera_x-angle_75_face) ,20);
+    ctx.stroke();
 
  <!--Mitre 1 Drawing Arc-->
 
@@ -191,15 +219,13 @@ function mitre(pitch,number, camera_x) {
 
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
+     ctx.setLineDash([]);
      ctx.moveTo(220+camera_x,95);
      ctx.arcTo(210+camera_x,75,230+camera_x,m*230+b,20);
      ctx.lineTo(230+camera_x,m*230+b);
      ctx.stroke();
 
-    ctx.font="20px Georgia";
-    ctx.strokeText(Math.round((cut_angle_150 * (180 / Math.PI))*100)/100,165+camera_x,240);
-
-<!--Mitre 1 Drawing 150 Face-->
+<!--Mitre Drawing 150 Face-->
     ctx.beginPath();
     ctx.moveTo(0+camera_x,100);
     ctx.lineTo(0+camera_x,250);
@@ -207,9 +233,24 @@ function mitre(pitch,number, camera_x) {
     ctx.lineTo(250+camera_x-angle_150_face,100);
     ctx.lineTo(0+camera_x,100);
     ctx.stroke();
+    ctx.fillStyle="white";
+    ctx.fill();
 
+<!--Sets dashed line->
 
- <!--Mitre 1 Drawing Arc-->
+    ctx.beginPath();
+
+    if (dash > 0){
+    ctx.setLineDash([5, 3]);
+    }
+
+    dash = dash + 1;
+
+    ctx.moveTo(250-angle_75_face+camera_x,250);
+    ctx.lineTo((250-angle_75_face)+(camera_x-angle_150_face) ,100);
+    ctx.stroke();
+
+ <!--Mitre Drawing Arc-->
 
  <!--Works out the equation of the angle y = mx+b -->
      m = (-150)/(-angle_150_face)
@@ -217,15 +258,38 @@ function mitre(pitch,number, camera_x) {
 
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
+     ctx.setLineDash([]);
      ctx.moveTo(200+camera_x,250);
      ctx.arcTo(190+camera_x,220,230+camera_x,m*230+b,20);
      ctx.lineTo(230+camera_x,m*230+b);
      ctx.stroke();
 
+    var angle_in_deg = Math.round((cut_angle_75 * (180 / Math.PI))*100)/100;
+
+<!--adds the text -->
+
+<!--font -->
+
+    ctx.fillStyle = 'black';
+
+    ctx.font="20px Arial";
+
+ <!--Title -->
+    ctx.fillText("Mitre "+ number,0+camera_x,15);
+
+<!--angles -->
+    ctx.fillText(Math.round((cut_angle_75 * (180 / Math.PI))*100)/100,250+camera_x,85);
+
+    ctx.fillText(Math.round((cut_angle_150 * (180 / Math.PI))*100)/100,250+camera_x,240);
+
+ <!--face -->
+    ctx.fillText("75 Face",20+camera_x,65);
+    ctx.fillText("150 Face",20+camera_x,180);
+
 }
 
 mitre(pitch1, 1, 0);
-mitre(pitch2, 2, 500);
+mitre(pitch2, 2, 400);
 
    <!--Sheet Sizes-->
 
