@@ -73,7 +73,7 @@ function panel_run(length, panel_type){
 
 
   var number_of_panels = Math.floor((length-600)/centers)+2;
-  var end_centers = (length-((number_of_panels-2)*centers))/2;
+  var end_centers = ((length-((number_of_panels-2)*centers))/2)-(bar_width/2);
 
   var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number 		  of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers;
   document.getElementById('panels').innerHTML = html2;
