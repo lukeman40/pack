@@ -11,6 +11,7 @@
 #Height1 {
 	color: #003;
 	font-family: Tahoma, Geneva, sans-serif;
+	float: right;
 }
 .Main {
 	color: #000000;
@@ -20,19 +21,49 @@ body {
 }
 .table_result {
 	background-color: #D8E2FE;
-	margin: 1px;
-	padding: 0px;
-  	display: inline;
-	width: 800px;
-	float:left;
+	display: block;
+	float: none;
 	border-radius: 1px;
 	box-shadow: 0px 0px 3px #000;
+	position: static;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	margin: 1px;
+	width: 400px;
+}
 
-}
-.table_class {
-	border-radius: 10px;
+.table_drawing {
+	background-color: #D8E2FE;
+	display: block;
+	float: none;
+	border-radius: 1px;
 	box-shadow: 0px 0px 3px #000;
+	position: static;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	margin: 1px;
 }
+
+.table_class {
+	background-color: #D8E2FE;
+	margin: 1px;
+	padding: 0px;
+	display: block;
+	float: none;
+	border-radius: 1px;
+	box-shadow: 0px 0px 3px #000;
+	left: 20px;
+}
+
+.table_class2 {
+	box-shadow: 0 -1px grey;
+	padding-top: 10px;
+}
+	
 .pitch {
 	margin: 1px;
 	padding: 1px;
@@ -44,66 +75,137 @@ body {
   	height: 100px;
 	float:left
 }
+input {
+	width: 100%;
+	background-color: rgba(255,255,255,0.5);
+	border: none;
+	color: #000;
+	font-size: 1em;
+	line-height: 0.5em;
+	height: 2em;
+	text-align: right;
+}
+
+.Main .table_class tr td h1 {
+	text-align: center;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body class="Main">
- <p></p>
- <table width="422" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class">
-  <tr>
-    <td width="242" align="left"><div id="Height1">Height: </td>
-    <td width="168"><input id="height"></div></td>
-  </tr>
-  <tr>
+<div id="Height1"><img src="Diagram.png" width="750" height="602"></div>
 
-    <td><div id="Height1">Rafter Length Area 1:</td>
-    
-        <td> <input id="hypot1"></div></td>
-  </tr>
-  <tr>
+<div class="table_result">
+ <table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class">
+   <tr>
+    <td colspan="2" align="left"><h1>Data Input</h1></td>
+   </tr>
+  <tr class="table_class2">
+    <td width="242" align="left">Height: </td>
+    <td width="168"><input id="height"></td>
 
-    <td><div id="Height1">Rafter Length Area 2:</td>
-        <td> <input id="hypot2"></div></td>
   </tr>
-  <tr>
+  <tr class="table_class2">
 
-    <td><div id="Height1">Angle between canopies on plan: </td>
-        <td><input id="angle_canopy"></div></td>
+    <td>Rafter Length Area 1:</td>
+        <td> <input id="hypot1"></td>
   </tr>
-       <tr>
+  <tr class="table_class2">
+
+    <td>Rafter Length Area 2:</td>
+        <td> <input id="hypot2"></td>
+  </tr>
+  <tr class="table_class2">
+
+    <td>Angle between canopies on plan: </td>
+        <td><input id="angle_canopy"></td>
+  </tr>
+  <tr class="table_class2">
 
     <td align="right"><button id="say">Submit</button></td>
     <td>
 
   </tr>
 </table>
-
- <br>
-
-
-<div class="table_result">
-<div class=pitch id="pitch1"></div>
-<div id="pitch2"></div>
-<div id="hip_angle"></div>
-<div id="hip_pitch"></div>
-<div id="hip_length"></div>
-<div id="mitres1"></div>
-<div id="mitres2"></div>
-<div id="sheet_angles"></div>
+</div>
 
 <br>
+ <div class="table_result">
+<table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class">
+   <tr>
+    <td colspan="2" align="left"><h1>Result</h1></td>
+   </tr>
+  <tr class="table_class2">
+      <td>Pitch of Canopy 1</td>
+      
+    <td><input id='pitch1' readonly></td>
 
-<canvas id="myCanvas" width="800" height="350">
+  </tr>
+  <tr class="table_class2">
+      <td width="242">Pitch of Canopy 2</td>
+    <td width="168"><input id='pitch2' readonly></td>
+
+  </tr>
+  <tr class="table_class2">
+      <td>Angle of Hip on Plan</td>
+    <td><input id='hip_angle' readonly></td>
+
+  </tr>
+  <tr class="table_class2">
+      <td>Pitch of Hip</td>
+    <td><input id='hip_pitch' readonly></td>
+
+  </tr>
+  <tr class="table_class2">
+  
+      <td>Length of Hip</td>
+    <td><input id='hip_length' readonly></td>
+
+  </tr>
+  <tr class="table_class2">
+        <td><p><strong>Mitre 1</strong></p>
+        <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
+        <td><input id='amitres1' readonly><br><input id='bmitres1' readonly></td>
+    </tr>
+  <tr class="table_class2">
+            <td><p><strong>Mitre 2</strong></p>
+            <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
+        <td><input id='amitres2' readonly><br><input id='bmitres2' readonly></td>
+    </tr>
+  <tr class="table_class2">
+        <td>Sheet Angles</td>
+    <td><div id="sheet_angles"></div></td>
+
+
+  </tr>
+  
+</table>
+
+
+</div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br>
+   
+</p>
+ <div class="table_drawing">
+   
+  <br>
+
+<canvas id="myCanvas" width="1200" height="350">
 Your browser does not support the HTML5 canvas tag.</canvas>
-
+<br>
 <svg height="500" width="500" id="svg1">
 </svg>
 <svg height="500" width="800" id="svg2">
 </svg>
 
+
+
+
 </div>
 
-<div id="Height1"><img src="Diagram.png" width="750" height="602"></div>
 
 
  
@@ -142,17 +244,19 @@ function say_hi() {
 <!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
     var pitch_hip = Math.atan(height/hyp_hip);
 
-	var html1 = 'Pitch of Canopy 1 = ' + Math.round(pitch1*(180 / Math.PI));
-	var html2 = '| Pitch of Canopy 2 = ' + Math.round(pitch2*(180 / Math.PI));
-	var html3 = '| Angle of hip on plan = ' + Math.round(hip_angle * (180 / Math.PI));
-	var html4 = '| Pitch of the Hip =' + Math.round(pitch_hip * (180 / Math.PI))
-	var html5 = '| Length of Hip =' + Math.round(Math.sqrt((hyp_hip * hyp_hip) + (height * height)));
 
-    document.getElementById('pitch1').innerHTML = html1;
-    document.getElementById('pitch2').innerHTML = html2;
-    document.getElementById('hip_angle').innerHTML = html3;
-    document.getElementById('hip_pitch').innerHTML = html4;
-    document.getElementById('hip_length').innerHTML = html5;	
+
+	var html_canopy1_pitch =  Math.round(pitch1*(180 / Math.PI)) + String.fromCharCode(176);
+	var html_canopy2_pitch = Math.round(pitch2*(180 / Math.PI)) + String.fromCharCode(176);
+	var html_hip_angle = Math.round(hip_angle * (180 / Math.PI)) + String.fromCharCode(176);
+	var html_hip_pitch = Math.round(pitch_hip * (180 / Math.PI)) + String.fromCharCode(176);
+	var html_pitch_length = Math.round(Math.sqrt((hyp_hip * hyp_hip) + (height * height))) + "mm";
+
+    document.getElementById('pitch1').value = html_canopy1_pitch;
+    document.getElementById('pitch2').value = html_canopy2_pitch;
+    document.getElementById('hip_angle').value = html_hip_angle;
+    document.getElementById('hip_pitch').value = html_hip_pitch;
+    document.getElementById('hip_length').value = html_pitch_length;
 
      var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
@@ -178,9 +282,13 @@ function mitre(pitch,number, camera_x) {
 <!--#toa-->
     var cut_angle_150 = Math.atan(150/angle_150_face);
 
-    var html2 = '| <u>Mitre ' + number + '</u> Cut Angle for 75 face ' + +(cut_angle_75 * (180 / Math.PI)).toFixed(2) + ' | <u>Mitre ' + number + '</u> Cut Angle for 150 Side ' + +(cut_angle_150 * (180 / Math.PI)).toFixed(2);
+    var html_75_face = (cut_angle_75 * (180 / Math.PI)).toFixed(2);
+    var html_150_face = (cut_angle_150 * (180 / Math.PI)).toFixed(2);
 
-    document.getElementById('mitres' + number).innerHTML = html2;
+
+
+    document.getElementById('amitres' + number).value = html_75_face + String.fromCharCode(176);
+    document.getElementById('bmitres' + number).value = html_150_face + String.fromCharCode(176);
 
 <!--drawing-->
 
@@ -195,6 +303,8 @@ function mitre(pitch,number, camera_x) {
     ctx.fillStyle="white";
     ctx.fill();
 		
+	<!--document.getElementById('svg3').points = 0+camera_x,20 ,0+camera_x ,95 ,250+camera_x,95 ,250-angle_75_face+camera_x ,20;-->
+	
 	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_75_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
 	
     document.getElementById('svg' + number).innerHTML = svg1;
@@ -285,6 +395,7 @@ function mitre(pitch,number, camera_x) {
  <!--face -->
     ctx.fillText("75 Face",20+camera_x,65);
     ctx.fillText("150 Face",20+camera_x,180);
+
 
 }
 
