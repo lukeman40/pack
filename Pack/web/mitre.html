@@ -121,6 +121,16 @@ input {
         <td><input id="angle_canopy"></td>
   </tr>
   <tr class="table_class2">
+    <td>Box Sizes</td>
+      <td>
+        <select name="box_type" id="box_type">
+          <option value="150x75">150x75</option>
+          <option value="75x75">75x75</option>
+        </select>
+        </td>
+  </tr>
+
+  <tr class="table_class2">
 
     <td align="right"><button id="say">Submit</button></td>
     <td>
@@ -166,15 +176,25 @@ input {
         <td><p><strong>Mitre 1</strong></p>
         <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
         <td><input id='amitres1' readonly><br><input id='bmitres1' readonly></td>
-    </tr>
+    </tr>      <tr class="table_class2">
+      <td>Saw Setting</td>
+    <td><input id='Saw Setting' readonly></td>
+
   <tr class="table_class2">
             <td><p><strong>Mitre 2</strong></p>
             <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
         <td><input id='amitres2' readonly><br><input id='bmitres2' readonly></td>
     </tr>
+
+          <tr class="table_class2">
+      <td>Saw Setting</td>
+    <td><input id='Saw Setting' readonly></td>
   <tr class="table_class2">
         <td>Sheet Angles</td>
     <td><div id="sheet_angles"></div></td>
+  </tr>
+
+  </tr>
 
 
   </tr>
@@ -220,6 +240,22 @@ function say_hi() {
     var hypot2 = document.getElementById('hypot2').value;
     var angle_between_canopy = document.getElementById('angle_canopy').value;
 
+    var box_type = document.getElementById("box_type").value;
+
+ <!--Sets the box type defaults to values below-->
+    var box_width = 75;
+    var box_height = 150;
+
+    if (box_type == "150x75"){
+        box_width = 75;
+        box_height = 150;
+        }
+
+     if (box_type == "75x75"){
+        box_width = 75;
+        box_height = 75;
+        }
+
 <!--GETS PITCH CANOPY 1 #soh-->
     var pitch1 = Math.asin(height/hypot1);
 
@@ -244,8 +280,6 @@ function say_hi() {
 <!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
     var pitch_hip = Math.atan(height/hyp_hip);
 
-
-
 	var html_canopy1_pitch =  Math.round(pitch1*(180 / Math.PI)) + String.fromCharCode(176);
 	var html_canopy2_pitch = Math.round(pitch2*(180 / Math.PI)) + String.fromCharCode(176);
 	var html_hip_angle = Math.round(hip_angle * (180 / Math.PI)) + String.fromCharCode(176);
@@ -264,48 +298,46 @@ function say_hi() {
 function mitre(pitch,number, camera_x) {
 
 <!--MITRES1-->
-<!--75 face #cah-->
-    var angle_75_face = Math.cos(pitch)*75;
+<!--width face #cah-->
+    var angle_width_face = Math.cos(pitch)*box_width;
 
-<!--75 face #toa-->
-    var angle_75_face = angle_75_face/Math.tan((angle_between_canopy * (Math.PI / 180))/2);
-
-<!--#toa-->
-    var cut_angle_75 = Math.atan(75/angle_75_face);
-
-<!--150 face #soh-->
-    var angle_150_face = Math.sin(pitch)*150;
-
- <!--150 face #toa-->
-    var angle_150_face = angle_150_face/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
+<!--width face #toa-->
+    var angle_width_face = angle_width_face/Math.tan((angle_between_canopy * (Math.PI / 180))/2);
 
 <!--#toa-->
-    var cut_angle_150 = Math.atan(150/angle_150_face);
+    var cut_angle_width = Math.atan(box_width/angle_width_face);
 
-    var html_75_face = (cut_angle_75 * (180 / Math.PI)).toFixed(2);
-    var html_150_face = (cut_angle_150 * (180 / Math.PI)).toFixed(2);
+<!--length face #soh-->
+    var angle_height_face = Math.sin(pitch)*box_height;
 
+ <!--length face #toa-->
+    var angle_height_face = angle_height_face/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
 
+<!--#toa-->
+    var cut_angle_height = Math.atan(box_height/angle_height_face);
 
-    document.getElementById('amitres' + number).value = html_75_face + String.fromCharCode(176);
-    document.getElementById('bmitres' + number).value = html_150_face + String.fromCharCode(176);
+    var html_width_face = (cut_angle_width * (180 / Math.PI)).toFixed(2);
+    var html_height_face = (cut_angle_height * (180 / Math.PI)).toFixed(2);
+
+    document.getElementById('amitres' + number).value = html_width_face + String.fromCharCode(176);
+    document.getElementById('bmitres' + number).value = html_height_face + String.fromCharCode(176);
 
 <!--drawing-->
 
-<!--Mitre 1 Drawing 75 Face-->
+<!--Mitre 1 Drawing width Face-->
     ctx.beginPath();
     ctx.moveTo(0+camera_x,20);
-    ctx.lineTo(0+camera_x,95);
-    ctx.lineTo(250+camera_x,95);
-    ctx.lineTo(250-angle_75_face+camera_x,20);
+    ctx.lineTo(0+camera_x,20+box_width);
+    ctx.lineTo(250+camera_x,20+box_width);
+    ctx.lineTo(250-angle_width_face+camera_x,20);
     ctx.lineTo(0+camera_x,20);
     ctx.stroke();
     ctx.fillStyle="white";
     ctx.fill();
 		
-	<!--document.getElementById('svg3').points = 0+camera_x,20 ,0+camera_x ,95 ,250+camera_x,95 ,250-angle_75_face+camera_x ,20;-->
+	<!--document.getElementById('svg3').points = 0+camera_x,20 ,0+camera_x ,95 ,250+camera_x,95 ,250-angle_width_face+camera_x ,20;-->
 	
-	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_75_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
+	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_width_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
 	
     document.getElementById('svg' + number).innerHTML = svg1;
 
@@ -317,30 +349,30 @@ function mitre(pitch,number, camera_x) {
     ctx.setLineDash([5, 3]);
     }
 
-    ctx.moveTo(250-angle_150_face+camera_x,95);
-    ctx.lineTo((250-angle_150_face)+(camera_x-angle_75_face) ,20);
+    ctx.moveTo(250-angle_height_face+camera_x,20+box_width);
+    ctx.lineTo((250-angle_height_face)+(camera_x-angle_width_face) ,20);
     ctx.stroke();
 
  <!--Mitre 1 Drawing Arc-->
 
  <!--Works out the equation of the angle y = mx+b -->
-     var m = (-75)/(-angle_75_face)
+     var m = (-box_width)/(-angle_width_face)
      var b = (95+camera_x)-(m*250+camera_x)
 
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
      ctx.setLineDash([]);
-     ctx.moveTo(220+camera_x,95);
-     ctx.arcTo(210+camera_x,75,230+camera_x,m*230+b,20);
+     ctx.moveTo(220+camera_x,20+box_width);
+     ctx.arcTo(210+camera_x,box_width,230+camera_x,m*230+b,20);
      ctx.lineTo(230+camera_x,m*230+b);
      ctx.stroke();
 
-<!--Mitre Drawing 150 Face-->
+<!--Mitre Drawing height Face-->
     ctx.beginPath();
     ctx.moveTo(0+camera_x,100);
-    ctx.lineTo(0+camera_x,250);
-    ctx.lineTo(250+camera_x,250);
-    ctx.lineTo(250+camera_x-angle_150_face,100);
+    ctx.lineTo(0+camera_x,100+box_height);
+    ctx.lineTo(250+camera_x,100+box_height);
+    ctx.lineTo(250+camera_x-angle_height_face,100);
     ctx.lineTo(0+camera_x,100);
     ctx.stroke();
     ctx.fillStyle="white";
@@ -356,25 +388,25 @@ function mitre(pitch,number, camera_x) {
 
     dash = dash + 1;
 
-    ctx.moveTo(250-angle_75_face+camera_x,250);
-    ctx.lineTo((250-angle_75_face)+(camera_x-angle_150_face) ,100);
+    ctx.moveTo(250-angle_width_face+camera_x,100+box_height);
+    ctx.lineTo((250-angle_width_face)+(camera_x-angle_height_face) ,100);
     ctx.stroke();
 
  <!--Mitre Drawing Arc-->
 
  <!--Works out the equation of the angle y = mx+b -->
-     m = (-150)/(-angle_150_face)
-     b = (250+camera_x)-(m*250+camera_x)
+     m = (box_height)/(angle_height_face)
+     b = (100+box_height+camera_x)-(m*(100+box_height)+camera_x)
 
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
      ctx.setLineDash([]);
-     ctx.moveTo(200+camera_x,250);
+     ctx.moveTo(200+camera_x,100+box_height);
      ctx.arcTo(190+camera_x,220,230+camera_x,m*230+b,20);
      ctx.lineTo(230+camera_x,m*230+b);
      ctx.stroke();
 
-    var angle_in_deg = Math.round((cut_angle_75 * (180 / Math.PI))*100)/100;
+    var angle_in_deg = Math.round((cut_angle_width * (180 / Math.PI))*100)/100;
 
 <!--adds the text -->
 
@@ -388,24 +420,53 @@ function mitre(pitch,number, camera_x) {
     ctx.fillText("Mitre "+ number,0+camera_x,15);
 
 <!--angles -->
-    ctx.fillText(Math.round((cut_angle_75 * (180 / Math.PI))*100)/100,250+camera_x,85);
+    ctx.fillText(Math.round((cut_angle_width * (180 / Math.PI))*100)/100,250+camera_x,85);
 
-    ctx.fillText(Math.round((cut_angle_150 * (180 / Math.PI))*100)/100,250+camera_x,240);
+    ctx.fillText(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
+
+    ctx.fillText(angle_between_canopy,870, 70);
 
  <!--face -->
-    ctx.fillText("75 Face",20+camera_x,65);
-    ctx.fillText("150 Face",20+camera_x,180);
+    ctx.fillText(box_width + " Face",20+camera_x,65);
+    ctx.fillText(box_height + " Face",20+camera_x,180);
+
+ <!--Plan -->
+
+     if (angle_between_canopy < 90){
+
+        var angle11 = getTanDeg(angle_between_canopy)*100 *-1;
+        }else{
+        var angle11 = getTanDeg(angle_between_canopy-90)*100;
+        }
+
+      ctx.beginPath();
+      ctx.moveTo(800,50);
+      ctx.lineTo(900,50);
+      ctx.lineTo(900+angle11,150);
+      ctx.stroke();
+
+  <!--Saw Settings -->
+
 
 
 }
 
+
+ function getTanDeg(deg) {
+      var rad = deg * Math.PI/180;
+      return Math.tan(rad);
+}
+
+ <!--Executes Functions -->
 mitre(pitch1, 1, 0);
 mitre(pitch2, 2, 400);
 
+
+
    <!--Sheet Sizes-->
 
-    var panel_angle1 = cut_angle_75;
-    var panel_angle2 = cut_angle_75;
+    var panel_angle1 = cut_angle_width;
+    var panel_angle2 = cut_angle_width;
 
     var html4 = '<br> Sheet Angle for Canopy 1 - ' + panel_angle1 * (180 / Math.PI) + '<br> Sheet Angle for Canopy 2 - ' +  panel_angle2 * (180 / Math.PI);
     document.getElementById('sheet_angles').innerHTML = html4;
