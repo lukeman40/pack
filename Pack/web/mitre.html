@@ -176,9 +176,13 @@ input {
         <td><p><strong>Mitre 1</strong></p>
         <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
         <td><input id='amitres1' readonly><br><input id='bmitres1' readonly></td>
-    </tr>      <tr class="table_class2">
-      <td>Saw Setting</td>
-    <td><input id='Saw Setting' readonly></td>
+    </tr>
+
+    <tr class="table_class2">
+      <td><p><strong>Saw Setting</strong></p>
+        <p>Turn<br>Tilt</p></td></td>
+    <td><input id='saw_setting1_turn' readonly><br><input id='saw_setting1_tilt' readonly></td>
+    </tr>
 
   <tr class="table_class2">
             <td><p><strong>Mitre 2</strong></p>
@@ -187,8 +191,11 @@ input {
     </tr>
 
           <tr class="table_class2">
-      <td>Saw Setting</td>
-    <td><input id='Saw Setting' readonly></td>
+      <td><p><strong>Saw Setting</strong></p>
+        <p>Turn<br>Tilt</p></td></td>
+    <td><input id='saw_setting2_turn' readonly><br><input id='saw_setting2_tilt' readonly></td>
+          </tr>
+
   <tr class="table_class2">
         <td>Sheet Angles</td>
     <td><div id="sheet_angles"></div></td>
@@ -235,6 +242,7 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 var dash = 0;
 
 function say_hi() {
+
     var height = document.getElementById('height').value;
     var hypot1 = document.getElementById('hypot1').value;
     var hypot2 = document.getElementById('hypot2').value;
@@ -292,8 +300,12 @@ function say_hi() {
     document.getElementById('hip_pitch').value = html_hip_pitch;
     document.getElementById('hip_length').value = html_pitch_length;
 
+<!--Load Canvas and blank it-->
      var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+     var ctx = c.getContext("2d");
+     ctx.fillStyle="#FFFFFF";
+     ctx.fillRect(0,0,myCanvas.width,myCanvas.height);
+
 
 function mitre(pitch,number, camera_x) {
 
@@ -453,8 +465,13 @@ function mitre(pitch,number, camera_x) {
     var turn3 = turn2/75;
     var turn4 = Math.atan(turn3)*(180 / Math.PI);
 
+    var tilt = 90-Math.round((cut_angle_height * (180 / Math.PI)*100)/100);
 
-    var tilt = 90-(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x);
+    document.getElementById('saw_setting'+number+'_turn').value = turn4;
+    document.getElementById('saw_setting'+number+'_tilt').value = tilt;
+
+
+
 
     ctx.fillText(turn,870, 150);
     ctx.fillText(turn1,870, 180);
