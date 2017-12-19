@@ -447,8 +447,20 @@ function mitre(pitch,number, camera_x) {
 
   <!--Saw Settings -->
 
+    var turn = cut_angle_height;
+    var turn1 = 75/turn;
+    var turn2 = 75*Math.sin(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
+    var turn3 = turn2/75;
+    var turn4 = Math.atan(turn3)*(180 / Math.PI);
 
 
+    var tilt = 90-(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x);
+
+    ctx.fillText(turn,870, 150);
+    ctx.fillText(turn1,870, 180);
+    ctx.fillText(turn2,870, 200);
+    ctx.fillText(turn3,870, 220);
+    ctx.fillText(turn4,870, 240);
 }
 
 
