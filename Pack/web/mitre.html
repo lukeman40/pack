@@ -173,7 +173,7 @@ input {
 
   </tr>
   <tr class="table_class2">
-        <td><p><strong>Mitre 1</strong></p>
+        <td><p><strong>Mitre Area 1</strong></p>
         <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
         <td><input id='amitres1' readonly><br><input id='bmitres1' readonly></td>
     </tr>
@@ -185,7 +185,7 @@ input {
     </tr>
 
   <tr class="table_class2">
-            <td><p><strong>Mitre 2</strong></p>
+            <td><p><strong>Mitre Area 2</strong></p>
             <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
         <td><input id='amitres2' readonly><br><input id='bmitres2' readonly></td>
     </tr>
@@ -374,9 +374,9 @@ function mitre(pitch,number, camera_x) {
  <!--Draws the arc from the above equation -->
      ctx.beginPath();
      ctx.setLineDash([]);
-     ctx.moveTo(220+camera_x,20+box_width);
-     ctx.arcTo(210+camera_x,box_width,230+camera_x,m*230+b,20);
-     ctx.lineTo(230+camera_x,m*230+b);
+     ctx.moveTo(200+camera_x,20+box_width);
+     ctx.arcTo(190+camera_x,box_width,210+camera_x,m*210+b,20);
+     ctx.lineTo(210+camera_x,m*210+b);
      ctx.stroke();
 
 <!--Mitre Drawing height Face-->
@@ -408,14 +408,24 @@ function mitre(pitch,number, camera_x) {
 
  <!--Works out the equation of the angle y = mx+b -->
      m = (box_height)/(angle_height_face)
-     b = (100+box_height+camera_x)-(m*(100+box_height)+camera_x)
+     b = (100+box_height)-(m*(100+box_height))
 
  <!--Draws the arc from the above equation -->
+
+     var x1 = 210+camera_x;
+     var y1 = 70+box_height;
+     var x2 = (((100+box_height-25)-b)/m)+camera_x;
+     var y2 = 100+box_height-25;
+
+     if (box_height != 150){
+     x2 = x2 + 75;
+     }
+
      ctx.beginPath();
      ctx.setLineDash([]);
      ctx.moveTo(200+camera_x,100+box_height);
-     ctx.arcTo(190+camera_x,220,(((100+box_height-25)-b)/m)+camera_x,100+box_height-10,20);
-     ctx.lineTo((((100+box_height-25)-b)/m)+camera_x,100+box_height-10);
+     ctx.arcTo(x1,y1,x2,y2,20);
+     ctx.lineTo(x2,100+box_height-30);
      ctx.stroke();
 
     var angle_in_deg = Math.round((cut_angle_width * (180 / Math.PI))*100)/100;
@@ -429,9 +439,9 @@ function mitre(pitch,number, camera_x) {
     ctx.font="20px Arial";
 
  <!--Title -->
-    ctx.fillText("Mitre "+ number,0+camera_x,15);
+    ctx.fillText("Mitre Area "+ number,0+camera_x,15);
 
-<!--angles -->
+<!--angles text -->
     ctx.fillText(Math.round((cut_angle_width * (180 / Math.PI))*100)/100,250+camera_x,85);
 
     ctx.fillText(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
@@ -441,7 +451,7 @@ function mitre(pitch,number, camera_x) {
 
  <!--face -->
     ctx.fillText(box_width + " Face",20+camera_x,65);
-    ctx.fillText(box_height + " Face",20+camera_x,180);
+    ctx.fillText(box_height + " Face",20+camera_x,110+box_height/2);
 
  <!--Plan -->
 
@@ -483,8 +493,6 @@ function mitre(pitch,number, camera_x) {
  <!--Executes Functions -->
 mitre(pitch1, 1, 0);
 mitre(pitch2, 2, 400);
-
-
 
    <!--Sheet Sizes-->
 
