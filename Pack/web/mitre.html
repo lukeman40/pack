@@ -205,7 +205,7 @@ input {
 
 
   </tr>
-  
+
 </table>
 
 
@@ -214,10 +214,10 @@ input {
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><br>
-   
+
 </p>
  <div class="table_drawing">
-   
+
   <br>
 
 <canvas id="myCanvas" width="1200" height="350">
@@ -235,7 +235,7 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 
 
 
- 
+
 <script>
 
 //0 = no dash, 1 = dash
@@ -346,11 +346,11 @@ function mitre(pitch,number, camera_x) {
     ctx.stroke();
     ctx.fillStyle="white";
     ctx.fill();
-		
+
 	<!--document.getElementById('svg3').points = 0+camera_x,20 ,0+camera_x ,95 ,250+camera_x,95 ,250-angle_width_face+camera_x ,20;-->
-	
+
 	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_width_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
-	
+
     document.getElementById('svg' + number).innerHTML = svg1;
 
     <!--Sets dashed line->
@@ -414,8 +414,8 @@ function mitre(pitch,number, camera_x) {
      ctx.beginPath();
      ctx.setLineDash([]);
      ctx.moveTo(200+camera_x,100+box_height);
-     ctx.arcTo(190+camera_x,220,230+camera_x,m*230+b,20);
-     ctx.lineTo(230+camera_x,m*230+b);
+     ctx.arcTo(190+camera_x,220,(((100+box_height-25)-b)/m)+camera_x,100+box_height-10,20);
+     ctx.lineTo((((100+box_height-25)-b)/m)+camera_x,100+box_height-10);
      ctx.stroke();
 
     var angle_in_deg = Math.round((cut_angle_width * (180 / Math.PI))*100)/100;
@@ -436,6 +436,7 @@ function mitre(pitch,number, camera_x) {
 
     ctx.fillText(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
 
+    ctx.fillText("Hip/Valley on Plan",830, 40);
     ctx.fillText(angle_between_canopy,870, 70);
 
  <!--face -->
@@ -446,7 +447,7 @@ function mitre(pitch,number, camera_x) {
 
      if (angle_between_canopy < 90){
 
-        var angle11 = getTanDeg(angle_between_canopy)*100 *-1;
+        var angle11 = getTanDeg(90-angle_between_canopy)*100 *-1;
         }else{
         var angle11 = getTanDeg(angle_between_canopy-90)*100;
         }
@@ -459,25 +460,17 @@ function mitre(pitch,number, camera_x) {
 
   <!--Saw Settings -->
 
-    var turn = cut_angle_height;
+    var turn = Math.tan(html_width_face * (Math.PI /180));
     var turn1 = 75/turn;
-    var turn2 = 75*Math.sin(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
+    var turn2 = turn1*Math.sin(html_height_face * (Math.PI /180));
     var turn3 = turn2/75;
     var turn4 = Math.atan(turn3)*(180 / Math.PI);
 
-    var tilt = 90-Math.round((cut_angle_height * (180 / Math.PI)*100)/100);
+    var tilt = 90-(cut_angle_height * (180 / Math.PI)*100/100);
 
-    document.getElementById('saw_setting'+number+'_turn').value = turn4;
-    document.getElementById('saw_setting'+number+'_tilt').value = tilt;
+    document.getElementById('saw_setting'+number+'_turn').value = Math.round(turn4,2) + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_tilt').value = Math.round(tilt,0) + String.fromCharCode(176);
 
-
-
-
-    ctx.fillText(turn,870, 150);
-    ctx.fillText(turn1,870, 180);
-    ctx.fillText(turn2,870, 200);
-    ctx.fillText(turn3,870, 220);
-    ctx.fillText(turn4,870, 240);
 }
 
 
