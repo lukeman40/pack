@@ -437,7 +437,7 @@ function mitre(pitch,number, camera_x) {
     ctx.fillText(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
 
     ctx.fillText("Hip/Valley on Plan",830, 40);
-    ctx.fillText(angle_between_canopy,870, 70);
+    ctx.fillText(angle_between_canopy + String.fromCharCode(176),870, 70);
 
  <!--face -->
     ctx.fillText(box_width + " Face",20+camera_x,65);
