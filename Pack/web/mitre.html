@@ -1,5 +1,6 @@
 <html>
 <head>
+
 <title></title>
 <style type="text/css">
 .style {
@@ -89,11 +90,17 @@ input {
 .Main .table_class tr td h1 {
 	text-align: center;
 }
+.canvas {
+	border: medium solid #000;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body class="Main">
-<div id="Height1"><img src="Diagram.png" width="750" height="602"></div>
+<p>This page out puts the angles for the cutting box sections at mitred angles </p>
+<p><br>
+</p>
+<div id="Height1"><img src="Diagram.png" width="568" height="800"></div>
 
 <div class="table_result">
  <table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class">
@@ -121,7 +128,7 @@ input {
         <td><input id="angle_canopy"></td>
   </tr>
   <tr class="table_class2">
-    <td>Box Sizes</td>
+    <td>Box Size</td>
       <td>
         <select name="box_type" id="box_type">
           <option value="150x75">150x75</option>
@@ -180,7 +187,7 @@ input {
 
     <tr class="table_class2">
       <td><p><strong>Saw Setting</strong></p>
-        <p>Turn<br>Tilt</p></td></td>
+        <p>Turn<br>Tilt</p></td>
     <td><input id='saw_setting1_turn' readonly><br><input id='saw_setting1_tilt' readonly></td>
     </tr>
 
@@ -192,7 +199,7 @@ input {
 
           <tr class="table_class2">
       <td><p><strong>Saw Setting</strong></p>
-        <p>Turn<br>Tilt</p></td></td>
+        <p>Turn<br>Tilt</p></td>
     <td><input id='saw_setting2_turn' readonly><br><input id='saw_setting2_tilt' readonly></td>
           </tr>
 
@@ -220,18 +227,50 @@ input {
 
   <br>
 
-<canvas id="myCanvas" width="1200" height="350">
-Your browser does not support the HTML5 canvas tag.</canvas>
+
+<canvas id="myCanvas" width="1800" height="1200" style="border:1px solid #000000;">
+  Your browser does not support the HTML5 canvas tag.</canvas>
 <br>
-<svg height="500" width="500" id="svg1">
-</svg>
-<svg height="500" width="800" id="svg2">
-</svg>
+<br>
+<canvas id=c></canvas>
+  <script>
+
+c.width = 1920;
+c.height = 1080;
+var S = Math.sin;
+var C = Math.cos;
+var T = Math.tan;
+
+function R(r,g,b,a) {
+  a = a === undefined ? 1 : a;
+  return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
+  };
+
+var x = c.getContext("2d");
+var time = 0;
+var frame = 0;
+
+function u(t) {
 
 
+x.fillStyle=R(t*20,S(t)*255,255-t*30)
+x.fillRect(frame,100+ C(frame/10)*100, 1, 10)
 
+  }
 
-</div>
+function loop() {
+  requestAnimationFrame(loop);
+
+  time = frame/60;
+
+  if(time * 60 | 0 == frame - 1){
+    time += 0.000001;
+  }
+	  frame++;
+	  u(time);
+ }
+loop();
+    </script>
 
 
 
@@ -304,9 +343,8 @@ function say_hi() {
      var c = document.getElementById("myCanvas");
      var ctx = c.getContext("2d");
      ctx.fillStyle="#FFFFFF";
-     ctx.fillRect(0,0,myCanvas.width,myCanvas.height);
-
-
+     ctx.fillRect(0,0,myCanvas.width,myCanvas.height-1);
+	 
 function mitre(pitch,number, camera_x) {
 
 <!--MITRES1-->
@@ -346,12 +384,6 @@ function mitre(pitch,number, camera_x) {
     ctx.stroke();
     ctx.fillStyle="white";
     ctx.fill();
-
-	<!--document.getElementById('svg3').points = 0+camera_x,20 ,0+camera_x ,95 ,250+camera_x,95 ,250-angle_width_face+camera_x ,20;-->
-
-	var svg1 = '<polygon points=\" ' + (0+camera_x) + ',' + 20 + ' ' + (0+camera_x) + ',' + 95 + ' ' + (250+camera_x) + ',' + 95 + ' ' + (250-angle_width_face+camera_x) + ',' + 20 + ' \" style=\"fill:lime;stroke:purple;stroke-width:1\" />';
-
-    document.getElementById('svg' + number).innerHTML = svg1;
 
     <!--Sets dashed line->
 
@@ -400,6 +432,12 @@ function mitre(pitch,number, camera_x) {
 
     dash = dash + 1;
 
+    if (dash > 1){
+        ctx.setLineDash([5, 3]);
+     dash = 0;
+    }
+
+
     ctx.moveTo(250-angle_width_face+camera_x,100+box_height);
     ctx.lineTo((250-angle_width_face)+(camera_x-angle_height_face) ,100);
     ctx.stroke();
@@ -442,12 +480,18 @@ function mitre(pitch,number, camera_x) {
     ctx.fillText("Mitre Area "+ number,0+camera_x,15);
 
 <!--angles text -->
-    ctx.fillText(Math.round((cut_angle_width * (180 / Math.PI))*100)/100,250+camera_x,85);
+    ctx.fillText(Math.round(((cut_angle_width * (180 / Math.PI))*100)/100) + String.fromCharCode(176),250+camera_x,85);
 
-    ctx.fillText(Math.round((cut_angle_height * (180 / Math.PI))*100)/100,250+camera_x,95+box_height);
+    ctx.fillText(Math.round(((cut_angle_height * (180 / Math.PI))*100)/100) + String.fromCharCode(176),250+camera_x,95+box_height);
 
     ctx.fillText("Hip/Valley on Plan",830, 40);
     ctx.fillText(angle_between_canopy + String.fromCharCode(176),870, 70);
+
+    <!--view text -->
+
+    ctx.fillText("75 View",50+camera_x, 100+box_height+10+50+20);
+    arrow(80+camera_x,100+box_height+10,50)
+
 
  <!--face -->
     ctx.fillText(box_width + " Face",20+camera_x,65);
@@ -475,12 +519,14 @@ function mitre(pitch,number, camera_x) {
     var turn1 = 75/turn;
     var turn2 = turn1*Math.sin(html_height_face * (Math.PI /180));
     var turn3 = turn2/75;
-    var turn4 = Math.atan(turn3)*(180 / Math.PI);
+    var turn4 = (Math.atan(turn3)*(180 / Math.PI)*100/100).toFixed(2);
 
-    var tilt = 90-(cut_angle_height * (180 / Math.PI)*100/100);
+    var tilt = 90-(cut_angle_height * (180 / Math.PI)*100/100).toFixed(2);
 
-    document.getElementById('saw_setting'+number+'_turn').value = Math.round(turn4,2) + String.fromCharCode(176);
-    document.getElementById('saw_setting'+number+'_tilt').value = Math.round(tilt,0) + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_turn').value = turn4 + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_tilt').value = tilt + String.fromCharCode(176);
+
+    rafter_dwg();
 
 }
 
@@ -490,9 +536,54 @@ function mitre(pitch,number, camera_x) {
       return Math.tan(rad);
 }
 
+ function arrow(start_point_x, start_point_y, length) {
+
+      ctx.beginPath();
+      ctx.moveTo(start_point_x-10,start_point_y+10);
+      ctx.lineTo(start_point_x,start_point_y);
+      ctx.lineTo(start_point_x+10,start_point_y+10);
+      ctx.lineTo(start_point_x,start_point_y);
+      ctx.lineTo(start_point_x,start_point_y+length);
+      ctx.stroke();
+
+}
+
+function rafter_dwg(){
+
+      <!--Rafter Drawing -->
+
+      ctx.rect(50,400,800,box_height);
+      ctx.rect(50,400,6,box_height);
+      ctx.rect(845,400,6,box_height);
+
+            <!--stub -->
+      ctx.translate(50+6+15,400+box_height);
+      ctx.rotate(5*Math.PI/180);
+      ctx.rect(0,0,box_height,250);
+      ctx.rotate(-5*Math.PI/180);
+      ctx.translate(-71,-400-box_height);
+
+      ctx.translate(800-6-15-box_height,400+box_height);
+      ctx.rotate(5*Math.PI/180);
+      ctx.rect(0,0,box_height,250);
+      ctx.rotate(-5*Math.PI/180);
+      ctx.translate(-800+6+15+box_height,-400-box_height);
+      ctx.stroke();
+
+      ctx.fillText("Rafter Drawing", 400, 380);
+
+}
+
  <!--Executes Functions -->
-mitre(pitch1, 1, 0);
-mitre(pitch2, 2, 400);
+mitre(pitch1, 1, 50);
+mitre(pitch2, 2, 450);
+
+var time = 0;
+
+while (time < 60) {
+	time = time + 1;
+	cavas_test(time);
+}
 
    <!--Sheet Sizes-->
 
