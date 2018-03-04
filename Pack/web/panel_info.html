@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -27,45 +27,63 @@
 
 <script type = "text/javascript">
 
-function panel_run(length, panel_type){
+function panel_run(length, panel_type, panel_length){
 	
 	var centers = 0;
 	
 	if (panel_type == "32mm Multi-Link"){
 		centers = 1245;
 		var bar_width = 70;
+		var width_deduction = 45;
+		var length_deduction = 12;
 	} 
 	else if (panel_type == "25mm Multi-Link"){
 		centers = 1245;
 		var bar_width = 70;
+		var width_deduction = 10;
+		var length_deduction = 12;
 	}
 	else if (panel_type == "16mm Multi-Link"){
 		centers = 990;
 		var bar_width = 70;
+		var width_deduction = 10;
+		var length_deduction = 12;
 	}
 	else if (panel_type == "10mm Multi-Link"){
 		centers = 600;
 		var bar_width = 50;
+		var width_deduction = 10;
+		var length_deduction = 36;
 	}
 	else if (panel_type == "7.5mm Multi-Link"){
 		centers = 600;
 		var bar_width = 50;
+		var width_deduction = 10;
+		var length_deduction = 36;
 	}
 	else if (panel_type == "25mm EasiGlaze"){
 		centers = 1245;
 		var bar_width = 70;
+		var width_deduction = 10;
+		var length_deduction = 12;
 	}
 	else if (panel_type == "16mm EasiGlaze"){
 		centers = 1010;
 		var bar_width = 70;
+		var width_deduction = 10;
+		var length_deduction = 12;
 	}
 	else if (panel_type == "10mm Bar & Sheet"){
 		centers = 600
 		var bar_width = 60;
+		var width_deduction = 10;
+		var length_deduction = 36;
 	}
 	else if (panel_type == "6mm Bar & Sheet"){
 		centers = 600;
 		var bar_width = 60;
+		var width_deduction = 10;
+		var length_deduction = 36;
 	}				
 	else{
 	centers = 0;
@@ -75,16 +93,23 @@ function panel_run(length, panel_type){
   var number_of_panels = Math.floor((length-600)/centers)+2;
   var end_centers = ((length-((number_of_panels-2)*centers))/2)-(bar_width/2);
 
-  var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number 		  of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers;
+  var sheet_length = panel_length-length_deduction;
+  var sheet_width = centers-width_deduction;
+  var sheet_width_end = end_centers-width_deduction;
+
+  var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers
+   + '<p>Mid Sheet sizes are ' + sheet_width + 'W ' + sheet_length + 'L<br> End sheet sizes are ' + sheet_width_end + 'W ' + sheet_length + 'L';
+   ;
   document.getElementById('panels').innerHTML = html2;
 
   var html3 = "<br>Equally Spaced, The Panel Centres are " + Math.round((length-bar_width)/number_of_panels);
   document.getElementById('result').innerHTML = html3;
   }
 
+
   function changeColor(){
 
-  panel_run(document.getElementById("panel_run1").value, document.getElementById("selColor").value);
+  panel_run(document.getElementById("panel_run1").value, document.getElementById("selColor").value, document.getElementById("panel_length").value);
   }
 
  </script>
@@ -112,6 +137,11 @@ function panel_run(length, panel_type){
     
       Panel Run: 
       <input type="text" id="panel_run1" />
+    </p>
+     <p>
+
+      Panel Length:
+      <input type="text" id="panel_length" />
     </p>
     <p>
       <input type = "button"
