@@ -30,6 +30,10 @@
 function panel_run(length, panel_type, panel_length){
 	
 	var centers = 0;
+	var reinforcement_bar = 0;
+	var u_profile = 0;
+	var male_bars = 0;
+	var female_bars = 0;
 	
 	if (panel_type == "32mm Multi-Link"){
 		centers = 1245;
@@ -64,6 +68,8 @@ function panel_run(length, panel_type, panel_length){
 	else if (panel_type == "6mm Multi-Link"){
 		centers = 600;
 		var bar_width = 50;
+		var width_deduction = 10;
+		var length_deduction = 36;
 	}
 	else if (panel_type == "25mm EasiGlaze"){
 		centers = 1245;
@@ -93,7 +99,7 @@ function panel_run(length, panel_type, panel_length){
 	centers = 0;
 	}
 
-
+  u_profile = centers - bar_width;
   var number_of_panels = Math.floor((length-600)/centers)+2;
   var end_centers = ((length-((number_of_panels-2)*centers))/2)-(bar_width/2);
 
@@ -103,11 +109,14 @@ function panel_run(length, panel_type, panel_length){
 
   var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers
    + '<p>Mid Sheet sizes are ' + sheet_width + 'W ' + sheet_length + 'L<br> End sheet sizes are ' + sheet_width_end + 'W ' + sheet_length + 'L';
-   ;
-  document.getElementById('panels').innerHTML = html2;
 
-  var html3 = "<br>Equally Spaced, The Panel Centres are " + Math.round((length-bar_width)/number_of_panels);
-  document.getElementById('result').innerHTML = html3;
+  var html3 = 'There are ' + ((number_of_panels-2)*2) + 'No. Mid U-Profiles with widths of: ' + u_profile + '<BR>For end panels there are 4No. @ ' + (end_centers-bar_width);
+
+  document.getElementById('panels').innerHTML = html2;
+  document.getElementById('u-profile').innerHTML = html3;
+
+  var html4 = "<br>Equally Spaced, The Panel Centres are " + Math.round((length-bar_width)/number_of_panels);
+  document.getElementById('result').innerHTML = html4;
   }
 
 
@@ -157,6 +166,8 @@ function panel_run(length, panel_type, panel_length){
     </p>
     <p>
 <div id="panels"></div>
+
+ <div id="u-profile"></div>
 
 <div id="result"></div>
 
