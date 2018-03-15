@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Panels</title>
 
 <style>
 .hidden {
 	color: #CCC;
 }
 #form {
-	background-color: #F2F2F2;
+	background-color: #D8E2FE;
 
     border-top-width: 0px;
     border-bottom-width: 0px;
@@ -21,83 +21,232 @@
 .body {
 	font-family: Verdana, Geneva, sans-serif;
 }
+.table_result {
+	background-color: #D8E2FE;
+	display: block;
+	float: none;
+	border-radius: 1px;
+	box-shadow: 0px 0px 3px #000;
+	position: static;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	margin: 1px;
+	width: 400px;
+}
+.table_class {
+	background-color: #D8E2FE;
+	margin: 1px;
+	padding: 0px;
+	display: block;
+	float: none;
+	border-radius: 1px;
+	box-shadow: 0px 0px 3px #000;
+	left: 20px;
+}
+.table_class2 {
+	box-shadow: 0 -1px grey;
+	padding-top: 10px;
+	align: center;
+}
+
+input { 
+    text-align: center; 
+}
 </style>
 
 </head>
 
 <script type = "text/javascript">
 
-function panel_run(length, panel_type, panel_length){
+function panel_run(length, panel_type, panel_length, equal_centers){
 	
 	var centers = 0;
 	var reinforcement_bar = 0;
 	var u_profile = 0;
 	var male_bars = 0;
 	var female_bars = 0;
+	var title_html = "Broken if this appears";
+	var table = document.getElementById("my_table");
+	table.innerHTML = "";
+	
+	var sheet_thickness = panel_type.substring(0, 4);
+	sheet_thickness = sheet_thickness.replace(/\s+/g, '');
+	
+    var row = table.insertRow(-1);
+ 	row.class = "table_class2"
+  	var cell1 = row.insertCell(0);
+	
+	cell1.innerHTML = '<h1> Information for '+ panel_type + ' </h1>';
+	
+	var panel_table = document.getElementById("panel_table");
+	panel_table.innerHTML = "";
+	
+	var items_table = document.getElementById("items_table");
+	items_table.innerHTML = "";
+	
+	var row = items_table.insertRow(-1);
+  	row.class = "table_class2"
+	row.align = "center";
+  	var cell1 = row.insertCell(0);
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(1); 
+  	var cell4 = row.insertCell(1); 	
+  	var cell5 = row.insertCell(1); 	
+	
+	cell1.innerHTML = "Item";
+  	cell2.innerHTML = "Quantity";
+  	cell3.innerHTML = "Length";  
+  	cell4.innerHTML = "Paint";  	
+  	cell5.innerHTML = "Stock Code";  	
+	
+	var reinforcing_bars_required = "";
+	
+	var str = panel_type;
+	str = str.substring(str.indexOf("mm") + 3);
+	
+	var sheet_bar_stock_code = "";
+	
+	var bar_system = str;
 	
 	if (panel_type == "32mm Multi-Link"){
 		centers = 1245;
 		var bar_width = 70;
 		var width_deduction = 45;
 		var length_deduction = 12;
+		
+		var male_bar_stock_code = "MLMU32M4";
+		var female_bar_stock_code = "MLFU32M4";	
+		var break_bar_stock_code = "MLBU32M4";	
+		var uprofile_bar_stock_code = "32mmUPROFILE";	
+		var sheet_bar_stock_code = "32mmsheet";			
+		
+		reinforcing_bars_required = "Yes";			
+		
 	} 
 	else if (panel_type == "25mm Multi-Link"){
 		centers = 1245;
 		var bar_width = 70;
 		var width_deduction = 10;
 		var length_deduction = 12;
+		
+		var male_bar_stock_code = "MLMU25M4";
+		var female_bar_stock_code = "MLFU25M4";	
+		var break_bar_stock_code = "MLBU25M4";	
+		var uprofile_bar_stock_code = "25mmUPROFILE";	
+		var sheet_bar_stock_code = "25mmsheet";			
+		
+		reinforcing_bars_required = "Yes";		
+		
 	}
 	else if (panel_type == "16mm Multi-Link"){
 		centers = 990;
 		var bar_width = 70;
 		var width_deduction = 10;
 		var length_deduction = 12;
+		
+		var male_bar_stock_code = "MLMU16M4";
+		var female_bar_stock_code = "MLFU16M4";	
+		var break_bar_stock_code = "MLBU16M4";	
+		var uprofile_bar_stock_code = "16mmUPROFILE";	
+		var sheet_bar_stock_code = "16mmsheet";			
+		
+		reinforcing_bars_required = "Yes";				
 	}
 	else if (panel_type == "10mm Multi-Link"){
 		centers = 600;
 		var bar_width = 50;
 		var width_deduction = 10;
 		var length_deduction = 36;
+		
+		var male_bar_stock_code = "MLSMM4";
+		var female_bar_stock_code = "MLSFM4";	
+		var break_bar_stock_code = "MLBU10M4";	
+		var uprofile_bar_stock_code = "MLSUPROFILE";	
+		var sheet_bar_stock_code = "10mmsheet";				
+		
+		reinforcing_bars_required = "Yes";				
 	}
 	else if (panel_type == "7.5mm Multi-Link"){
 		centers = 600;
 		var bar_width = 50;
 		var width_deduction = 10;
 		var length_deduction = 36;
+		
+		var male_bar_stock_code = "MLSMM4";
+		var female_bar_stock_code = "MLSFM4";	
+		var break_bar_stock_code = "MLBU10M4";	
+		var uprofile_bar_stock_code = "MLSUPROFILE";	
+		
+		reinforcing_bars_required = "No";						
+		
 	}
 	else if (panel_type == "6mm Multi-Link"){
 		centers = 600;
 		var bar_width = 50;
 		var width_deduction = 10;
 		var length_deduction = 36;
+		
+		var male_bar_stock_code = "MLSMM4";
+		var female_bar_stock_code = "MLSFM4";	
+		var break_bar_stock_code = "MLBU10M4";	
+		var uprofile_bar_stock_code = "MLSUPROFILE";	
+		
+		reinforcing_bars_required = "No";				
+		
 	}
 	else if (panel_type == "25mm EasiGlaze"){
 		centers = 1245;
 		var bar_width = 70;
 		var width_deduction = 10;
 		var length_deduction = 12;
+		
+		var male_bar_stock_code = "25MMEASIGLAZE BAR";
+		var uprofile_bar_stock_code = "25mm UPROFILE 225";	
+		
+		reinforcing_bars_required = "No";				
 	}
 	else if (panel_type == "16mm EasiGlaze"){
 		centers = 1010;
 		var bar_width = 70;
 		var width_deduction = 10;
 		var length_deduction = 12;
+		
+		var male_bar_stock_code = "16MMEASIGLAZE BAR";
+		var uprofile_bar_stock_code = "16mm UPROFILE ";	
+		
+		reinforcing_bars_required = "No";					
+		
 	}
 	else if (panel_type == "10mm Bar & Sheet"){
 		centers = 600
 		var bar_width = 60;
 		var width_deduction = 10;
 		var length_deduction = 36;
+		
+		var male_bar_stock_code = "228M7";
+		var uprofile_bar_stock_code = "10mm UPROFILE ";	
+		
+		reinforcing_bars_required = "No";					
 	}
 	else if (panel_type == "6mm Bar & Sheet"){
 		centers = 600;
 		var bar_width = 60;
 		var width_deduction = 10;
 		var length_deduction = 36;
+		
+		var male_bar_stock_code = "228M7";
+		var uprofile_bar_stock_code = "6mm UPROFILE";	
+		
+		reinforcing_bars_required = "No";		
+		
 	}				
 	else{
 	centers = 0;
 	}
+	
+  panel_information();
 
   u_profile = centers - bar_width;
   var number_of_panels = Math.floor((length-600)/centers)+2;
@@ -106,28 +255,165 @@ function panel_run(length, panel_type, panel_length){
   var sheet_length = panel_length-length_deduction;
   var sheet_width = centers-width_deduction;
   var sheet_width_end = end_centers-width_deduction;
+  var male_bars = number_of_panels+1;
+  var break_bars = Math.floor(number_of_panels/20);
+  var female_bars = number_of_panels-break_bars-1;
+  
+   
+   if (equal_centers === "Yes"){
+	  title_html = "Result for Equally Spaced Panels";
+	  
+	  	  centers = Math.round((length-bar_width)/number_of_panels);	 
+  		  u_profile = centers - bar_width;		   
+	  	  append_main_table("Panel Centers",centers);
+		  	  
+		  var sheet_width = centers-width_deduction;
+	  	  append_main_table("Sheet Width",sheet_width);	  	
+	  	  append_main_table("Sheet Length",sheet_length);	
+		  append_main_table(" ", "-");  	
+		  
+		  append_main_table("U-Profile",u_profile); 
+  		  item_information(sheet_thickness + "_U-Profile", number_of_panels*2, u_profile, "Yes", uprofile_bar_stock_code);		  
+		       		  	  
+	  
 
-  var html2 = 'Mid panel centers for ' + panel_type + ' are ' + centers + '<br>Total Number of Panels = ' + number_of_panels + '<br>End panel Centers ' + end_centers
-   + '<p>Mid Sheet sizes are ' + sheet_width + 'W ' + sheet_length + 'L<br> End sheet sizes are ' + sheet_width_end + 'W ' + sheet_length + 'L';
+  }else{
+	  title_html = "Result for End Panels different Centers to Mid Panels";
+	  
+	  	  append_main_table("Mid Panel Centers",centers);	  
+	  	  append_main_table("End Panel Centers",end_centers);
+		  append_main_table(" ", "-");
+	  	  append_main_table("Mid Sheet width",sheet_width);	  			  
+	  	  append_main_table("End Sheet width",sheet_width_end);	  		
+	  	  append_main_table("Sheet Length",sheet_length);	 
+		  append_main_table(" ", "-"); 		
+		  append_main_table("U-Profile Mid",u_profile);  
+  		  item_information(sheet_thickness + "_U-Profile", (number_of_panels*2)-4, u_profile, "Yes", uprofile_bar_stock_code);		  		
+		  append_main_table("U-Profile End",end_centers-bar_width);     
+		  append_main_table(" ", "-");	  
+  		  item_information(sheet_thickness + "_U-Profile", 4, end_centers-bar_width, "Yes", uprofile_bar_stock_code);		
+  		  item_information(" ", " ", " ", " ", " ");	
+		  		  		  	  
+  }
+  
+  
+  if( bar_system.indexOf('Multi-Link') >= 0)
+  {
 
-  var html3 = 'There are ' + ((number_of_panels-2)*2) + 'No. Mid U-Profiles with widths of: ' + u_profile + '<BR>For end panels there are 4No. @ ' + (end_centers-bar_width);
 
-  document.getElementById('panels').innerHTML = html2;
-  document.getElementById('u-profile').innerHTML = html3;
+  append_main_table("Male Bars",male_bars);  
+  item_information(sheet_thickness + "_Male_Bar", male_bars, panel_length, "Yes", male_bar_stock_code);
+  
+  append_main_table("Female Bars",female_bars);    
+  item_information(sheet_thickness + "_Female_Bars", female_bars, panel_length, "Yes", female_bar_stock_code);
+   
+  append_main_table("Break Bars",break_bars);    
+  item_information(sheet_thickness + "_Break_Bars", break_bars, panel_length, "Yes", break_bar_stock_code);  
+  
+  append_main_table(" ", "-");
+  item_information(" ", " ", " ", " ", " ");	  
+  
+  append_main_table("Universal End Plates",male_bars-2); 
+  item_information("Universal_End_Plates", male_bars-2, "N/A", "Yes", "MLNFUMPM");    
+  
+  append_main_table("Side End Plates",4);     
+  item_information("Side_End_Plates", 4, "N/A", "Yes", "MLNFSMEPM");   
+  
+  append_main_table("Top End Plates",male_bars-2); 
+  item_information("Top_End_Plates", male_bars-2, "N/A", "Yes", "MLNFSMEPM");     
+  
+  }else{
 
-  var html4 = "<br>Equally Spaced, The Panel Centres are " + Math.round((length-bar_width)/number_of_panels);
-  document.getElementById('result').innerHTML = html4;
+  append_main_table("Number of Bars",number_of_panels+1);  
+  item_information("Bars", number_of_panels+1, panel_length, "Yes", male_bar_stock_code);  
+   
+  append_main_table("End Plates",number_of_panels+1);   
+  item_information("End_Plates", number_of_panels+1, "N/A", "Yes", "ENDPLATES");     
+      
   }
 
+  append_main_table("Reinforcement Length","test");    
+  item_information("Reinforcement_Bars", "test", "N/A", "No", "MLRB"); 
+  
+  item_information(sheet_thickness + "_Sheet", number_of_panels, sheet_length + "x" + sheet_width , "Opal or Clear", "SHEET");  
+    
+  append_main_table(" ", "-");  	
+  append_main_table("Total Number of Panels",number_of_panels);        
+      
+	
+  function append_main_table(title,value){
+   
+  var row = table.insertRow(-1);
+  row.class = "table_class2"
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1); 
+  
+  cell1.innerHTML = title;
+  
+  cell2.innerHTML = "<input value=" + value + " readonly>";
+  
+
+  
+  }
+  
+  function panel_information(){
+	  
+  	var row = panel_table.insertRow(-1);
+  	row.class = "table_class2"
+	row.align = "center";	
+  	var cell1 = row.insertCell(0);
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(1); 
+  	var cell4 = row.insertCell(1); 		
+  
+  	cell1.innerHTML = "Sheet Length Deduction";
+  	cell2.innerHTML = "Sheet Width Deduction";
+  	cell3.innerHTML = "Max Centers";  
+  	cell4.innerHTML = "Bar Width/U-Profile Deduction";  
+	
+  	row = panel_table.insertRow(-1);
+  	row.class = "table_class2"
+  	var cell5 = row.insertCell(0);
+  	var cell6 = row.insertCell(1); 
+  	var cell7 = row.insertCell(1); 
+  	var cell8 = row.insertCell(1); 		
+  
+  	cell5.innerHTML = "<input value=" + length_deduction + " align='center' readonly>";
+  	cell6.innerHTML = "<input value=" + width_deduction + " align='center' readonly>";
+  	cell7.innerHTML = "<input value=" + centers + " align='center' readonly>";  
+  	cell8.innerHTML = "<input value=" + bar_width + " align='center' readonly>";  	
+	  
+  }
+  
+
+  
+  function item_information(item_,quantity,length,paint,stock_code){
+	  	
+	var row = items_table.insertRow(-1);
+  	row.class = "table_class2"
+  	var cell1 = row.insertCell(0);
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(1); 
+  	var cell4 = row.insertCell(1); 	
+  	var cell5 = row.insertCell(1); 	
+	
+	cell1.innerHTML = "<input value=" + item_ + " >";
+  	cell2.innerHTML = "<input value=" + quantity + " >";
+  	cell3.innerHTML = "<input value=" + length + " >";  
+  	cell4.innerHTML = "<input value=" + paint + " >";  	
+  	cell5.innerHTML = "<input value=" + stock_code + " >";  		
+  
+  }
+}
 
   function changeColor(){
 
-  panel_run(document.getElementById("panel_run1").value, document.getElementById("selColor").value, document.getElementById("panel_length").value);
+  panel_run(document.getElementById("panel_run1").value, document.getElementById("selColor").value, document.getElementById("panel_length").value, document.getElementById("equal_centers").value);
   }
 
  </script>
 
-
+<div class="table_result">
 <body class="body">
  <form action = " " id="form">
   <fieldset id="form">
@@ -137,13 +423,19 @@ function panel_run(length, panel_type, panel_length){
         <option value = "32mm Multi-Link">32mm Non Fragile Multi-Link</option>
         <option value = "25mm Multi-Link">25mm Non Fragile Multi-Link</option>
         <option value = "16mm Multi-Link">16mm Non Fragile Multi-Link </option>
-        <option value = "10mm Multi-Link">10mm Solid Multi-Link</option>
+        <option value = "10mm Multi-Link">10mm Twinwall Multi-Link</option>
         <option value = "7.5mm Multi-Link">7.5mm Glass Multi-Link</option>
         <option value = "6mm Multi-Link">6mm Solid Multi-Link</option>
-        <option value = "25mm EasiGlaze">25mm Easi-Glaze</option>
+        <option value = "25mm EasiGlaze">25mm EasiGlaze</option>
         <option value = "16mm EasiGlaze">16mm EasiGlaze</option>
         <option value = "10mm Bar & Sheet">10mm Bar & Sheet (228 Cap)</option>
         <option value = "6mm Bar & Sheet">6mm Bar & Sheet (228 Cap)</option>
+      </select>
+    </p>
+          End Centres the Same as Mid?
+      <select id = "equal_centers">
+        <option value = "Yes">Yes</option>
+        <option value = "No">No</option>
       </select>
     </p>
     <p>
@@ -165,15 +457,41 @@ function panel_run(length, panel_type, panel_length){
  </form>
     </p>
     <p>
-<div id="panels"></div>
+    
+</div>    
+<table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class" id="my_table">
+   <tr>
+    <td colspan="2" align="left"><h1><div id="title"></div></h1></td>
+   </tr>
+    
+</table>
 
- <div id="u-profile"></div>
+    </p>
+    <p>
 
-<div id="result"></div>
+<table width="900" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class" id="items_table">
+   <tr>
+    <td colspan="2" align="left"><h1>All Items Req.</h1></td>
+   </tr>
+    
+</table>
 
- <div id="equally_spaced"></div>
+    </p>
+    <p>
 
- <span class="hidden">Notes: </span>
+<table width="900" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class" id="panel_table">
+   <tr>
+    <td colspan="2" align="left"><h1>Panel Information Table</h1></td>
+   </tr>
+    
+</table>
+
+
+<div id="equally_spaced"></div>
+
+ <p class="hidden">&nbsp;</p>
+ <p class="hidden">Notes: 
+ </p>
 <ul>
    <span class="hidden"> Add Links</span>
 </ul>
