@@ -319,7 +319,7 @@ function say_hi() {
     var hip_angle = Math.atan(adj1/adj2);
 
 <!--HIP ANGLE #toa-->
-    var hip_angle = angle_between_canopy * (Math.PI / 180)/2;
+    <!--var hip_angle = angle_between_canopy * (Math.PI / 180)/2;-->
 
 <!--WITH HIP ANGLE & HEIGHT IT CAN GET THE LENGTH OF THE FLAT BIT UNDER HIP #soh-->
     var hyp_hip = adj1 / Math.sin(hip_angle);
@@ -352,7 +352,7 @@ function mitre(pitch,number, camera_x) {
     var angle_width_face = Math.cos(pitch)*box_width;
 
 <!--width face #toa-->
-    var angle_width_face = angle_width_face/Math.tan((angle_between_canopy * (Math.PI / 180))/2);
+    var angle_width_face = angle_width_face/Math.tan((hip_angle ));
 
 <!--#toa-->
     var cut_angle_width = Math.atan(box_width/angle_width_face);
@@ -361,13 +361,17 @@ function mitre(pitch,number, camera_x) {
     var angle_height_face = Math.sin(pitch)*box_height;
 
  <!--length face #toa-->
-    var angle_height_face = angle_height_face/Math.tan((angle_between_canopy* (Math.PI / 180))/2);
+    var angle_height_face = angle_height_face/Math.tan((hip_angle ));
 
 <!--#toa-->
     var cut_angle_height = Math.atan(box_height/angle_height_face);
 
     var html_width_face = (cut_angle_width * (180 / Math.PI)).toFixed(2);
     var html_height_face = (cut_angle_height * (180 / Math.PI)).toFixed(2);
+
+    if (number > 1){
+        html_width_face = 90-html_width_face;
+    }
 
     document.getElementById('amitres' + number).value = html_width_face + String.fromCharCode(176);
     document.getElementById('bmitres' + number).value = html_height_face + String.fromCharCode(176);
@@ -523,8 +527,8 @@ function mitre(pitch,number, camera_x) {
 
     var tilt = 90-(cut_angle_height * (180 / Math.PI)*100/100).toFixed(2);
 
-    document.getElementById('saw_setting'+number+'_turn').value = turn4 + String.fromCharCode(176);
-    document.getElementById('saw_setting'+number+'_tilt').value = tilt + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_tilt').value = turn4 + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_turn').value = tilt + String.fromCharCode(176);
 
     rafter_dwg();
 
