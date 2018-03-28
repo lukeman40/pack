@@ -158,10 +158,10 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 12;
 		
-		var male_bar_stock_code = "MLMU25M4";
-		var female_bar_stock_code = "MLFU25M4";	
-		var break_bar_stock_code = "MLBU25M4";	
-		var uprofile_bar_stock_code = "25mmUPROFILE";	
+		var male_bar_stock_code = "ML25UMM4/6/7";
+		var female_bar_stock_code = "ML25UFM4/6/7";
+		var break_bar_stock_code = "ML25UBM4/7";
+		var uprofile_bar_stock_code = "255M25";
 		var sheet_bar_stock_code = "25mmsheet";			
 		
 		reinforcing_bars_required = "Yes";		
@@ -173,10 +173,10 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 12;
 		
-		var male_bar_stock_code = "MLMU16M4";
-		var female_bar_stock_code = "MLFU16M4";	
-		var break_bar_stock_code = "MLBU16M4";	
-		var uprofile_bar_stock_code = "16mmUPROFILE";	
+		var male_bar_stock_code = "ML16UMM4/6/7";
+		var female_bar_stock_code = "ML16UFM4/6/7";
+		var break_bar_stock_code = "ML16UBM4/7";
+		var uprofile_bar_stock_code = "253M3";
 		var sheet_bar_stock_code = "16mmsheet";			
 		
 		reinforcing_bars_required = "Yes";				
@@ -187,13 +187,13 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 36;
 		
-		var male_bar_stock_code = "MLSMM4";
-		var female_bar_stock_code = "MLSFM4";	
-		var break_bar_stock_code = "MLBU10M4";	
-		var uprofile_bar_stock_code = "MLSUPROFILE";	
+		var male_bar_stock_code = "MLSM4/7";
+		var female_bar_stock_code = "MLSF4/7";
+		var break_bar_stock_code = "MLSM4/7";
+		var uprofile_bar_stock_code = "252M3";
 		var sheet_bar_stock_code = "10mmsheet";				
 		
-		reinforcing_bars_required = "Yes";				
+		reinforcing_bars_required = "No";
 	}
 	else if (panel_type == "7.5mm Multi-Link"){
 		centers = 600;
@@ -201,10 +201,10 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 36;
 		
-		var male_bar_stock_code = "MLSMM4";
-		var female_bar_stock_code = "MLSFM4";	
-		var break_bar_stock_code = "MLBU10M4";	
-		var uprofile_bar_stock_code = "MLSUPROFILE";	
+		var male_bar_stock_code = "MLSM4/7";
+		var female_bar_stock_code = "MLSF4/7";
+		var break_bar_stock_code = "MLSB4/7";
+		var uprofile_bar_stock_code = "MLSOLIDUM3.2";
 		
 		reinforcing_bars_required = "No";						
 		
@@ -215,10 +215,10 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 36;
 		
-		var male_bar_stock_code = "MLSMM4";
-		var female_bar_stock_code = "MLSFM4";	
-		var break_bar_stock_code = "MLBU10M4";	
-		var uprofile_bar_stock_code = "MLSUPROFILE";	
+		var male_bar_stock_code = "MLSM4/7";
+		var female_bar_stock_code = "MLSF4/7";
+		var break_bar_stock_code = "MLSB4/7";
+		var uprofile_bar_stock_code = "MLSOLIDUM3.2";
 		
 		reinforcing_bars_required = "No";				
 		
@@ -229,8 +229,8 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 12;
 		
-		var male_bar_stock_code = "25MMEASIGLAZE BAR";
-		var uprofile_bar_stock_code = "25mm UPROFILE 225";	
+		var male_bar_stock_code = "EF25M4/6";
+		var uprofile_bar_stock_code = "255M25";
 		
 		reinforcing_bars_required = "No";				
 	}
@@ -240,8 +240,8 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var width_deduction = 10;
 		var length_deduction = 12;
 		
-		var male_bar_stock_code = "16MMEASIGLAZE BAR";
-		var uprofile_bar_stock_code = "16mm UPROFILE ";	
+		var male_bar_stock_code = "EF25M4/6";
+		var uprofile_bar_stock_code = "253M3";
 		
 		reinforcing_bars_required = "No";					
 		
@@ -253,7 +253,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var length_deduction = 36;
 		
 		var male_bar_stock_code = "228M7";
-		var uprofile_bar_stock_code = "10mm UPROFILE ";	
+		var uprofile_bar_stock_code = "ML10EM3";
 		
 		reinforcing_bars_required = "No";					
 	}
@@ -264,7 +264,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var length_deduction = 36;
 		
 		var male_bar_stock_code = "228M7";
-		var uprofile_bar_stock_code = "6mm UPROFILE";	
+		var uprofile_bar_stock_code = "MLSOLIDUM3.2";
 		
 		reinforcing_bars_required = "No";		
 		
@@ -359,8 +359,8 @@ function panel_run(length, panel_type, panel_length, equal_centers){
       
   }
 
-  append_main_table("Reinforcement Length","test");    
-  item_information("Reinforcement_Bars", "test", "N/A", "No", "MLRB"); 
+  append_main_table("Reinforcement Length",panel_length-20);
+  item_information("Reinforcement_Bars", panel_length-20, "N/A", "No", "MLRBR4/6");
   
   item_information(sheet_thickness + "_Sheet", number_of_panels, sheet_length + "x" + sheet_width , "Opal or Clear", "SHEET");  
     
