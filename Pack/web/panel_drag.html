@@ -53,12 +53,6 @@ interact('.resize-drag')
     // resize from all edges and corners
     edges: { left: true, right: true, bottom: true, top: true },
 
-    // keep the edges inside the parent
-
-    restrictSize: {
-      max: { width: 124.5, height: 705 },
-    },
-
     inertia: true,
   })
 
@@ -83,9 +77,31 @@ interact('.resize-drag')
 
     var sheet_width = Math.round(event.rect.width*10)-10;
     var sheet_length = Math.round(event.rect.height*10)-12;
+	
+	var length = Math.round(event.rect.width*10);	
+	var centers = 1245;
+	var bar_width = 70;
+	
+	
+    var number_of_panels = Math.floor((length-600)/centers)+2;
+	
+ 	var end_centers = ((length-((number_of_panels-2)*centers))/2)-(bar_width/2);
+	
+	
 
-    target.textContent = 'Panel Width: ' + Math.round(event.rect.width*10) + ' Panel Length: ' + Math.round(event.rect.height*10) + ' Sheet Width: ' + sheet_width + ' Sheet Height: ' + sheet_length;
+/*
+
+singular panel info
+ target.textContent = 'Panel Width: ' + Math.round(event.rect.width*10) + ' Panel Length: ' + /Math.round(event.rect.height*10) + ' Sheet Width: ' + sheet_width + ' Sheet Height: ' + sheet_length;
+ 
+ */
+ 
+ 
+ 
+ 		target.textContent = 'Overall Panel Run: ' + (Math.round(event.rect.width*10)) + ' Number of Panels: ' + number_of_panels + ' 2No. Panels @: ' + end_centers + ' ' + number_of_panels + 'No. of Mid Panels';
+ 
   });
+ 
 
    function dragMoveListener (event) {
     var target = event.target,

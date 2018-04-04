@@ -359,15 +359,17 @@ function panel_run(length, panel_type, panel_length, equal_centers){
       
   }
 
+  if (reinforcing_bars_required === "Yes"){
   append_main_table("Reinforcement Length",panel_length-20);
   item_information("Reinforcement_Bars", panel_length-20, "N/A", "No", "MLRBR4/6");
+  }
   
   item_information(sheet_thickness + "_Sheet", number_of_panels, sheet_length + "x" + sheet_width , "Opal or Clear", "SHEET");  
     
   append_main_table(" ", "-");  	
   append_main_table("Total Number of Panels",number_of_panels);   
   
-  var i = -1;
+  var i = -2;
   var j = 0;
   var h = 0;
   var k = 0;
@@ -407,7 +409,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	 }
 	 
 	 	  //last panel
-	  if (i === (number_of_panels)-1)
+	  if (i === (number_of_panels)-2)
 	  {
 		centers_for_below = end_centers;   
 	  }
@@ -520,7 +522,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	cell9.innerHTML = "<input value=" + u_profile + " align='center' readonly>";
 	cell10.innerHTML = "<input value=" + reinforcement_bar + " align='center' readonly>";
 	cell11.innerHTML = "<input value=" + sheet_thickness + " align='center' readonly>";
-	cell12.innerHTML = "<input value=" + sheet_colour + " align='center' readonly>";	
+	cell12.innerHTML = "<select> <option value= " + sheet_colour + ">" + sheet_colour + "</option> <option value = Clear>Clear</option> </select>";
 	cell13.innerHTML = "<input value=" + sheet_width + " align='center' readonly>";
 	cell14.innerHTML = "<input value=" + sheet_length + " align='center' readonly>";
 	
