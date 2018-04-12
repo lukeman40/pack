@@ -94,7 +94,36 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	var title_html = "Broken if this appears";
 	var table = document.getElementById("my_table");
 	table.innerHTML = "";
-	
+
+	var sheet = new Array ({thickness: 25, length: 2000, width: 2000, colour: "Clear", stockcode: "M25C61230"},
+	                       {thickness: 25, length: 2000, width: 2000, colour: "Opal", stockcode: "M25O61230"}
+	);
+
+
+	class sheet_info {
+
+	    constructor(sheet1) {
+
+	        this.sheet1 = sheet1;
+	        }
+
+	        stockcode() {
+
+                var i = 0;
+                var str = "";
+
+                while (i < this.sheet1.length)
+                {
+                    str = str + ", " + this.sheet1[i].stockcode
+                    i = i + 1;
+                }
+
+                return str;
+             }
+
+	     }
+
+
 	var sheet_thickness = panel_type.substring(0, 4);
 	sheet_thickness = sheet_thickness.replace(/\s+/g, '');
 	
@@ -136,6 +165,8 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	var sheet_bar_stock_code = "";
 	
 	var bar_system = str;
+
+	var New_sheet = new sheet_info(sheet);
 	
 	if (panel_type == "32mm Multi-Link"){
 		centers = 1245;
@@ -149,7 +180,8 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var uprofile_bar_stock_code = "32mmUPROFILE";	
 		var sheet_bar_stock_code = "32mmsheet";			
 		
-		reinforcing_bars_required = "Yes";			
+		reinforcing_bars_required = "Yes";
+
 		
 	} 
 	else if (panel_type == "25mm Multi-Link"){
@@ -164,8 +196,8 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 		var uprofile_bar_stock_code = "255M25";
 		var sheet_bar_stock_code = "25mmsheet";			
 		
-		reinforcing_bars_required = "Yes";		
-		
+		reinforcing_bars_required = "Yes";
+
 	}
 	else if (panel_type == "16mm Multi-Link"){
 		centers = 990;
@@ -367,7 +399,9 @@ function panel_run(length, panel_type, panel_length, equal_centers){
   item_information(sheet_thickness + "_Sheet", number_of_panels, sheet_length + "x" + sheet_width , "Opal or Clear", "SHEET");  
     
   append_main_table(" ", "-");  	
-  append_main_table("Total Number of Panels",number_of_panels);   
+  append_main_table("Total Number of Panels",number_of_panels);
+
+  document.getElementById("other_info").innerHTML = "The Stock Codes for this sheet are " + New_sheet.stockcode();
   
   var i = -2;
   var j = 0;
@@ -712,12 +746,16 @@ interact('.panels')
 
 <table width="900" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class" id="items_table">
    <tr>
-    <td colspan="2" align="left"><h1>All Items Req.</h1></td>
-   </tr>
+    <td colspan="2" align="left"><h1>All Items Req.</h1>    </td>
+
+
     
 </table>
 
+
+
     </p>
+<div id="other_info">Test</div>
     <p>
 
 <table width="900" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class" id="panel_table">
