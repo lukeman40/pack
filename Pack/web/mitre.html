@@ -347,31 +347,36 @@ function say_hi() {
 	 
 function mitre(pitch,number, camera_x) {
 
+    var angle_width_face = 0;
+    var angle_height_face = 0;
+    var cut_angle_width = 0;
+    var cut_angle_height = 0;
+    var html_width_face = 0;
+    var html_height_face = 0;
+
 <!--MITRES1-->
 <!--width face #cah-->
-    var angle_width_face = Math.cos(pitch)*box_width;
+    angle_width_face = Math.cos(pitch)*box_width;
 
 <!--width face #toa-->
-    var angle_width_face = angle_width_face/Math.tan((hip_angle ));
+    angle_width_face = angle_width_face/Math.tan((hip_angle ));
 
 <!--#toa-->
-    var cut_angle_width = Math.atan(box_width/angle_width_face);
+    cut_angle_width = Math.atan(box_width/angle_width_face);
 
 <!--length face #soh-->
-    var angle_height_face = Math.sin(pitch)*box_height;
+    angle_height_face = Math.sin(pitch)*box_height;
 
  <!--length face #toa-->
-    var angle_height_face = angle_height_face/Math.tan((hip_angle ));
+    angle_height_face = angle_height_face/Math.tan((hip_angle ));
 
 <!--#toa-->
-    var cut_angle_height = Math.atan(box_height/angle_height_face);
+    cut_angle_height = Math.atan(box_height/angle_height_face);
 
-    var html_width_face = (cut_angle_width * (180 / Math.PI)).toFixed(2);
-    var html_height_face = (cut_angle_height * (180 / Math.PI)).toFixed(2);
+    html_width_face = (cut_angle_width * (180 / Math.PI)).toFixed(2);
+    html_height_face = (cut_angle_height * (180 / Math.PI)).toFixed(2);
 
-    if (number > 1){
-        html_width_face = 90-html_width_face;
-    }
+
 
     document.getElementById('amitres' + number).value = html_width_face + String.fromCharCode(176);
     document.getElementById('bmitres' + number).value = html_height_face + String.fromCharCode(176);
@@ -519,16 +524,16 @@ function mitre(pitch,number, camera_x) {
   <!--Saw Settings -->
   <!--Finds the distance of the cut, then uses trig to find the turn -->
 
-    var turn = Math.tan(html_width_face * (Math.PI /180));
-    var turn1 = 75/turn;
-    var turn2 = turn1*Math.sin(html_height_face * (Math.PI /180));
-    var turn3 = turn2/75;
-    var turn4 = (Math.atan(turn3)*(180 / Math.PI)*100/100).toFixed(2);
+    var tilt = Math.tan(html_height_face * (Math.PI /180));
+    var tilt1 = 75/tilt;
+    var tilt2 = tilt1*Math.sin(html_width_face * (Math.PI /180));
+    var tilt3 = tilt2/75;
+    var tilt4 = (Math.atan(tilt3)*(180 / Math.PI)*100/100).toFixed(2);
 
-    var tilt = 90-(cut_angle_height * (180 / Math.PI)*100/100).toFixed(2);
+    var turn = 90-html_width_face;
 
-    document.getElementById('saw_setting'+number+'_tilt').value = turn4 + String.fromCharCode(176);
-    document.getElementById('saw_setting'+number+'_turn').value = tilt + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_tilt').value = tilt4 + String.fromCharCode(176);
+    document.getElementById('saw_setting'+number+'_turn').value = turn + String.fromCharCode(176);
 
     rafter_dwg();
 
