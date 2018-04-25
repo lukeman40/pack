@@ -1,24 +1,27 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Panels</title>
 
-<title></title>
-<style type="text/css">
-.style {
-	color: #003;
-	left: 100px;
-	margin-left: 0px;
-	padding-left: 200px;
+        <!-- http://interactjs.io/
+Have a list of panels and there properties i.e centers, sheetwidth etc+
+Have a sorting algorithm which sorts stuff by efficency
+     -->
+<script src="http://code.interactjs.io/v1.3.3/interact.min.js"></script>
+<style>
+.hidden {
+	color: #CCC;
 }
-#Height1 {
-	color: #003;
-	font-family: Tahoma, Geneva, sans-serif;
-	float: right;
+#form {
+	background-color: #D8E2FE;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
 }
-.Main {
-	color: #000000;
-}
-body {
-	background-color: #fffEFF;
+.body {
+	font-family: Verdana, Geneva, sans-serif;
 }
 .table_result {
 	background-color: #D8E2FE;
@@ -34,21 +37,6 @@ body {
 	margin: 1px;
 	width: 400px;
 }
-
-.table_drawing {
-	background-color: #D8E2FE;
-	display: block;
-	float: none;
-	border-radius: 1px;
-	box-shadow: 0px 0px 3px #000;
-	position: static;
-	border-top-width: 0px;
-	border-right-width: 0px;
-	border-bottom-width: 0px;
-	border-left-width: 0px;
-	margin: 1px;
-}
-
 .table_class {
 	background-color: #D8E2FE;
 	margin: 1px;
@@ -59,554 +47,719 @@ body {
 	box-shadow: 0px 0px 3px #000;
 	left: 20px;
 }
-
+.panel_parts_table {
+	background-color: #D8E2FE;
+	margin: 1px;
+	padding: 0px;
+	display: block;
+	float: none;
+	border-radius: 1px;
+	box-shadow: 0px 0px 3px #000;
+	left: 20px;	
+}
 .table_class2 {
 	box-shadow: 0 -1px grey;
 	padding-top: 10px;
+	align: center;
 }
-
-.pitch {
-	margin: 1px;
-	padding: 1px;
-	border: 1px 1 #000;
+input { 
+    text-align: center; 
 }
-.image {
-	display: inline;
- 	width: 100px;
-  	height: 100px;
-	float:left
+.panels {
+	background-color: #F90;
+	height: 400px;
+	width: 200px;
+	float: left;
+	margin: 2px;
+	border: 2px solid #000;
 }
-input {
-	width: 100%;
-	background-color: rgba(255,255,255,0.5);
-	border: none;
-	color: #000;
-	font-size: 1em;
-	line-height: 0.5em;
-	height: 2em;
-	text-align: right;
+.new_panels {
+	float: right;
+	background-color: #F90;
+	height: 400px;
+	width: 200px;
+	margin: 2px;
+	border: 2px solid #000;
 }
-
-.Main .table_class tr td h1 {
-	text-align: center;
-}
-.canvas {
-	border: medium solid #000;
+#new_panels_wrap {
+	float: right;
+	height: 400px;
+	width: 200px;
+	margin: 2px;
+	border: 2px solid #000;
 }
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 </head>
-<body class="Main">
-<p>This page out puts the angles for the cutting box sections at mitred angles </p>
-<p><br>
-</p>
-<div id="Height1"><img src="Diagram.png" width="568" height="800"></div>
 
-<div class="table_result">
- <table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class">
-   <tr>
-    <td colspan="2" align="left"><h1>Data Input</h1></td>
-   </tr>
-  <tr class="table_class2">
-    <td width="242" align="left">Height: </td>
-    <td width="168"><input id="height"></td>
-
-  </tr>
-  <tr class="table_class2">
-
-    <td>Rafter Length Area 1:</td>
-        <td> <input id="hypot1"></td>
-  </tr>
-  <tr class="table_class2">
-
-    <td>Rafter Length Area 2:</td>
-        <td> <input id="hypot2"></td>
-  </tr>
-  <tr class="table_class2">
-
-    <td>Angle between canopies on plan: </td>
-        <td><input id="angle_canopy"></td>
-  </tr>
-  <tr class="table_class2">
-    <td>Box Size</td>
-      <td>
-        <select name="box_type" id="box_type">
-          <option value="150x75">150x75</option>
-          <option value="75x75">75x75</option>
-        </select>
-        </td>
-  </tr>
-
-  <tr class="table_class2">
-
-    <td align="right"><button id="say">Submit</button></td>
-    <td>
-
-  </tr>
-</table>
-</div>
-
-<br>
- <div class="table_result">
-<table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class">
-   <tr>
-    <td colspan="2" align="left"><h1>Result</h1></td>
-   </tr>
-  <tr class="table_class2">
-      <td>Pitch of Canopy 1</td>
-
-    <td><input id='pitch1' readonly></td>
-
-  </tr>
-  <tr class="table_class2">
-      <td width="242">Pitch of Canopy 2</td>
-    <td width="168"><input id='pitch2' readonly></td>
-
-  </tr>
-  <tr class="table_class2">
-      <td>Angle of Hip on Plan</td>
-    <td><input id='hip_angle' readonly></td>
-
-  </tr>
-  <tr class="table_class2">
-      <td>Pitch of Hip</td>
-    <td><input id='hip_pitch' readonly></td>
-
-  </tr>
-  <tr class="table_class2">
-
-      <td>Length of Hip</td>
-    <td><input id='hip_length' readonly></td>
-
-  </tr>
-  <tr class="table_class2">
-        <td><p><strong>Mitre Area 1</strong></p>
-        <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
-        <td><input id='amitres1' readonly><br><input id='bmitres1' readonly></td>
-    </tr>
-
-    <tr class="table_class2">
-      <td><p><strong>Saw Setting</strong></p>
-        <p>Turn<br>Tilt</p></td>
-    <td><input id='saw_setting1_turn' readonly><br><input id='saw_setting1_tilt' readonly></td>
-    </tr>
-
-  <tr class="table_class2">
-            <td><p><strong>Mitre Area 2</strong></p>
-            <p>Cut angle for 75 face<br>Cut angle for 150 face</p></td>
-        <td><input id='amitres2' readonly><br><input id='bmitres2' readonly></td>
-    </tr>
-
-          <tr class="table_class2">
-      <td><p><strong>Saw Setting</strong></p>
-        <p>Turn<br>Tilt</p></td>
-    <td><input id='saw_setting2_turn' readonly><br><input id='saw_setting2_tilt' readonly></td>
-          </tr>
-
-  <tr class="table_class2">
-        <td>Sheet Angles</td>
-    <td><div id="sheet_angles"></div></td>
-  </tr>
-
-  </tr>
-
-
-  </tr>
-
-</table>
-
-
-</div>
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><br>
-
-</p>
- <div class="table_drawing">
-
-  <br>
-
-
-<canvas id="myCanvas" width="1800" height="1200" style="border:1px solid #000000;">
-  Your browser does not support the HTML5 canvas tag.</canvas>
-<br>
-<br>
-<canvas id=c></canvas>
-  <script>
-
-c.width = 1920;
-c.height = 1080;
-var S = Math.sin;
-var C = Math.cos;
-var T = Math.tan;
-
-function R(r,g,b,a) {
-  a = a === undefined ? 1 : a;
-  return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
-  };
-
-var x = c.getContext("2d");
-var time = 0;
-var frame = 0;
-
-function u(t) {
-
-
-x.fillStyle=R(t*20,S(t)*255,255-t*30)
-x.fillRect(frame,100+ C(frame/10)*100, 1, 10)
-
+<script type = "text/javascript">
+function panel_run(length, panel_type, panel_length, equal_centers){
+	
+	var centers = 0;
+	var reinforcement_bar = 0;
+	var u_profile = 0;
+	var male_bars = 0;
+	var female_bars = 0;
+	var title_html = "Broken if this appears";
+	var table = document.getElementById("my_table");
+	table.innerHTML = "";
+	var sheet_thickness = panel_type.substring(0, 4);
+	sheet_thickness = sheet_thickness.replace(/\s+/g, ''); //removes spaces
+	sheet_thickness = sheet_thickness.replace(/[^0-9\.]+/g, ''); //removes spaces
+	sheet_thickness = parseInt(sheet_thickness);
+	
+	var panel_run_properties = {
+	centers: 0, 
+	bar_width: 0, 
+	width_deduction: 0, 
+	length_deduction: 0, 
+	male_bar_stockcode: "", 
+	female_bar_stock_code: "", 
+	break_bar_stock_code: "", 
+	uprofile_bar_stock_code: "", 
+	sheet_bar_stock_code: "", 
+	reinforcing_bars_required: ""
+	};
+	var sheet = new Array
+    (
+    {thickness: 16, length: 6000, width: 980, colour: "Bronze", stockcode: "M16B6980"},
+    {thickness: 16, length: 7000, width: 2100, colour: "Bronze", stockcode: "M16B72100"},
+    {thickness: 16, length: 7000, width: 980, colour: "Bronze", stockcode: "M16B7980"},
+    {thickness: 16, length: 5000, width: 980, colour: "Clear", stockcode: "M16C5980"},
+    {thickness: 16, length: 6000, width: 1200, colour: "Clear", stockcode: "M16C61200"},
+    {thickness: 16, length: 6000, width: 980, colour: "Clear", stockcode: "M16C6980"},
+    {thickness: 16, length: 7000, width: 2100, colour: "Clear", stockcode: "M16C72100"},
+    {thickness: 16, length: 7000, width: 980, colour: "Clear", stockcode: "M16C7980"},
+    {thickness: 16, length: 5000, width: 980, colour: "Opal", stockcode: "M16O5980"},
+    {thickness: 16, length: 6000, width: 1200, colour: "Opal", stockcode: "M16O61200"},
+    {thickness: 16, length: 6000, width: 980, colour: "Opal", stockcode: "M16O6980"},
+    {thickness: 16, length: 7000, width: 2100, colour: "Opal", stockcode: "M16O72100"},
+    {thickness: 16, length: 7000, width: 980, colour: "Opal", stockcode: "M16O7980"},
+    {thickness: 25, length: 6000, width: 1230, colour: "Clear", stockcode: "M25C61230"},
+    {thickness: 25, length: 7000, width: 1230, colour: "Clear", stockcode: "M25C71230"},
+    {thickness: 25, length: 7000, width: 2100, colour: "Clear", stockcode: "M25C72100"},
+    {thickness: 25, length: 6000, width: 1230, colour: "Opal", stockcode: "M25O61230"},
+    {thickness: 25, length: 7000, width: 1230, colour: "Opal", stockcode: "M25O71230"},
+    {thickness: 25, length: 7000, width: 2100, colour: "Opal", stockcode: "M25O72100"},
+    {thickness: 10, length: 7000, width: 2100, colour: "Clear", stockcode: "M10B72100"},
+    {thickness: 10, length: 6000, width: 1250, colour: "Clear", stockcode: "M10C61250"},
+    {thickness: 10, length: 6000, width: 2100, colour: "Clear", stockcode: "M10C62100"},
+    {thickness: 10, length: 7000, width: 2100, colour: "Clear", stockcode: "M10C72100"},
+    {thickness: 10, length: 6000, width: 1250, colour: "Opal", stockcode: "M10O61250"},
+    {thickness: 10, length: 6000, width: 2100, colour: "Opal", stockcode: "M10O62100"},
+    {thickness: 10, length: 7000, width: 2100, colour: "Opal", stockcode: "M10O72100"},
+    {thickness: 6, length: 6000, width: 2100, colour: "Clear", stockcode: "M6C62100"},
+    {thickness: 6, length: 3000, width: 1240, colour: "Clear", stockcode: "M6RHC3205"},
+    {thickness: 6, length: 4000, width: 1240, colour: "Clear", stockcode: "M6RHC4205"},
+    {thickness: 6, length: 5000, width: 1240, colour: "Clear", stockcode: "M6RHC5205"},
+    {thickness: 6, length: 4000, width: 1240, colour: "Clear", stockcode: "M6UCV4205"},
+    {thickness: 32, length: 6000, width: 1240, colour: "Clear", stockcode: "M32C61230"},
+    {thickness: 32, length: 7000, width: 1240, colour: "Clear", stockcode: "M32C71230"},
+    {thickness: 32, length: 7000, width: 1240, colour: "Opal", stockcode: "M32O71230"}
+);
+// sorts the above object in thickness order
+    sheet.sort(function(obj1, obj2) {
+    return obj1.thickness - obj2.thickness;
+    });
+    var sheet = sheet.filter(function(obj1) {
+    return obj1.thickness == sheet_thickness;
+    });
+	class sheet_info {
+	    constructor(sheet1) {
+	        this.sheet1 = sheet1;
+	        }
+	        stockcode() {
+                var i = 0;
+                var str = "";
+                while (i < this.sheet1.length)
+                {
+                    str = str + ",<br> " + this.sheet1[i].stockcode
+                    i = i + 1;
+                }
+                return str;
+             }
+             sheet_information() {
+                var i = 0;
+                var str = "";
+                while (i < this.sheet1.length) {
+                    str = str + "<br>Thickness is " + this.sheet1[i].thickness + "mm. Length & Width: " + this.sheet1[i].length + "x" + this.sheet1[i].width + ". Sheet Colour: " + this.sheet1[i].colour + " And the Stockcode: " + this.sheet1[i].stockcode;
+                    i = i + 1;
+                }
+                return str;
+             }
+	     }
+    var row = table.insertRow(-1);
+ 	row.class = "table_class2"
+  	var cell1 = row.insertCell(0);
+	
+	cell1.innerHTML = '<h1> Information for '+ panel_type + ' </h1>';
+	
+	var panel_table = document.getElementById("panel_table");
+	panel_table.innerHTML = "";
+	
+	var items_table = document.getElementById("items_table");
+	items_table.innerHTML = "";
+	
+	var panel_parts = document.getElementById("panel_parts");
+	items_table.innerHTML = "";	
+	
+	var row = items_table.insertRow(-1);
+  	row.class = "table_class2"
+	row.align = "center";
+  	var cell1 = row.insertCell(0);
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(1); 
+  	var cell4 = row.insertCell(1); 	
+  	var cell5 = row.insertCell(1); 	
+	
+	cell1.innerHTML = "Item";
+  	cell2.innerHTML = "Quantity";
+  	cell3.innerHTML = "Length";  
+  	cell4.innerHTML = "Paint";  	
+  	cell5.innerHTML = "Stock Code";  	
+	
+	var reinforcing_bars_required = "";
+	
+	var str = panel_type;
+	str = str.substring(str.indexOf("mm") + 3);
+	
+	var sheet_bar_stock_code = "";
+	
+	var bar_system = str;
+	var New_sheet = new sheet_info(sheet);
+	
+	if (panel_type == "32mm Multi-Link"){
+		
+		set_panel_run_properties(1245,70,45,12,"MLMU32M4","MLFU32M4","MLBU32M4","32mmUPROFILE","32mmsheet","Yes");		
+	} 
+	else if (panel_type == "25mm Multi-Link"){
+		set_panel_run_properties(1245,70,10,12,"ML25UMM4/6/7","ML25UFM4/6/7","ML25UBM4/7","255M25","25mmsheet","Yes");		
+	}
+	
+	else if (panel_type == "16mm Multi-Link"){
+		
+		set_panel_run_properties(990,70,10,12,"ML16UMM4/6/7","ML16UFM4/6/7","ML16UBM4/7","254M3","16mmsheet","Yes");	
+	}
+	else if (panel_type == "10mm Multi-Link"){
+		
+		set_panel_run_properties(600,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","252M3","10mmsheet","No");			
+	}
+	else if (panel_type == "7.5mm Multi-Link"){
+		
+		set_panel_run_properties(600,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","252M3","N/A","No");								
+		
+	}
+	else if (panel_type == "6mm Multi-Link"){
+		
+		set_panel_run_properties(600,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","MLSOLIDUM3.2","6mmsheet","No");					
+		
+	}
+	else if (panel_type == "25mm EasiGlaze"){
+		
+		set_panel_run_properties(1245,70,12,12,"EF25M4/6","N/A","N/A","255M25","25mm Sheet","No");
+					
+	}
+	else if (panel_type == "16mm EasiGlaze"){
+		set_panel_run_properties(1010,70,12,12,"EF16M4/6","N/A","N/A","254M25","16mm Sheet","No");
+		
+	}
+	else if (panel_type == "10mm Bar & Sheet"){
+		
+		set_panel_run_properties(600,50,10,36,"228M7","N/A","N/A","ML10EM3","10mmsheet","No");						
+	}
+	else if (panel_type == "6mm Bar & Sheet"){
+		
+		set_panel_run_properties(600,50,10,36,"228M7","N/A","N/A","MLSOLIDUM3.2","6mmsheet","No");							
+		
+	}				
+	else{
+	centers = 0;
+	}
+	
+  panel_information();
+  u_profile = panel_run_properties.centers - panel_run_properties.bar_width;
+  var number_of_panels = Math.floor((length-600)/panel_run_properties.centers)+2;
+  var end_centers = ((length-((number_of_panels-2)*panel_run_properties.centers))/2)-(panel_run_properties.bar_width/2);
+  var sheet_length = panel_length-panel_run_properties.length_deduction;
+  var sheet_width = panel_run_properties.centers-panel_run_properties.width_deduction;
+  var sheet_width_end = end_centers-panel_run_properties.width_deduction;
+  var male_bars = number_of_panels+1;
+  var break_bars = Math.floor(number_of_panels/20);
+  var female_bars = number_of_panels-break_bars-1;
+  
+   
+   if (equal_centers === "Yes"){
+	  title_html = "Result for Equally Spaced Panels";
+	  
+	  	  panel_run_properties.centers = Math.round((length-panel_run_properties.bar_width)/number_of_panels);	 
+  		  u_profile = panel_run_properties.centers - panel_run_properties.bar_width;		   
+	  	  append_main_table("Panel Centers",panel_run_properties.centers);
+		  	  
+		  var sheet_width = panel_run_properties.centers-panel_run_properties.width_deduction;
+	  	  append_main_table("Sheet Width",sheet_width);	  	
+	  	  append_main_table("Sheet Length",sheet_length);	
+		  append_main_table(" ", "-");  	
+		  
+		  append_main_table("U-Profile",u_profile); 
+  		  item_information(sheet_thickness + "_U-Profile", number_of_panels*2, u_profile, "Yes", panel_run_properties.uprofile_bar_stock_code);		  
+		       		  	  
+	  
+  }else{
+	  title_html = "Result for End Panels different Centers to Mid Panels";
+	  
+	  	  append_main_table("Mid Panel Centers",panel_run_properties.centers);	  
+	  	  append_main_table("End Panel Centers",end_centers);
+		  append_main_table(" ", "-");
+	  	  append_main_table("Mid Sheet width",sheet_width);	  			  
+	  	  append_main_table("End Sheet width",sheet_width_end);	  		
+	  	  append_main_table("Sheet Length",sheet_length);	 
+		  append_main_table(" ", "-"); 		
+		  append_main_table("U-Profile Mid",u_profile);  
+  		  item_information(sheet_thickness + "_U-Profile", (number_of_panels*2)-4, u_profile, "Yes", panel_run_properties.uprofile_bar_stock_code);		  		
+		  append_main_table("U-Profile End",end_centers-panel_run_properties.bar_width);     
+		  append_main_table(" ", "-");	  
+  		  item_information(sheet_thickness + "_U-Profile", 4, end_centers-panel_run_properties.bar_width, "Yes", panel_run_properties.uprofile_bar_stock_code);		
+  		  item_information(" ", " ", " ", " ", " ");	
+		  		  		  	  
   }
-
-function loop() {
-  requestAnimationFrame(loop);
-
-  time = frame/60;
-
-  if(time * 60 | 0 == frame - 1){
-    time += 0.000001;
+  
+  
+  if( bar_system.indexOf('Multi-Link') >= 0)
+  {
+  append_main_table("Male Bars",male_bars);  
+  item_information(sheet_thickness + "_Male_Bar", male_bars, panel_length, "Yes", panel_run_properties.male_bar_stockcode);
+  
+  append_main_table("Female Bars",female_bars);    
+  item_information(sheet_thickness + "_Female_Bars", female_bars, panel_length, "Yes", panel_run_properties.female_bar_stock_code);
+   
+  append_main_table("Break Bars",break_bars);    
+  item_information(sheet_thickness + "_Break_Bars", break_bars, panel_length, "Yes", panel_run_properties.break_bar_stock_code);  
+  
+  append_main_table(" ", "-");
+  item_information(" ", " ", " ", " ", " ");	  
+  
+  append_main_table("Universal End Plates",male_bars-2); 
+  item_information("Universal_End_Plates", male_bars-2, "N/A", "Yes", "MLNFUMPM");    
+  
+  append_main_table("Side End Plates",4);     
+  item_information("Side_End_Plates", 4, "N/A", "Yes", "MLNFSMEPM");   
+  
+  append_main_table("Top End Plates",male_bars-2); 
+  item_information("Top_End_Plates", male_bars-2, "N/A", "Yes", "MLNFSMEPM");     
+  
+  }else{
+  append_main_table("Number of Bars",number_of_panels+1);  
+  item_information("Bars", number_of_panels+1, panel_length, "Yes", panel_run_properties.male_bar_stock_code);  
+   
+  append_main_table("End Plates",number_of_panels+1);   
+  item_information("End_Plates", number_of_panels+1, "N/A", "Yes", "ENDPLATES");     
+      
   }
-	  frame++;
-	  u(time);
- }
-loop();
-    </script>
-
-
-
-
-<script>
-
-//0 = no dash, 1 = dash
-var dash = 0;
-
-function say_hi() {
-
-    var height = document.getElementById('height').value;
-    var hypot1 = document.getElementById('hypot1').value;
-    var hypot2 = document.getElementById('hypot2').value;
-    var angle_between_canopy = document.getElementById('angle_canopy').value;
-
-    var box_type = document.getElementById("box_type").value;
-
- <!--Sets the box type defaults to values below-->
-    var box_width = 75;
-    var box_height = 150;
-
-    if (box_type == "150x75"){
-        box_width = 75;
-        box_height = 150;
-        }
-
-     if (box_type == "75x75"){
-        box_width = 75;
-        box_height = 75;
-        }
-
-<!--GETS PITCH CANOPY 1 #soh-->
-    var pitch1 = Math.asin(height/hypot1);
-
-<!--GETS LENGTH CANOPY 1 #cah-->
-    var adj1 = Math.cos(pitch1) * hypot1;
-
-<!--GETS PITCH CANOPY 2 #soh -->
-    var pitch2 = Math.asin(height/hypot2);
-
-<!--GETS LENGTH CANOPY 2 #cah-->
-    var adj2 = Math.cos(pitch2) * hypot2;
-
-<!--HIP ANGLE IF NO ANGLE PROVIDED #toa-->
-    var hip_angle = Math.atan(adj1/adj2);
-
-<!--HIP ANGLE #toa-->
-    <!--var hip_angle = angle_between_canopy * (Math.PI / 180)/2;-->
-
-<!--WITH HIP ANGLE & HEIGHT IT CAN GET THE LENGTH OF THE FLAT BIT UNDER HIP #soh-->
-    var hyp_hip = adj1 / Math.sin(hip_angle);
-
-<!--NOW THAT WE HAVE THE HEIGHT AND ADJANCENT WE CAN GET THE PITCH OF HIP-->
-    var pitch_hip = Math.atan(height/hyp_hip);
-
-	var html_canopy1_pitch =  Math.round(pitch1*(180 / Math.PI)) + String.fromCharCode(176);
-	var html_canopy2_pitch = Math.round(pitch2*(180 / Math.PI)) + String.fromCharCode(176);
-	var html_hip_angle = Math.round(hip_angle * (180 / Math.PI)) + String.fromCharCode(176);
-	var html_hip_pitch = Math.round(pitch_hip * (180 / Math.PI)) + String.fromCharCode(176);
-	var html_pitch_length = Math.round(Math.sqrt((hyp_hip * hyp_hip) + (height * height))) + "mm";
-
-    document.getElementById('pitch1').value = html_canopy1_pitch;
-    document.getElementById('pitch2').value = html_canopy2_pitch;
-    document.getElementById('hip_angle').value = html_hip_angle;
-    document.getElementById('hip_pitch').value = html_hip_pitch;
-    document.getElementById('hip_length').value = html_pitch_length;
-
-<!--Load Canvas and blank it-->
-     var c = document.getElementById("myCanvas");
-     var ctx = c.getContext("2d");
-     ctx.fillStyle="#FFFFFF";
-     ctx.fillRect(0,0,myCanvas.width,myCanvas.height-1);
-
-function mitre(pitch,number, camera_x) {
-
-    var angle_width_face = 0;
-    var angle_height_face = 0;
-    var cut_angle_width = 0;
-    var cut_angle_height = 0;
-    var html_width_face = 0;
-    var html_height_face = 0;
-
-<!--MITRES1-->
-<!--width face #cah-->
-    angle_width_face = Math.cos(pitch)*box_width;
-
-<!--width face #toa-->
-    angle_width_face = angle_width_face/Math.tan((hip_angle ));
-
-<!--#toa-->
-    cut_angle_width = Math.atan(box_width/angle_width_face);
-
-<!--length face #soh-->
-    angle_height_face = Math.sin(pitch)*box_height;
-
- <!--length face #toa-->
-    angle_height_face = angle_height_face/Math.tan((hip_angle ));
-
-<!--#toa-->
-    cut_angle_height = Math.atan(box_height/angle_height_face);
-
-    html_width_face = (cut_angle_width * (180 / Math.PI)).toFixed(2);
-    html_height_face = (cut_angle_height * (180 / Math.PI)).toFixed(2);
-
-
-
-    document.getElementById('amitres' + number).value = html_width_face + String.fromCharCode(176);
-    document.getElementById('bmitres' + number).value = html_height_face + String.fromCharCode(176);
-
-<!--drawing-->
-
-<!--Mitre 1 Drawing width Face-->
-    ctx.beginPath();
-    ctx.moveTo(0+camera_x,20);
-    ctx.lineTo(0+camera_x,20+box_width);
-    ctx.lineTo(250+camera_x,20+box_width);
-    ctx.lineTo(250-angle_width_face+camera_x,20);
-    ctx.lineTo(0+camera_x,20);
-    ctx.stroke();
-    ctx.fillStyle="white";
-    ctx.fill();
-
-    <!--Sets dashed line->
-
-    ctx.beginPath();
-
-    if (dash > 0){
-    ctx.setLineDash([5, 3]);
-    }
-
-    ctx.moveTo(250-angle_height_face+camera_x,20+box_width);
-    ctx.lineTo((250-angle_height_face)+(camera_x-angle_width_face) ,20);
-    ctx.stroke();
-
- <!--Mitre 1 Drawing Arc-->
-
- <!--Works out the equation of the angle y = mx+b -->
-     var m = (-box_width)/(-angle_width_face)
-     var b = (95+camera_x)-(m*250+camera_x)
-
- <!--Draws the arc from the above equation -->
-     ctx.beginPath();
-     ctx.setLineDash([]);
-     ctx.moveTo(200+camera_x,20+box_width);
-     ctx.arcTo(190+camera_x,box_width,210+camera_x,m*210+b,20);
-     ctx.lineTo(210+camera_x,m*210+b);
-     ctx.stroke();
-
-<!--Mitre Drawing height Face-->
-    ctx.beginPath();
-    ctx.moveTo(0+camera_x,100);
-    ctx.lineTo(0+camera_x,100+box_height);
-    ctx.lineTo(250+camera_x,100+box_height);
-    ctx.lineTo(250+camera_x-angle_height_face,100);
-    ctx.lineTo(0+camera_x,100);
-    ctx.stroke();
-    ctx.fillStyle="white";
-    ctx.fill();
-
-<!--Sets dashed line->
-
-    ctx.beginPath();
-
-    if (dash > 0){
-    ctx.setLineDash([5, 3]);
-    }
-
-    dash = dash + 1;
-
-    if (dash > 1){
-        ctx.setLineDash([5, 3]);
-     dash = 0;
-    }
-
-
-    ctx.moveTo(250-angle_width_face+camera_x,100+box_height);
-    ctx.lineTo((250-angle_width_face)+(camera_x-angle_height_face) ,100);
-    ctx.stroke();
-
- <!--Mitre Drawing Arc-->
-
- <!--Works out the equation of the angle y = mx+b -->
-     m = (box_height)/(angle_height_face)
-     b = (100+box_height)-(m*(100+box_height))
-
- <!--Draws the arc from the above equation -->
-
-     var x1 = 210+camera_x;
-     var y1 = 70+box_height;
-     var x2 = (((100+box_height-25)-b)/m)+camera_x;
-     var y2 = 100+box_height-25;
-
-     if (box_height != 150){
-     x2 = x2 + 75;
-     }
-
-     ctx.beginPath();
-     ctx.setLineDash([]);
-     ctx.moveTo(200+camera_x,100+box_height);
-     ctx.arcTo(x1,y1,x2,y2,20);
-     ctx.lineTo(x2,100+box_height-30);
-     ctx.stroke();
-
-    var angle_in_deg = Math.round((cut_angle_width * (180 / Math.PI))*100)/100;
-
-<!--adds the text -->
-
-<!--font -->
-
-    ctx.fillStyle = 'black';
-
-    ctx.font="20px Arial";
-
- <!--Title -->
-    ctx.fillText("Mitre Area "+ number,0+camera_x,15);
-
-<!--angles text -->
-    ctx.fillText(Math.round(((cut_angle_width * (180 / Math.PI))*100)/100) + String.fromCharCode(176),250+camera_x,85);
-
-    ctx.fillText(Math.round(((cut_angle_height * (180 / Math.PI))*100)/100) + String.fromCharCode(176),250+camera_x,95+box_height);
-
-    ctx.fillText("Hip/Valley on Plan",830, 40);
-    ctx.fillText(angle_between_canopy + String.fromCharCode(176),870, 70);
-
-    <!--view text -->
-
-    ctx.fillText("75 View",50+camera_x, 100+box_height+10+50+20);
-    arrow(80+camera_x,100+box_height+10,50)
-
-
- <!--face -->
-    ctx.fillText(box_width + " Face",20+camera_x,65);
-    ctx.fillText(box_height + " Face",20+camera_x,110+box_height/2);
-
- <!--Plan -->
-
-     if (angle_between_canopy < 90){
-
-        var angle11 = getTanDeg(90-angle_between_canopy)*100 *-1;
-        }else{
-        var angle11 = getTanDeg(angle_between_canopy-90)*100;
-        }
-
-      ctx.beginPath();
-      ctx.moveTo(800,50);
-      ctx.lineTo(900,50);
-      ctx.lineTo(900+angle11,150);
-      ctx.stroke();
-
-  <!--Saw Settings -->
-  <!--Finds the distance of the cut, then uses trig to find the turn -->
-
-    var tilt = Math.tan(html_height_face * (Math.PI /180));
-    var tilt1 = 75/tilt;
-    var tilt2 = tilt1*Math.sin(html_width_face * (Math.PI /180));
-    var tilt3 = tilt2/75;
-    var tilt4 = (Math.atan(tilt3)*(180 / Math.PI)*100/100).toFixed(2);
-
-    var turn = 90-html_width_face;
-
-    document.getElementById('saw_setting'+number+'_tilt').value = tilt4 + String.fromCharCode(176);
-    document.getElementById('saw_setting'+number+'_turn').value = turn + String.fromCharCode(176);
-
-    rafter_dwg();
-
+  if (panel_run_properties.male_bar_stockcode === "Yes"){
+  append_main_table("Reinforcement Length",panel_length-20);
+  item_information("Reinforcement_Bars", panel_length-20, "N/A", "No", "MLRBR4/6");
+  }
+  
+  item_information(sheet_thickness + "_Sheet", number_of_panels, sheet_length + "x" + sheet_width , "Opal or Clear", "SHEET");  
+    
+  append_main_table(" ", "-");  	
+  append_main_table("Total Number of Panels",number_of_panels);
+  document.getElementById("other_info").innerHTML = "The Stock Codes for this sheet are " + New_sheet.sheet_information();
+  
+  panel_drawing(number_of_panels);
+  
+  var i = -2;
+  var j = 0;
+  var h = 0;
+  var k = 0;
+  var centers_for_below = 0;
+  
+  //calculates when starters and break panels occur
+  	while (i < number_of_panels){
+	  
+	  panel_number = i+1;
+	  h = h+1;	  
+ 	  centers_for_below = panel_run_properties.centers;	 
+	  
+	  if (j === 0){
+	  panel_type = "Starter Panel";	 
+	  centers_for_below = end_centers;
+	  
+	  j = j + 1;
+	  } else if (h === (Math.floor((number_of_panels+1)/(break_bars+1)))) {		  
+		  
+		 if ( k === break_bars){
+			 panel_type = "Linking Panel";
+		 } else {
+		 
+	 	 panel_type = "Break Panel";
+		 
+		 }		  
+		 
+		 k = k + 1; 	  
+		 		 
+		 h = 0;  
+		 
+		 // Stops printings last one
+	  
+	  }else{
+	  panel_type = "Linking Panel";
+	  	  
+	 }
+	 
+	 	  //last panel
+	  if (i === (number_of_panels)-2)
+	  {
+		centers_for_below = end_centers;   
+	  }
+	  	  
+	  panel_list_table(panel_number+1, panel_type, centers_for_below, male_bars, female_bars, break_bars, u_profile, reinforcement_bar, "25mm", "OPAL", sheet_width, sheet_length);
+	  
+	  i = i + 1;
+	  
+  }  
+       
+      
+	
+  function append_main_table(title,value){
+   
+  var row = table.insertRow(-1);
+  row.class = "table_class2"
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1); 
+  
+  cell1.innerHTML = title;
+  
+  cell2.innerHTML = "<input value=" + value + " readonly>";
+  
+  //creates table to list all the panelsa
+  
+  }
+  
+  function panel_list_table(panel_number, panel_type, panel_centers, male_bars, female_bars, break_bars, u_profile, reinforcement_bar, sheet_thickeness, sheet_colour, sheet_width, sheet_length){
+	  
+	var new_panel = document.createElement("div");
+	var panel_node = document.createTextNode(panel_number
+	 + " Centers = "
+	 + panel_centers
+	 + " "
+	 );
+	 
+	var para = document.createElement("p");
+	var para_node = document.createTextNode("new para");
+			
+	new_panel.appendChild(panel_node);
+	new_panel.className = "panels";
+	
+	para.appendChild(para_node);		
+	
+	document.getElementById("panel_parts").appendChild(new_panel);
+	document.getElementsByClassName("panels")[0].appendChild(para);
+	  
+	var row = panel_parts.insertRow(-1);
+  	row.class = "table_class2"
+	row.align = "center";		
+	
+  	var cell1 = row.insertCell(0);	
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(2); 
+  	var cell4 = row.insertCell(3); 	
+  	var cell5 = row.insertCell(4); 
+	var cell6 = row.insertCell(5);
+	var cell7 = row.insertCell(6);
+	var cell8 = row.insertCell(7);
+	var cell9 = row.insertCell(8);
+	var cell10 = row.insertCell(9);
+	var cell11 = row.insertCell(10);
+	var cell12 = row.insertCell(11);
+	var cell13 = row.insertCell(12);		
+	var cell14 = row.insertCell(13);		
+		
+  	cell1.innerHTML = "Panel Number";	  
+  	cell2.innerHTML = "Panel Type";
+  	cell3.innerHTML = "Centers";  
+  	cell4.innerHTML = "Aluminium Colour";  	
+  	cell5.innerHTML = "Handing"; 	
+  	cell6.innerHTML = "Male Bars"; 	
+  	cell7.innerHTML = "Female Bars"; 		
+  	cell8.innerHTML = "Break Bars"; 		
+  	cell9.innerHTML = "U-Profile";
+  	cell10.innerHTML = "Reinforcement Bar"; 	
+  	cell11.innerHTML = "Sheet Thickness"; 	
+  	cell12.innerHTML = "Sheet Colour"; 	
+  	cell13.innerHTML = "Sheet Width"; 
+  	cell14.innerHTML = "Sheet Length"; 	
+													 				
+	
+	row = panel_parts.insertRow(-1);
+	row.class = "table_class2";
+	
+  	var cell1 = row.insertCell(0);	
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(2); 
+  	var cell4 = row.insertCell(3); 	
+  	var cell5 = row.insertCell(4); 
+	var cell6 = row.insertCell(5);
+	var cell7 = row.insertCell(6);
+	var cell8 = row.insertCell(7);
+	var cell9 = row.insertCell(8);
+	var cell10 = row.insertCell(9);
+	var cell11 = row.insertCell(10);
+	var cell12 = row.insertCell(11);
+	var cell13 = row.insertCell(12);		
+	var cell14 = row.insertCell(13);		
+	
+	cell1.innerHTML = "<input value=" + panel_number + " align='center' readonly>";
+	cell2.innerHTML = "<input value=" + panel_type + " align='center' readonly>";
+	cell3.innerHTML = "<input value=" + panel_centers + " align='center' readonly>";
+	cell4.innerHTML = "<input value=" + "RAL" + " align='center' readonly>";
+	cell5.innerHTML = "<input value=" + "L-R" + " align='center' readonly>";
+	cell6.innerHTML = "<input value=" + male_bars + " align='center' readonly>";
+	cell7.innerHTML = "<input value=" + female_bars + " align='center' readonly>";
+	cell8.innerHTML = "<input value=" + break_bars + " align='center' readonly>";
+	cell9.innerHTML = "<input value=" + u_profile + " align='center' readonly>";
+	cell10.innerHTML = "<input value=" + reinforcement_bar + " align='center' readonly>";
+	cell11.innerHTML = "<input value=" + sheet_thickness + " align='center' readonly>";
+	cell12.innerHTML = "<select> <option value= " + sheet_colour + ">" + sheet_colour + "</option> <option value = Clear>Clear</option> </select>";
+	cell13.innerHTML = "<input value=" + sheet_width + " align='center' readonly>";
+	cell14.innerHTML = "<input value=" + sheet_length + " align='center' readonly>";		
+	  
+  }
+  
+  function panel_information(){
+	  
+  	var row = panel_table.insertRow(-1);
+  	row.class = "table_class2"
+	row.align = "center";	
+  	var cell1 = row.insertCell(0);
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(1); 
+  	var cell4 = row.insertCell(1); 		
+  
+  	cell1.innerHTML = "Sheet Length Deduction";
+  	cell2.innerHTML = "Sheet Width Deduction";
+  	cell3.innerHTML = "Max Centers";  
+  	cell4.innerHTML = "Bar Width/U-Profile Deduction";  
+	
+  	row = panel_table.insertRow(-1);
+  	row.class = "table_class2"
+  	var cell5 = row.insertCell(0);
+  	var cell6 = row.insertCell(1); 
+  	var cell7 = row.insertCell(1); 
+  	var cell8 = row.insertCell(1); 		
+  
+  	cell5.innerHTML = "<input value=" + panel_run_properties.length_deduction + " align='center' readonly>";
+  	cell6.innerHTML = "<input value=" + panel_run_properties.width_deduction + " align='center' readonly>";
+  	cell7.innerHTML = "<input value=" + panel_run_properties.centers + " align='center' readonly>";  
+  	cell8.innerHTML = "<input value=" + panel_run_properties.bar_width + " align='center' readonly>";  	
+	  
+  }
+  
+  
+  function item_information(item_,quantity,length,paint,stock_code){
+	  	
+	var row = items_table.insertRow(-1);
+  	row.class = "table_class2"
+  	var cell1 = row.insertCell(0);
+  	var cell2 = row.insertCell(1); 
+  	var cell3 = row.insertCell(1); 
+  	var cell4 = row.insertCell(1); 	
+  	var cell5 = row.insertCell(1); 	
+	
+	cell1.innerHTML = "<input value=" + item_ + " >";
+  	cell2.innerHTML = "<input value=" + quantity + " >";
+  	cell3.innerHTML = "<input value=" + length + " >";  
+  	cell4.innerHTML = "<input value=" + paint + " >";  	
+  	cell5.innerHTML = "<input value=" + stock_code + " >";  		
+  
+  }
+  
+  function set_panel_run_properties(centers_, bar_width_, width_deduction_, length_deduction_, male_bar_stockcode_, female_bar_stock_code_,  break_bar_stock_code_, break_bar_stock_code_, uprofile_stock_code_, sheet_stock_code_, reinforcing_bars_required_)
+  {
+	  	
+	panel_run_properties.centers = centers_;
+	panel_run_properties.bar_width = bar_width_;
+	panel_run_properties.width_deduction = width_deduction_;
+	panel_run_properties.length_deduction = length_deduction_;
+	panel_run_properties.male_bar_stockcode = male_bar_stockcode_;
+	panel_run_properties.female_bar_stock_code = female_bar_stock_code_;
+	panel_run_properties.break_bar_stock_code = break_bar_stock_code_;
+	panel_run_properties.uprofile_stock_code = uprofile_stock_code_;	
+	panel_run_properties.sheet_stock_code = sheet_stock_code_;
+	panel_run_properties.reinforcing_bars_required = reinforcing_bars_required_;		  
+  }
+  
+	  
+  
+    
 }
-
-
- function getTanDeg(deg) {
-      var rad = deg * Math.PI/180;
-      return Math.tan(rad);
-}
-
- function arrow(start_point_x, start_point_y, length) {
-
-      ctx.beginPath();
-      ctx.moveTo(start_point_x-10,start_point_y+10);
-      ctx.lineTo(start_point_x,start_point_y);
-      ctx.lineTo(start_point_x+10,start_point_y+10);
-      ctx.lineTo(start_point_x,start_point_y);
-      ctx.lineTo(start_point_x,start_point_y+length);
-      ctx.stroke();
-
-}
-
-function rafter_dwg(){
-
-      <!--Rafter Drawing -->
-
-      ctx.rect(50,400,800,box_height);
-      ctx.rect(50,400,6,box_height);
-      ctx.rect(845,400,6,box_height);
-
-            <!--stub -->
-      ctx.translate(50+6+15,400+box_height);
-      ctx.rotate(5*Math.PI/180);
-      ctx.rect(0,0,box_height,250);
-      ctx.rotate(-5*Math.PI/180);
-      ctx.translate(-71,-400-box_height);
-
-      ctx.translate(800-6-15-box_height,400+box_height);
-      ctx.rotate(5*Math.PI/180);
-      ctx.rect(0,0,box_height,250);
-      ctx.rotate(-5*Math.PI/180);
-      ctx.translate(-800+6+15+box_height,-400-box_height);
-      ctx.stroke();
-
-      ctx.fillText("Rafter Drawing", 400, 380);
-
-}
-
- <!--Executes Functions -->
-mitre(pitch1, 1, 50);
-mitre(pitch2, 2, 450);
-
-var time = 0;
-
-while (time < 60) {
-	time = time + 1;
-	cavas_test(time);
-}
-
-   <!--Sheet Sizes-->
-
-    var panel_angle1 = cut_angle_width;
-    var panel_angle2 = cut_angle_width;
-
-    var html4 = '<br> Sheet Angle for Canopy 1 - ' + panel_angle1 * (180 / Math.PI) + '<br> Sheet Angle for Canopy 2 - ' +  panel_angle2 * (180 / Math.PI);
-    document.getElementById('sheet_angles').innerHTML = html4;
-
-}
-
-    document.getElementById('say').addEventListener('click', say_hi);
-
+  function changeColor(){
+  panel_run(document.getElementById("panel_run1").value, document.getElementById("selColor").value, document.getElementById("panel_length").value, document.getElementById("equal_centers").value);
+  }
+ </script>
+ 
+ <script>
+interact('.panels')
+  .draggable({
+    onmove: window.dragMoveListener,
+    restrict: {
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+    },
+  })
+  .resizable({
+    // resize from all edges and corners
+    edges: { left: true, right: true, bottom: true, top: true },
+    // keep the edges inside the parent
+    restrictSize: {
+      max: { width: 124.5, height: 705 },
+    },
+    inertia: true,
+  })
+  .on('resizemove', function (event) {
+    var target = event.target,
+        x = (parseFloat(target.getAttribute('data-x')) || 0),
+        y = (parseFloat(target.getAttribute('data-y')) || 0);
+    // update the element's style
+    target.style.width  = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+    // translate when resizing from top or left edges
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+    target.style.webkitTransform = target.style.transform =
+        'translate(' + x + 'px,' + y + 'px)';
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    var sheet_width = Math.round(event.rect.width*10)-10;
+    var sheet_length = Math.round(event.rect.height*10)-12;
+    target.textContent = 'Panel Width: ' + Math.round(event.rect.width*10) + ' Panel Length: ' + Math.round(event.rect.height*10) + ' Sheet Width: ' + sheet_width + ' Sheet Height: ' + sheet_length;
+  });
+   function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
 </script>
 
-</body>
+<div class="table_result">
+<body class="body">
+ <form action = " " id="form">
+  <fieldset id="form">
+    <p>
+      Bar Type 
+      <select id = "selColor">
+        <option value = "32mm Multi-Link">32mm Non Fragile Multi-Link</option>
+        <option value = "25mm Multi-Link">25mm Non Fragile Multi-Link</option>
+        <option value = "16mm Multi-Link">16mm Non Fragile Multi-Link </option>
+        <option value = "10mm Multi-Link">10mm Twinwall Multi-Link</option>
+        <option value = "7.5mm Multi-Link">7.5mm Glass Multi-Link</option>
+        <option value = "6mm Multi-Link">6mm Solid Multi-Link</option>
+        <option value = "25mm EasiGlaze">25mm EasiGlaze</option>
+        <option value = "16mm EasiGlaze">16mm EasiGlaze</option>
+        <option value = "10mm Bar & Sheet">10mm Bar & Sheet (228 Cap)</option>
+        <option value = "6mm Bar & Sheet">6mm Bar & Sheet (228 Cap)</option>
+      </select>
+    </p>
+          End Centres the Same as Mid?
+      <select id = "equal_centers">
+        <option value = "Yes">Yes</option>
+        <option value = "No">No</option>
+      </select>
+    </p>
+    <p>
+    
+      Panel Run: 
+      <input type="text" id="panel_run1" />
+    </p>
+     <p>
+
+      Panel Length:
+      <input type="text" id="panel_length" />
+    </p>
+    <p>
+      <input type = "button"
+    value = "Submit"
+    onclick = "changeColor()" />
+    </p>
+  </fieldset>
+ </form>
+    </p>
+    <p>
+    
+</div>    
+<table width="400" border="0" bgcolor="#CCDEFF" rules="none" class="table_class" id="my_table">
+   <tr>
+    <td colspan="2" align="left"><h1><div id="title"></div></h1></td>
+   </tr>
+    
+</table>
+      <p>&nbsp;</p>
+      <div id="new_panels_wrap">Test Boxes</div>
+    </p>
+    <p>
+
+<table width="900" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class" id="items_table">
+   <tr>
+    <td colspan="2" align="left"><h1>All Items Req.</h1>    </td>
+
+
+    
+</table>
+
+
+
+    </p>
+<div id="other_info">Test</div>
+    <p>
+
+<table width="900" border="0" align="center" bgcolor="#CCDEFF" rules="none" class="table_class" id="panel_table">
+   <tr>
+    <td colspan="2" align="left"><h1>Panel Information Table</h1></td>
+   </tr>
+    
+</table>
+
+    </p>
+    <p>
+
+
+<table border="0" align="center" bgcolor="#CCDEFF" rules="none" class="panel_parts_table" id="panel_parts">
+   <tr>
+    <td colspan="2" align="left"><h1>Panel Parts Table</h1>
+      <div class="panels">Test Boxes</div>
+      <div class="panels"></div>
+      <p>&nbsp;</p>
+     <p>&nbsp;</p></td>
+   </tr>
+    
+</table>
+
+
+<div id="equally_spaced"></div>
+
+ <p class="hidden">&nbsp;</p>
+ <p class="hidden">Notes: 
+ </p>
+<ul>
+   <span class="hidden"> Add Links</span>
+</ul>
+ <ul>
+   <span class="hidden">Add information takes offs etc</span>
+ </ul>
+ <ul>
+   <span class="hidden">Add Examples</span>
+ </ul>
+ </ul>
+
+
+
+ </body>
+ 
 </html>
