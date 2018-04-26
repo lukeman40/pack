@@ -6,7 +6,6 @@
 
         <!-- http://interactjs.io/
 Have a list of panels and there properties i.e centers, sheetwidth etc+
-
 Have a sorting algorithm which sorts stuff by efficency
      -->
 <script src="http://code.interactjs.io/v1.3.3/interact.min.js"></script>
@@ -16,14 +15,11 @@ Have a sorting algorithm which sorts stuff by efficency
 }
 #form {
 	background-color: #D8E2FE;
-
     border-top-width: 0px;
     border-bottom-width: 0px;
     border-right-width: 0px;
     border-left-width: 0px;
-
 }
-
 .body {
 	font-family: Verdana, Geneva, sans-serif;
 }
@@ -66,7 +62,6 @@ Have a sorting algorithm which sorts stuff by efficency
 	padding-top: 10px;
 	align: center;
 }
-
 input { 
     text-align: center; 
 }
@@ -98,7 +93,6 @@ input {
 </head>
 
 <script type = "text/javascript">
-
 function panel_run(length, panel_type, panel_length, equal_centers){
 	
 	var centers = 0;
@@ -109,7 +103,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	var title_html = "Broken if this appears";
 	var table = document.getElementById("my_table");
 	table.innerHTML = "";
-
 	var sheet_thickness = panel_type.substring(0, 4);
 	sheet_thickness = sheet_thickness.replace(/\s+/g, ''); //removes spaces
 	sheet_thickness = sheet_thickness.replace(/[^0-9\.]+/g, ''); //removes spaces
@@ -127,7 +120,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	sheet_bar_stock_code: "", 
 	reinforcing_bars_required: ""
 	};
-
 	var sheet = new Array
     (
     {thickness: 16, length: 6000, width: 980, colour: "Bronze", stockcode: "M16B6980"},
@@ -165,56 +157,37 @@ function panel_run(length, panel_type, panel_length, equal_centers){
     {thickness: 32, length: 7000, width: 1240, colour: "Clear", stockcode: "M32C71230"},
     {thickness: 32, length: 7000, width: 1240, colour: "Opal", stockcode: "M32O71230"}
 );
-
 // sorts the above object in thickness order
     sheet.sort(function(obj1, obj2) {
     return obj1.thickness - obj2.thickness;
     });
-
     var sheet = sheet.filter(function(obj1) {
     return obj1.thickness == sheet_thickness;
     });
-
 	class sheet_info {
-
 	    constructor(sheet1) {
-
 	        this.sheet1 = sheet1;
 	        }
-
 	        stockcode() {
-
                 var i = 0;
                 var str = "";
-
                 while (i < this.sheet1.length)
                 {
                     str = str + ",<br> " + this.sheet1[i].stockcode
                     i = i + 1;
                 }
-
                 return str;
              }
-
              sheet_information() {
-
                 var i = 0;
                 var str = "";
-
                 while (i < this.sheet1.length) {
-
                     str = str + "<br>Thickness is " + this.sheet1[i].thickness + "mm. Length & Width: " + this.sheet1[i].length + "x" + this.sheet1[i].width + ". Sheet Colour: " + this.sheet1[i].colour + " And the Stockcode: " + this.sheet1[i].stockcode;
                     i = i + 1;
-
                 }
-
                 return str;
-
              }
-
-
 	     }
-
     var row = table.insertRow(-1);
  	row.class = "table_class2"
   	var cell1 = row.insertCell(0);
@@ -253,28 +226,23 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	var sheet_bar_stock_code = "";
 	
 	var bar_system = str;
-
 	var New_sheet = new sheet_info(sheet);
 	
 	if (panel_type == "32mm Multi-Link"){
 		
 		set_panel_run_properties(1245,70,45,12,"MLMU32M4","MLFU32M4","MLBU32M4","32mmUPROFILE","32mmsheet","Yes");		
-
 	} 
 	else if (panel_type == "25mm Multi-Link"){
-
 		set_panel_run_properties(1245,70,10,12,"ML25UMM4/6/7","ML25UFM4/6/7","ML25UBM4/7","255M25","25mmsheet","Yes");		
 	}
 	
 	else if (panel_type == "16mm Multi-Link"){
 		
 		set_panel_run_properties(990,70,10,12,"ML16UMM4/6/7","ML16UFM4/6/7","ML16UBM4/7","254M3","16mmsheet","Yes");	
-
 	}
 	else if (panel_type == "10mm Multi-Link"){
 		
 		set_panel_run_properties(600,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","252M3","10mmsheet","No");			
-
 	}
 	else if (panel_type == "7.5mm Multi-Link"){
 		
@@ -288,12 +256,11 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	}
 	else if (panel_type == "25mm EasiGlaze"){
 		
-		set_panel_run_properties(1245,70,10,12,"EF25M4/6","N/A","N/A","255M25","25mm Sheet","No");					
+		set_panel_run_properties(1245,70,12,12,"EF25M4/6","N/A","N/A","255M25","25mm Sheet","No");
 					
 	}
 	else if (panel_type == "16mm EasiGlaze"){
-
-		set_panel_run_properties(1010,70,10,12,"EF16M4/6","N/A","N/A","254M25","16mm Sheet","No");						
+		set_panel_run_properties(1010,70,12,12,"EF16M4/6","N/A","N/A","254M25","16mm Sheet","No");
 		
 	}
 	else if (panel_type == "10mm Bar & Sheet"){
@@ -310,11 +277,9 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	}
 	
   panel_information();
-
   u_profile = panel_run_properties.centers - panel_run_properties.bar_width;
   var number_of_panels = Math.floor((length-600)/panel_run_properties.centers)+2;
   var end_centers = ((length-((number_of_panels-2)*panel_run_properties.centers))/2)-(panel_run_properties.bar_width/2);
-
   var sheet_length = panel_length-panel_run_properties.length_deduction;
   var sheet_width = panel_run_properties.centers-panel_run_properties.width_deduction;
   var sheet_width_end = end_centers-panel_run_properties.width_deduction;
@@ -339,7 +304,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
   		  item_information(sheet_thickness + "_U-Profile", number_of_panels*2, u_profile, "Yes", panel_run_properties.uprofile_bar_stock_code);		  
 		       		  	  
 	  
-
   }else{
 	  title_html = "Result for End Panels different Centers to Mid Panels";
 	  
@@ -362,8 +326,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
   
   if( bar_system.indexOf('Multi-Link') >= 0)
   {
-
-
   append_main_table("Male Bars",male_bars);  
   item_information(sheet_thickness + "_Male_Bar", male_bars, panel_length, "Yes", panel_run_properties.male_bar_stockcode);
   
@@ -386,7 +348,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
   item_information("Top_End_Plates", male_bars-2, "N/A", "Yes", "MLNFSMEPM");     
   
   }else{
-
   append_main_table("Number of Bars",number_of_panels+1);  
   item_information("Bars", number_of_panels+1, panel_length, "Yes", panel_run_properties.male_bar_stock_code);  
    
@@ -394,7 +355,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
   item_information("End_Plates", number_of_panels+1, "N/A", "Yes", "ENDPLATES");     
       
   }
-
   if (panel_run_properties.male_bar_stockcode === "Yes"){
   append_main_table("Reinforcement Length",panel_length-20);
   item_information("Reinforcement_Bars", panel_length-20, "N/A", "No", "MLRBR4/6");
@@ -404,7 +364,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
     
   append_main_table(" ", "-");  	
   append_main_table("Total Number of Panels",number_of_panels);
-
   document.getElementById("other_info").innerHTML = "The Stock Codes for this sheet are " + New_sheet.sheet_information();
   
   panel_drawing(number_of_panels);
@@ -475,7 +434,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
   
   //creates table to list all the panelsa
   
-
   }
   
   function panel_list_table(panel_number, panel_type, panel_centers, male_bars, female_bars, break_bars, u_profile, reinforcement_bar, sheet_thickeness, sheet_colour, sheet_width, sheet_length){
@@ -597,7 +555,6 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	  
   }
   
-
   
   function item_information(item_,quantity,length,paint,stock_code){
 	  	
@@ -632,18 +589,13 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	panel_run_properties.reinforcing_bars_required = reinforcing_bars_required_;		  
   }
   
-
 	  
-
   
     
 }
-
   function changeColor(){
-
   panel_run(document.getElementById("panel_run1").value, document.getElementById("selColor").value, document.getElementById("panel_length").value, document.getElementById("equal_centers").value);
   }
-
  </script>
  
  <script>
@@ -654,63 +606,46 @@ interact('.panels')
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
     },
   })
-
-
   .resizable({
     // resize from all edges and corners
     edges: { left: true, right: true, bottom: true, top: true },
-
     // keep the edges inside the parent
-
     restrictSize: {
       max: { width: 124.5, height: 705 },
     },
-
     inertia: true,
   })
-
   .on('resizemove', function (event) {
     var target = event.target,
         x = (parseFloat(target.getAttribute('data-x')) || 0),
         y = (parseFloat(target.getAttribute('data-y')) || 0);
-
     // update the element's style
     target.style.width  = event.rect.width + 'px';
     target.style.height = event.rect.height + 'px';
-
     // translate when resizing from top or left edges
     x += event.deltaRect.left;
     y += event.deltaRect.top;
-
     target.style.webkitTransform = target.style.transform =
         'translate(' + x + 'px,' + y + 'px)';
-
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-
     var sheet_width = Math.round(event.rect.width*10)-10;
     var sheet_length = Math.round(event.rect.height*10)-12;
-
     target.textContent = 'Panel Width: ' + Math.round(event.rect.width*10) + ' Panel Length: ' + Math.round(event.rect.height*10) + ' Sheet Width: ' + sheet_width + ' Sheet Height: ' + sheet_length;
   });
-
    function dragMoveListener (event) {
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
     // translate the element
     target.style.webkitTransform =
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
-
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
   }
-
-
 </script>
 
 <div class="table_result">
