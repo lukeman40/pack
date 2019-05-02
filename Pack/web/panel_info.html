@@ -153,6 +153,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
     {thickness: 6, length: 4000, width: 1240, colour: "Clear", stockcode: "M6RHC4205"},
     {thickness: 6, length: 5000, width: 1240, colour: "Clear", stockcode: "M6RHC5205"},
     {thickness: 6, length: 4000, width: 1240, colour: "Clear", stockcode: "M6UCV4205"},
+    {thickness: 6, length: 4000, width: 5, colour: "Gasket", stockcode: "ML6G4000/3000"},
     {thickness: 32, length: 6000, width: 1240, colour: "Clear", stockcode: "M32C61230"},
     {thickness: 32, length: 7000, width: 1240, colour: "Clear", stockcode: "M32C71230"},
     {thickness: 32, length: 7000, width: 1240, colour: "Opal", stockcode: "M32O71230"}
@@ -230,10 +231,10 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	
 	if (panel_type == "32mm Multi-Link"){
 		
-		set_panel_run_properties(1245,70,45,12,"MLMU32M4","MLFU32M4","MLBU32M4","32mmUPROFILE","32mmsheet","Yes");		
+		set_panel_run_properties(1245,70,45,12,"MLMU32M4","MLFU32M4","MLBU32M4","32mmUPROFILE","32mmsheet","Yes");
 	} 
 	else if (panel_type == "25mm Multi-Link"){
-		set_panel_run_properties(1245,70,10,12,"ML25UMM4/6/7","ML25UFM4/6/7","ML25UBM4/7","255M25","25mmsheet","Yes");		
+		set_panel_run_properties(1240,70,10,12,"ML25UMM4/6/7","ML25UFM4/6/7","ML25UBM4/7","255M25","25mmsheet","Yes");
 	}
 	
 	else if (panel_type == "16mm Multi-Link"){
@@ -242,7 +243,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	}
 	else if (panel_type == "10mm Multi-Link"){
 		
-		set_panel_run_properties(600,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","252M3","10mmsheet","No");			
+		set_panel_run_properties(700,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","252M3","10mmsheet","No");
 	}
 	else if (panel_type == "7.5mm Multi-Link"){
 		
@@ -251,12 +252,12 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	}
 	else if (panel_type == "6mm Multi-Link"){
 		
-		set_panel_run_properties(600,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","MLSOLIDUM3.2","6mmsheet","No");					
+		set_panel_run_properties(510,50,10,36,"MLSM4/7","MLSF4/7","MLSM4/7","MLSOLIDUM3.2","6mmsheet","No");
 		
 	}
 	else if (panel_type == "25mm EasiGlaze"){
 		
-		set_panel_run_properties(1245,70,12,12,"EF25M4/6","N/A","N/A","255M25","25mm Sheet","No");
+		set_panel_run_properties(1240,70,12,12,"EF25M4/6","N/A","N/A","255M25","25mm Sheet","No");
 					
 	}
 	else if (panel_type == "16mm EasiGlaze"){
@@ -265,7 +266,7 @@ function panel_run(length, panel_type, panel_length, equal_centers){
 	}
 	else if (panel_type == "10mm Bar & Sheet"){
 		
-		set_panel_run_properties(600,50,20,36,"228M7","N/A","N/A","ML10EM3","10mmsheet","No");
+		set_panel_run_properties(700,50,15,36,"228M7","N/A","N/A","ML10EM3","10mmsheet","No");
 	}
 	else if (panel_type == "6mm Bar & Sheet"){
 		
